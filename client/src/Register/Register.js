@@ -29,7 +29,13 @@ const Register = () => {
           navigate('/login')
           setLoader(false)
         })
-        .catch(err => console.log(err))
+        .catch(err =>
+          { 
+            toast("Register Failed")
+            setLoader(false)
+            console.log(err)
+
+          })
     }
     else {
       toast.error("Fill all the details")

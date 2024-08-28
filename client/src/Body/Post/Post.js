@@ -5,7 +5,7 @@ import { BiShareAlt } from "react-icons/bi";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import axios from 'axios';
- 
+
 // import Dialog from '@mui/material/Dialog';
 // import DialogTitle from '@mui/material/DialogTitle';
 import { toast } from 'react-toastify';
@@ -24,30 +24,30 @@ const Post = () => {
     axios.get("http://127.0.0.1:8000/getpostall")
       .then(res => {
         setPostall(res.data)
+        console.log(res.data)
       })
       .catch(err => console.log(err))
   }
- const getlikec = async()=>{
-  await axios.get("http://127.0.0.1:8000/getlike")
-  .then(res=>{
-    console.log(res.data);
-    setLikeall(res.data.length)
-  })
-  .catch(err=>console.log(err))
- }
+  const getlikec = async () => {
+    await axios.get("http://127.0.0.1:8000/getlike")
+      .then(res => {
+          setLikeall(res.data.length)
+      })
+      .catch(err => console.log(err))
+  }
   useEffect(() => {
     getallpost()
   }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
     getlikec()
-    getallpost()
-  },[likeallpost])
+  }, [likeallpost])
 
-  return (  
+  return (
     <div className=' ml-[365px]'>
-      
+
       {
+        postall.length>0?
         postall.map((data, i) => (
           <div className="post w-[540px] mt-2  border-b-2 border-gray" key={i}>
             <div className="info  ml-5 pt-2 pb-2 flex w-60">
@@ -63,13 +63,13 @@ const Post = () => {
             <div className="icon flex text-black justify-between">
               <div className='flex gap-7 text-xl -mt-2'>
                 <div className='-mt-1'>
-                <Lke data={data.id} likcount={likeallpost} likecounttwo={setLikeallpost}/>
-</div>
+                  <Lke data={data.id} likcount={likeallpost} likecounttwo={setLikeallpost} />
+                </div>
                 <Link to={`/commentpg/${data.id}`}><h1 className='cursor-pointer'><FaRegComment /></h1></Link>
                 <h1 ><BiShareAlt /></h1>
                 <div className='-ml-2'>
-                <Sav data={data.id} />
-</div>
+                  <Sav data={data.id} />
+                </div>
               </div>
 
             </div>
@@ -77,14 +77,14 @@ const Post = () => {
 
             <p className='ml-6 mt-[2px] text-sm font-semibold'>{data.caption}</p>
             {/* <CommentDialog open={open} setOpen={setOpen}/> */}
-          
+
 
             <div className='flex items-center justify-between mt-1'>
               <Com data={data.id} />
-            
+
             </div>
           </div>
-        ))
+        )):"no post avaibale"
       }
 
     </div>
@@ -94,10 +94,9 @@ const Post = () => {
 
 export default Post
 
-const Lke = ({ data, likcount, likecounttwo}) => {
+const Lke = ({ data, likcount, likecounttwo }) => {
   const [likes, setLikes] = useState(0)
   const id = sessionStorage.getItem("userid")
-
   const likeing = async () => {
     var likc = likes + 1
     if (likc > 1) {
@@ -108,17 +107,14 @@ const Lke = ({ data, likcount, likecounttwo}) => {
     const datap = { id: id, pid: data, likes: likc }
     await axios.post("http://127.0.0.1:8000/like/" + id, datap)
       .then(res => {
-        window.location.reload()
-      
       })
       .catch(err => console.log(err))
-    likecounttwo(likcount++)
-
-  }
+      likecounttwo(likcount + 1);
+    }
 
   return (
     <button className='ml-6 cursor-pointer focus:-red-500' onClick={() => likeing(data)}>
-      <FaRegHeart className='focus:bg-red-500'/>
+      <FaRegHeart className='focus:bg-red-500' />
     </button>
 
   )
@@ -130,7 +126,7 @@ const Com = ({ data }) => {
 
   const commentp = async () => {
 
-    const datap = { id: id, pid: data,comment: comment }
+    const datap = { id: id, pid: data, comment: comment }
     await axios.post("http://127.0.0.1:8000/comment/" + id, datap)
       .then(res => {
         toast.success("Comment Added")
@@ -139,15 +135,15 @@ const Com = ({ data }) => {
       .catch(err => {
         console.log(err)
         toast.error("Faild to post comment")
-  })
+      })
   }
   return (
     <>
-    <input value={comment} onChange={e => setComment(e.target.value)} type="text" placeholder='Add a comment' className='ml-6 text-[14px] mb-1 border-none border-b-2 border-black outline-none bg-transparent' />
-  
-    <button className='font-semibold text-sm mr-2 hover:text-indigo-500' 
-    onClick={() => commentp(data)}>Post</button>
-</>
+      <input value={comment} onChange={e => setComment(e.target.value)} type="text" placeholder='Add a comment' className='ml-6 text-[14px] mb-1 border-none border-b-2 border-black outline-none bg-transparent' />
+
+      <button className='font-semibold text-sm mr-2 hover:text-indigo-500'
+        onClick={() => commentp(data)}>Post</button>
+    </>
 
   )
 }
@@ -160,7 +156,7 @@ const Sav = ({ data }) => {
     const datap = { id: id, pid: data, save: data }
     await axios.post("http://127.0.0.1:8000/save/" + id, datap)
       .then(res => {
-     toast.success("Post Saved")
+        toast.success("Post Saved")
       })
       .catch(err => {
         console.log(err)
@@ -168,8 +164,8 @@ const Sav = ({ data }) => {
       })
   }
   return (
-    
-    <button className='ml-[335px] focus:text-indigo-500' onClick={() => savep(data)}><FaRegBookmark className='focus:text-indigo-500'/></button>
+
+    <button className='ml-[335px] focus:text-indigo-500' onClick={() => savep(data)}><FaRegBookmark className='focus:text-indigo-500' /></button>
 
 
   )

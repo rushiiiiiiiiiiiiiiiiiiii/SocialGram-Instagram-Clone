@@ -13,7 +13,7 @@ app.post('/register', (req,res)=>{
       
     con.query(sql,[name,uname,email,password],(err,result)=>{
         if(err) return res.json(err)
-            return res.json(result)
+            return res.json(result);
     })
 })
 
@@ -97,23 +97,24 @@ app.post('/like/:id',(req,res)=>{
   var sid = req.body.id;
   var pid = req.body.pid;
   var like = req.body.likes;
-  if(like==0){
+  var sqls=`SELECT * FROM liketb WHERE sid=${sid} and pid=${pid}`
+  con.query(sqls,(err,result)=>{
+    if(err) return err;
+      if(result.length>0){
   var sql ='DELETE FROM liketb WHERE sid=? AND pid=?'
-    
     con.query(sql,[sid,pid],(err,result)=>{
-      if(err)  return res.json(err)
+      if(err)  return res.json(err);
         return res.json(result)
     })
   }
   else{
-  var sql ='INSERT INTO liketb(sid,pid,likes) VALUES(?,?,?)'
-
-  
+  var sql ='INSERT INTO liketb(sid,pid,likes) VALUES(?,?,?)'    
   con.query(sql,[sid,pid,like],(err,result)=>{
     if(err)  return res.json(err)
       return res.json(result)
   })
 }
+  })
 })
 app.get('/getlike',(req,res)=>{
   const sql = "SELECT * FROM liketb"

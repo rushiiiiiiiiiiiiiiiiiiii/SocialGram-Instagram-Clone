@@ -16,7 +16,7 @@ import { FiVideo } from "react-icons/fi";
 import Search from '../../Search/Search';
 import Searchchat from '../../Searchchat/Searchchat';
 
-const Nav2 = () => {
+const Nav2 = ({themechange}) => {
   const modalRef = useRef();
   const [shows, setShows] = useState(false)
   const [showschat, setShowschat] = useState(false)
@@ -34,11 +34,11 @@ const Nav2 = () => {
 
   return (
     <div className='flex'>
-    <div className="body flex md:fixed  border-r-[2px] border-gray md:block hidden h-full">
+    <div className="body flex md:fixed border-r-[2px] border-gray md:block hidden h-full">
         <div className="nav-comp  md:block mt-6 ">
           <div className="logo font-semibold "><h1 className='text-indigo-500 text-[22px] ml-10'>SOCIAL GRAM</h1></div>
 
-          <div className="nav-items bg-white mt-4 ml- rounded-xl w-68 cursor-pointer ">
+          <div className="nav-items mt-4 ml- rounded-xl w-68 cursor-pointer ">
             <ul className=''>
               <Link to='/home'><li className='py-4 flex pl-10 w-60 text-[16px] font-semibold hover:bg-indigo-500  text-2xl'><IoHomeOutline className='mt-1 text-2xl mr-5'/>Home</li></Link>
               <h1 onClick={show} className='py-4 flex pl-10 w-60 text-[16px] font-semibold hover:bg-indigo-500'><FiSearch className='mt- mr-5 text-2xl'/>Search</h1>
@@ -50,7 +50,7 @@ const Nav2 = () => {
               <Link to={`/prof/${sessionStorage.getItem("userid")}`}><li className='py-4 flex  pl-9 w-60 text-[16px] font-semibold hover:bg-indigo-500 '><img src='/image/prof.jpg' className=' rounded-3xl cursor-pointer w-8 h-8 mr-5'/>Profile</li></Link>
             </ul>
           </div>
-          <div className="btn2 mt-7 flex ml-[43px] mb-5">
+          <div onClick={themechange} className="btn2 mt-7 flex ml-[43px] mb-5">
             <h1 className='flex font-semibold cursor-pointer'><FaBars className='mr-4 mt text-2xl cursor-pointer'/> More</h1>
           </div>
 

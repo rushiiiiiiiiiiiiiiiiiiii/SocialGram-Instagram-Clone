@@ -114,14 +114,14 @@ const Prof = () => {
                             }
                         </div>*/}
                         {
-                            showpostall?<Postdisplay id={userid}/>
+                            showpostall?<Postdisplay   id={userid}/>
                             :""
 
         
                            }
 {
                             showsaveall?
-                            <Save id={userid}/>:<Postdisplay id={userid}/>
+                            <Save  id={userid}/>:  ""
 
 }
                     </div>

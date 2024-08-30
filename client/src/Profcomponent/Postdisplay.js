@@ -29,6 +29,7 @@ const Postdisplay = ({id}) => {
   return (
     <div className='flex gap-x-4 gap-y-4 -ml-7 flex-wrap mt-5'>
     {
+        postdata.length>0 ?
         postdata.map((data, i) => (
 
             <div className='flex gap-x-4 gap-y-4 flex-wrap'>
@@ -38,6 +39,9 @@ const Postdisplay = ({id}) => {
             </div>
 
         ))
+        :<div>
+        <h1 className='text-3xl font-semibold ml-56 mt-24'>No Post Posted Yet</h1>
+    </div>
     }
 </div>
   )

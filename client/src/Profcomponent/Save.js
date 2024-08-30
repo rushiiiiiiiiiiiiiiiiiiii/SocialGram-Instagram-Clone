@@ -48,7 +48,9 @@ const Save = ({id}) => {
 }
             </div>*/}
             <div className='flex flex-wrap gap-x-4 gap-y-4'>
-                {savedata.map((data) => {
+                {
+                    savedata.length>0  ?
+                savedata.map((data) => {
                     const post = postdata.find(post => post.id === data.pid);
                     return post ? (
                         <div className="imf flex" key={post.id}>
@@ -58,8 +60,13 @@ const Save = ({id}) => {
                                 className='object-cover cursor-pointer w-60 h-64'
                             />
                         </div>
-                    ) : null;
-                })}
+                    ) : 
+                    ""
+                })
+                :<div>
+                <h1 className='text-3xl font-semibold ml-56 mt-24'>No Post Saved Yet</h1>
+            </div>
+            }
             </div>
 </div>
   )

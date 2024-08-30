@@ -45,9 +45,7 @@ const Post = () => {
     setOpen(true)
     setShowcom(postid)
   }
-  const send = ()=>{
-    alert("hiiiiiiiiiiiiiiii")
-  } 
+  
   return (
     <>
 
@@ -60,15 +58,16 @@ const Post = () => {
       {
         postall.map((data, i) => (
           <div className="post w-[540px] mt-2  border-b-2 border-gray" key={i}>
+            <Link to={`/prof/${data.sid}`}>
             <div className="info  ml-5 pt-2 pb-2 flex w-60">
               <img src="./image/prof.jpg" alt="" className='rounded-3xl cursor-pointer w-10 h-10' />
               <div className="det ml-5 w-80 ">
-                <h1 className='font-semibold flex w-40' onClick={send}>Rushikesh Arote</h1>
+                <h1 className='font-semibold flex w-40' >Rushikesh Arote</h1>
                 <p className='text-sm flex'>{data.location}</p>
               </div>
               <h1 className='ml-64 mt-1 pr-2'><FaBars className='mt-1 text-xl' /></h1>
             </div>
-
+</Link>
             <img src={`http://127.0.0.1:8000/uploads/${data.photos}`} alt="" className='w-[500px] object-cover h-80 items-center ml-5 pb-4' />
             <div className="icon flex text-black justify-between">
               <div className='flex gap-7 text-xl -mt-2'>
@@ -179,3 +178,18 @@ const Sav = ({ data }) => {
 
   )
 }
+
+
+
+// const [theme, setTheme] = useState("light");
+//   useEffect(()=>{
+//     if(theme === "dark"){
+//       document.documentElement.classList.add("dark")
+//     }
+//     else{
+//       document.documentElement.classList.remove("dark")
+//     }
+//   },[theme])
+//  const handelthemeswitch=()=>{
+//  setTheme(theme === "dark" ? "light":"dark");
+//  console("hiii")

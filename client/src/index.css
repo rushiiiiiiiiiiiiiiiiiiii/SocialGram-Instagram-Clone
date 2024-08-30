@@ -1,3 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* index.css or global.css */
+.bg-white {
+    background-color: white;
+  }
+  
+  .bg-black {
+    background-color: black;
+  }
+  
+  .text-black {
+    color: black;
+  }
+  
+  .text-white {
+    color: white;
+  }
+  
+  .dark .bg-white {
+    background-color: black; /* Dark mode background */
+  }
+  
+  .dark .text-black {
+    color: white; /* Dark mode text */
+  }
+  

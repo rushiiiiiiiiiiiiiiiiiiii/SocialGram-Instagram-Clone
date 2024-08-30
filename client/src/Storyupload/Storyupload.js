@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Nav2 from '../Body/Nav2/Nav2';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import { MdCancel } from 'react-icons/md';
 
-const Create = () => {
+const Storyupload = ({setShowaddst}) => {
     const navigate = useNavigate();
     const [file, setFile] = useState(null);
     const [filePreview, setFilePreview] = useState(null);
-    const [caption, setCaption] = useState('');
-    const [location, setLocation] = useState('');
     const { userid } = useParams();
     const [name, setName] = useState('');
     const [uname, setUname] = useState('');
@@ -34,60 +33,44 @@ const Create = () => {
         setFilePreview(URL.createObjectURL(selectedFile));
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        
-        const formData = new FormData();
-        formData.append("caption", caption);
-        formData.append("location", location);
-        formData.append("photo", file);
-        formData.append("id", id);
-
-        try {
-            await axios.post(`http://127.0.0.1:8000/create/${id}`, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                }
-            });
-            navigate('/home');
-        } catch (err) {
-            console.error(err);
-            // Add user feedback here, e.g., setting an error state
-        }
-    };
-
+    const create = async(e) =>{
+        e.preventDefault()
+     
+        const formdata = new FormData()
+        formdata.append("id",sessionStorage.getItem("userid"))
+        formdata.append("photo",file)
+     
+         const config = {
+             headers:{
+                "content-type" : "multipart/form-data"
+              }
+         }    
+          await axios.post("http://127.0.0.1:8000/createstory/"+id,formdata,config)
+          
+         .then(res=>{
+             console.log(res)
+             window.location.reload()
+      })
+         .catch(err=>console.log(err))
+     }
+    
     return (
-        <div className='w-full h-auto'>
-            <div className='flex'>
-                <Nav2 />
-                <div className='w-[965px] ml-[505px] mt-4 bg-white rounded-xl'>
-                    <h1 className='font-bold text-xl pb-2'>Create New Post</h1>
-                    <div className='flex bg-loww mt-2 rounded-xl w-[550px] items-center h-14'>
+        <div className=' w-full h-full bg-black bg-opacity-50 fixed z-40 -mt-7 -ml-80 items-center justify-center'>
+            <button className=' float-right mr-72 mt-14 cursor-pointer' ><MdCancel onClick={()=>setShowaddst(false)} className='text-4xl text-blue-500'/></button>
+           
+                
+                <div className='w-[600px] mt-20 ml-[380px] z-50 h-[500px] bg-white rounded-xl flex-col  items-center justify-center'>
+                    <h1 className='font-bold text-xl  ml-5 pt-3 pb-1'>Create New Story</h1>
+                    <div className='flex bg-loww mt-2 ml-5 rounded-xl w-[560px] items-center h-14'>
                         <img src="/image/prof.jpg" alt="Profile" className='rounded-full h-10 w-10 ml-5 mr-5' />
                         <div className='mr-56'>
-                            <h1 className='font-semibold'>{name}</h1>
-                            <p>{uname}</p>
+                            <h1 className='font-semibold'>Aman Dubey</h1>
+                            <p>aman_14</p>
                         </div>
                     </div>
-                    <div className='mt-2'>
-                        <h1 className='font-semibold text-[16px]'>Description</h1>
-                        <input
-                            type='text'
-                            value={caption}
-                            onChange={e => setCaption(e.target.value)}
-                            className='mt-2 h-10 w-[550px] border-2 pl-5 border-loww rounded-xl'
-                        />
-                    </div>
-                    <div className='mt-2'>
-                        <h1 className='font-semibold text-[16px]'>Add Location</h1>
-                        <input
-                            type='text'
-                            value={location}
-                            onChange={e => setLocation(e.target.value)}
-                            className='mt-2 pl-5 w-[550px] border-2 h-10 border-loww rounded-xl'
-                        />
-                    </div>
-                    <div className='mt-2'>
+                
+                 
+                    <div className='mt-3 ml-5'>
                         <h1 className='font-semibold text-[16px]'>Upload Picture</h1>
                         <div className='input_field mt-2'>
                             <label>
@@ -102,7 +85,7 @@ const Create = () => {
                             </label>
                         </div>
                         {filePreview && (
-                            <div className='w-[550px] h-40 object-cover mt-2 border-none'>
+                            <div className='w-[550px] h-60 object-cover mt-2 border-none'>
                                 <img
                                     src={filePreview}
                                     alt="Preview"
@@ -111,15 +94,16 @@ const Create = () => {
                             </div>
                         )}
                     </div>
-                </div>
-            </div>
+              
             <button
-                onClick={handleSubmit}
-                className='ml-[505px] h-8 px-4 mt-[90px] w-[550px] text-center rounded hover:bg-indigo-500 text-white text-sm font-medium bg-indigo-600'>
+                onClick={create}
+                className='ml-5 h-8 px-4 mb-5 mt-[10px] w-[550px] text-center rounded hover:bg-indigo-500 text-white text-sm font-medium bg-indigo-600'>
                 Add Post
             </button>
+            </div>
+        
         </div>
     );
 };
 
-export default Create;
+export default Storyupload;

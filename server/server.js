@@ -85,6 +85,15 @@ app.get('/getstory/:id', (req, res) => {
     return res.json(result);
   });
 });
+app.get('/getstoryall/:id', (req, res) => {
+  const id =parseInt(req.params.id);
+  const sql = "SELECT * FROM storytb WHERE sid != ? ";
+
+  con.query(sql,[id],(err, result) => {
+    if (err) return res.json(err);
+    return res.json(result);
+  });
+});
 app.get('/getuser/:id', (req, res) => {
   const sql = "SELECT * FROM login WHERE id=?";
   const sid = req.params.id;

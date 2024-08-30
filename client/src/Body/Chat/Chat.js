@@ -21,12 +21,12 @@ useEffect(()=>{
 },[userid])
   return (
      
-    <div className=' w-72 bg-white md:fixed md:block hidden h-full -ml-[230px] border-l-2 border-gray pl-4'>
-      <div className="acc flex bg-white rounded-xl mt-5 h-14 w-60 items-center justify-around">
-            <div className="prof w-9 h-9 mx-5 ">
+    <div className=' w-72  md:fixed md:block hidden h-full -ml-[230px] border-l-2 border-gray pl-4'>
+      <div className="acc flex rounded-xl mt-5 h-14 w-60 items-center justify-around">
+            <div className="prof w-10 h-10 mx-5 ">
               <Link to={`/prof/${sessionStorage.getItem("userid")}}`}><img src="./image/prof.jpg" alt="" className='rounded-3xl cursor-pointer' /></Link>
             </div>
-            <div className="det mr-5">
+            <div className="det mr-10">
               <h1 className='font-semibold'>{name}</h1>
               <Link to={`/prof/${sessionStorage.getItem("userid")}`}><a className='text-gray-500 text-sm'>@{uname}</a></Link>
             </div>

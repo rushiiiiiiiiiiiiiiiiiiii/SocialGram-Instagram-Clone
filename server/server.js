@@ -55,11 +55,30 @@ app.post('/create/:id',upload.single("photo"),(req,res)=>{
       return res.json(result)
   })
 })
+app.post('/createstory/:id',upload.single("photo"),(req,res)=>{
+  var sql ='INSERT INTO storytb(sid,photos) VALUES(?,?)'
+  var sid = req.body.id;
+  var filename = req.file.filename;
 
+
+  con.query(sql,[sid,filename],(err,result)=>{
+    if(err)  return res.json(err)
+      return res.json(result)
+  })
+})
 app.get('/getpost/:id', (req, res) => {
   const sql = "SELECT * FROM addpost WHERE sid=?";
   const sid = req.params.id;
  // Correct variable name
+
+  con.query(sql, [sid], (err, result) => {
+    if (err) return res.json(err);
+    return res.json(result);
+  });
+});
+app.get('/getstory/:id', (req, res) => {
+  const sql = "SELECT * FROM storytb WHERE sid=?";
+  const sid = req.params.id;
 
   con.query(sql, [sid], (err, result) => {
     if (err) return res.json(err);
@@ -78,6 +97,14 @@ app.get('/getuser/:id', (req, res) => {
 });
 app.get('/getpostall', (req, res) => {
   const sql = "SELECT * FROM addpost";
+
+  con.query(sql, (err, result) => {
+    if (err) return res.json(err);
+    return res.json(result);
+  });
+});
+app.get('/getuserall', (req, res) => {
+  const sql = "SELECT * FROM login";
 
   con.query(sql, (err, result) => {
     if (err) return res.json(err);
@@ -123,6 +150,14 @@ app.get('/getlike',(req,res)=>{
       return res.json(result)
   })
 })
+app.get('/getsave/:id',(req,res)=>{
+  const id = req.params.id
+  const sql = "SELECT * FROM savetb WHERE sid=?"
+  con.query(sql,[id],(err,result)=>{
+    if(err) return res.json(err)
+      return res.json(result)
+  })
+})
 app.get('/getcomment/:id',(req,res)=>{
   var id = req.params.id;
   const sql = "SELECT * FROM commenttb WHERE pid=?"
@@ -140,7 +175,7 @@ app.post('/comment/:id',(req,res)=>{
   
   con.query(sql,[sid,pid,comment],(err,result)=>{
     if(err)  return res.json(err)
-      return res.json(result)
+     return res.json(result)
   })
 })
 app.post('/save/:id',(req,res)=>{

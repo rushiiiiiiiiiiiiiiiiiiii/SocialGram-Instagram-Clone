@@ -5,19 +5,21 @@ import axios from 'axios'
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-const CommentDialog = () => {
+import { FaX } from 'react-icons/fa6';
+import { MdCancel } from 'react-icons/md';
+const CommentDialog = ({setOpen, postid}) => {
     const[comment,setComment]= useState([])
     const[commentpost,setCommentpost]= useState([])
-
-    const {id} = useParams()
+    
+    
     const [name, setName] = useState()
     const [uname, setUame] = useState()
+    const[com, setCom]= useState(0)
   
     const userid = sessionStorage.getItem("userid")
     const showpost = ()=>{
       axios.get("http://127.0.0.1:8000/getuser/"+ userid)
       .then(res=>{
-        console.log(res.data[0].name)
           setName(res.data[0].name)
           setUame(res.data[0].username)
       })
@@ -28,68 +30,79 @@ const CommentDialog = () => {
   
   },[userid])
     const getcommentc = async()=>{
-        await axios.get("http://127.0.0.1:8000/getcomment/"+id)
+        await axios.get("http://127.0.0.1:8000/getcomment/"+postid)
         .then(res=>{
-          console.log(res.data);
           setComment(res.data)
         })
         .catch(err=>console.log(err))
        }
-        useEffect(() => {
-          getcommentc()
-        }, [])
+       
         const getpostcom = async()=>{
-            await axios.get("http://127.0.0.1:8000/getpostcom/"+id)
+            await axios.get("http://127.0.0.1:8000/getpostcom/"+postid)
             .then(res=>{
-              console.log(res.data);
               setCommentpost(res.data)
             })
             .catch(err=>console.log(err))
            }
             useEffect(() => {
               getpostcom()
+              getcommentc()
             }, [])
+            useEffect(()=>{
+              getcommentc()
+            },[com])
         
     return (
-        <div className='w-full h-auto bg-white'>
-
-            <div className='flex'>
-                <Nav2 />
-                <div className=' w-[900px] h-[570px] ml-[300px] mt-10 flex'>
-                    {
-                        commentpost.map((data,i)=>(
-                    <div className='bg-black w-[440px] h-[570px]'key={i}>
-                        <img className='w-[440px] h-[550px] pt-5' src={`http://127.0.0.1:8000/uploads/${data.photos}`} alt="/" />
+        <div className='w-[110%] h-screen bg-opacity-50 bg-black -ml-[400px] -mt-48 z-50 fixed'>
+            <button className=' float-right mr-72 mt-5 cursor-pointer'><MdCancel onClick={()=>setOpen(false)} className='text-4xl text-blue-500'/></button>
+            <div className='flex ml-60'>
+                
+                <div className='bg-red-500 w-[900px] h-[570px] mt-10 flex shadow-xl'>
+                        
+                            {
+                            commentpost.map((data,i)=>(
+                    <div className='bg-black w-[450px] h-[570px]' key={i}>
+                    <img className='w-[450px] h-[570px] pt-' src={`http://127.0.0.1:8000/uploads/${data.photos}`} alt="/" />
+                        {/*<img className='w-[450px] h-[570px] ' src='/image/india.jpg' alt="/" />*/}
+                    
                     </div>
-                        ))
-                    }
-                    <div className=' w-[510px] h-[570px]  border-r-2 border-black'>
-                        <div className="acc flex border-b-2 border-t-2 border-black  h-16 w-full items-center justify-around">
+    ))}
+                    <div className=' w-[450px] h-[570px] bg-loww'>
+                        <div className="acc flex  border-black  h-16 w-full items-center justify-around">
                             <div className="prof w-9 h-9 mx-5">
                                 <Link to={`/prof/${sessionStorage.getItem("userid")}}`}><img src="/image/prof.jpg" alt="" className='rounded-3xl cursor-pointer' /></Link>
                             </div>
                             <div className="det mr-64">
-                                <h1 className='font-semibold'>Rushikesh Arote</h1>
-                                <Link to={`/prof/${sessionStorage.getItem("userid")}`}><a className='text-gray-500 text-sm'>@rushi_07</a></Link>
+                                <h1 className='font-semibold'>{name}</h1>
+                                <Link to={`/prof/${sessionStorage.getItem("userid")}`}><a className='text-gray-500 text-sm'>{uname}</a></Link>
                             </div>
+                         
                         </div>
-                        <div className='bg-white h-[442px] overflow-scroll'>
+                        <div className='bg-white h-[442px] overflow-hidden'>
                             {
                                 comment.map((data,i)=>(
-                            <div className="com bg-white py-4 border-b-2 border-gray" key={i}>
+                            <div className="com bg-white py-2 cursor-pointer pl-7 border-gray flex" key={i}>
+                                <div>
+                                    <img src="/image/prof.jpg" alt="" className='h-8 w-8 rounded-full' />
+                                </div>
+                                <div>
                                  <h1 className='ml-5'>{name}</h1>
                                 <h1 className='ml-5 font-semibold'>{data.comment}</h1>
+                                </div>
                             </div>
                                 ))
 }
                         </div>
                         {
                             commentpost.map((data,i)=>(
-                        <div className='flex border-t-2 border-b-2 border-black bg-transparent' key={i}>
-                        <Com data={data.id} />
+                        <div className='flex  border-black bg-transparent' key={i} >
+                        {/* <input type="text" placeholder='Add Comment' className='bg-transparent font-semibold text-left pl-5 px-[150px] py-[18px]'/>
+                            <button className='bg-blue-500 px-7 py-5 font-semibold'>Post</button> */}
+                          <Com data={data.id} postid={postid} com={com} setCom={setCom}/>
+                            
                         </div>
-                            ))
-}
+                        
+                        ))}
                     </div>
                 </div>
             </div>
@@ -99,16 +112,15 @@ const CommentDialog = () => {
 
 export default CommentDialog
 
-const Com = ({ data }) => {
+const Com = ({ data, postid, com, setCom }) => {
     const [comment, setComment] = useState('')
     const id = sessionStorage.getItem("userid")
-  
     const commentp = async () => {
-  
+      setCom(com+1)
+      console.log(com)
       const datap = { id: id, pid: data,comment: comment }
       await axios.post("http://127.0.0.1:8000/comment/" + id, datap)
         .then(res => {
-            window.location.reload()
           toast.success("Comment Added")
           setComment('')
         })
@@ -116,12 +128,13 @@ const Com = ({ data }) => {
           console.log(err)
           toast.error("Faild to post comment")
     })
+     
     }
     return (
       <>
       
-      <input type="text" value={comment} onChange={e => setComment(e.target.value)} placeholder='Add Comment' className='bg-transparent font-semibold text-left pl-5 px-[181px] py-[18px]'/>
-                            <button onClick={() => commentp(data)} className='bg-indigo-500 px-7 font-semibold'>Post</button>
+      <input type="text" value={comment} onChange={e => setComment(e.target.value)} placeholder='Add Comment' className='bg-transparent font-semibold text-left pl-5 px-[150px] py-[18px]'/>
+      <button onClick={() => commentp(data)} className='bg-indigo-500 px-7 py-5 font-semibold'>Post</button>
     
   </>
     )}

@@ -21,9 +21,9 @@ useEffect(()=>{
 },[userid])
   return (
      
-    <div className=' ml-[1030px] w-72 bg-white md:fixed h-full border-l-2 border-gray pl-5 -z-5'>
+    <div className=' w-72 bg-white md:fixed md:block hidden h-full -ml-[230px] border-l-2 border-gray pl-4'>
       <div className="acc flex bg-white rounded-xl mt-5 h-14 w-60 items-center justify-around">
-            <div className="prof w-9 h-9 mx-5">
+            <div className="prof w-9 h-9 mx-5 ">
               <Link to={`/prof/${sessionStorage.getItem("userid")}}`}><img src="./image/prof.jpg" alt="" className='rounded-3xl cursor-pointer' /></Link>
             </div>
             <div className="det mr-5">
@@ -47,49 +47,49 @@ useEffect(()=>{
         <div className="prof-mmsg flex gap-8 py-2 ml hover:bg-indigo-500 ">
           <img src="./image/prof.jpg" alt="" className='rounded-3xl cursor-pointer w-10 h-10 ml-5 mt-[2px]'/>
           <div className=''>
-          <h1 className='font-medium'>Rushikesh Arote</h1>
+          <h1 className='font-medium'>Aman Dubey</h1>
           <p className='text-sm '>4 new messages</p>
           </div>
         </div>
         <div className="prof-mmsg flex gap-8 py-2 ml hover:bg-indigo-500 ">
           <img src="./image/prof.jpg" alt="" className='rounded-3xl cursor-pointer w-10 h-10 ml-5 mt-[2px]'/>
           <div>
-          <h1 className='font-medium'>Rushikesh Arote</h1>
+          <h1 className='font-medium'>Ram Dalvi</h1>
           <p className='text-sm'>4 new messages</p>
           </div>
         </div>
         <div className="prof-mmsg flex gap-8 py-2 ml hover:bg-indigo-500 ">
           <img src="./image/prof.jpg" alt="" className='rounded-3xl cursor-pointer w-10 h-10 ml-5 mt-[2px]'/>
           <div>
-          <h1 className='font-medium'>Rushikesh Arote</h1>
+          <h1 className='font-medium'>Sahil Chavan</h1>
           <p className='text-sm'>4 new messages</p>
           </div>
         </div>
         <div className="prof-mmsg flex gap-8 py-2 ml hover:bg-indigo-500 ">
           <img src="./image/prof.jpg" alt="" className='rounded-3xl cursor-pointer w-10 h-10 ml-5 mt-[2px]'/>
           <div>
-          <h1 className='font-medium'>Rushikesh Arote</h1>
+          <h1 className='font-medium'>Akshay Pawar</h1>
           <p className='text-sm'>4 new messages</p>
           </div>
         </div>
         <div className="prof-mmsg flex gap-8 py-2 ml hover:bg-indigo-500 ">
           <img src="./image/prof.jpg" alt="" className='rounded-3xl cursor-pointer w-10 h-10 ml-5 mt-[2px]'/>
           <div>
-          <h1 className='font-medium'>Rushikesh Arote</h1>
+          <h1 className='font-medium'>Kiran Kadam</h1>
           <p className='text-sm'>4 new messages</p>
           </div>
         </div>
         <div className="prof-mmsg flex gap-8 py-2 ml hover:bg-indigo-500 ">
           <img src="./image/prof.jpg" alt="" className='rounded-3xl cursor-pointer w-10 h-10 ml-5 mt-[2px]'/>
           <div>
-          <h1 className='font-medium'>Rushikesh Arote</h1>
+          <h1 className='font-medium'>Ajit Gawade</h1>
           <p className='text-sm'>4 new messages</p>
           </div>
         </div>
         <div className="prof-mmsg flex gap-8  py-2 ml hover:bg-indigo-500 rounded-bl-xl rounded-br-xl">
           <img src="./image/prof.jpg" alt="" className='rounded-3xl cursor-pointer w-10 h-10 ml-5 mt-[2px]'/>
           <div>
-          <h1 className='font-medium'>Rushikesh Arote</h1>
+          <h1 className='font-medium'>Ankit Chavan</h1>
           <p className='text-sm'>4 new messages</p>
           </div>
         </div>

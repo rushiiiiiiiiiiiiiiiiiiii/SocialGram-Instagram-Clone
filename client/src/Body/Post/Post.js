@@ -5,17 +5,15 @@ import { BiShareAlt } from "react-icons/bi";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import axios from 'axios';
-
-// import Dialog from '@mui/material/Dialog';
-// import DialogTitle from '@mui/material/DialogTitle';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import CommentDialog from '../../Commentdialog/CommentDialog';
-import CustomizedDialogs from '../../Commentdialog/CommentDialog';
 import { Link } from 'react-router-dom';
+import CommentDialog from '../../Commentdialog/CommentDialog';
 const Post = () => {
   const [postall, setPostall] = useState([])
   const [likeall, setLikeall] = useState([])
+  const [showcom, setShowcom] = useState()
+
   const [likeallpost, setLikeallpost] = useState(0)
   const [open, setOpen] = useState(false)
 
@@ -31,7 +29,7 @@ const Post = () => {
   const getlikec = async () => {
     await axios.get("http://127.0.0.1:8000/getlike")
       .then(res => {
-          setLikeall(res.data.length)
+        setLikeall(res.data.length)
       })
       .catch(err => console.log(err))
   }
@@ -43,17 +41,29 @@ const Post = () => {
     getlikec()
   }, [likeallpost])
 
+  const showus = (postid)=>{
+    setOpen(true)
+    setShowcom(postid)
+  }
+  const send = ()=>{
+    alert("hiiiiiiiiiiiiiiii")
+  } 
   return (
-    <div className=' ml-[365px]'>
+    <>
+
+    <div className='ml-[50px]'>
+      {
+        open ? 
+        <CommentDialog setOpen={setOpen} postid={showcom}/>:""
+}
 
       {
-        postall.length>0?
         postall.map((data, i) => (
           <div className="post w-[540px] mt-2  border-b-2 border-gray" key={i}>
             <div className="info  ml-5 pt-2 pb-2 flex w-60">
               <img src="./image/prof.jpg" alt="" className='rounded-3xl cursor-pointer w-10 h-10' />
               <div className="det ml-5 w-80 ">
-                <h1 className='font-semibold flex w-40'>Rushikesh Arote</h1>
+                <h1 className='font-semibold flex w-40' onClick={send}>Rushikesh Arote</h1>
                 <p className='text-sm flex'>{data.location}</p>
               </div>
               <h1 className='ml-64 mt-1 pr-2'><FaBars className='mt-1 text-xl' /></h1>
@@ -62,10 +72,10 @@ const Post = () => {
             <img src={`http://127.0.0.1:8000/uploads/${data.photos}`} alt="" className='w-[500px] object-cover h-80 items-center ml-5 pb-4' />
             <div className="icon flex text-black justify-between">
               <div className='flex gap-7 text-xl -mt-2'>
-                <div className='-mt-1'>
-                  <Lke data={data.id} likcount={likeallpost} likecounttwo={setLikeallpost} />
+                <div className='-mt-1 hover:text-red-500'>
+                  <Lke className='' data={data.id} likcount={likeallpost} likecounttwo={setLikeallpost} />
                 </div>
-                <Link to={`/commentpg/${data.id}`}><h1 className='cursor-pointer'><FaRegComment /></h1></Link>
+                <h1 className='cursor-pointer'><FaRegComment onClick={e=>showus(data.id)} /></h1>
                 <h1 ><BiShareAlt /></h1>
                 <div className='-ml-2'>
                   <Sav data={data.id} />
@@ -76,7 +86,6 @@ const Post = () => {
             <p className='flex ml-6 -mt-[4px] text-[15px] '>{likeall} Likes</p>
 
             <p className='ml-6 mt-[2px] text-sm font-semibold'>{data.caption}</p>
-            {/* <CommentDialog open={open} setOpen={setOpen}/> */}
 
 
             <div className='flex items-center justify-between mt-1'>
@@ -84,11 +93,11 @@ const Post = () => {
 
             </div>
           </div>
-        )):"no post avaibale"
+        ))
       }
 
     </div>
-
+</>
   )
 }
 
@@ -109,8 +118,8 @@ const Lke = ({ data, likcount, likecounttwo }) => {
       .then(res => {
       })
       .catch(err => console.log(err))
-      likecounttwo(likcount + 1);
-    }
+    likecounttwo(likcount + 1);
+  }
 
   return (
     <button className='ml-6 cursor-pointer focus:-red-500' onClick={() => likeing(data)}>
@@ -141,7 +150,7 @@ const Com = ({ data }) => {
     <>
       <input value={comment} onChange={e => setComment(e.target.value)} type="text" placeholder='Add a comment' className='ml-6 text-[14px] mb-1 border-none border-b-2 border-black outline-none bg-transparent' />
 
-      <button className='font-semibold text-sm mr-2 hover:text-indigo-500'
+      <button className='font-semibold text-sm mr-5 hover:text-indigo-500'
         onClick={() => commentp(data)}>Post</button>
     </>
 

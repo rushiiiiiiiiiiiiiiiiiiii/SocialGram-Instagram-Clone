@@ -22,7 +22,7 @@ function App() {
   <Route path='/prof/:userid' element={<Prof/>} />
   <Route path='/profedit' element={<Editprof/>} />
   <Route path='/create/:userid' element={<Create/>} />
-  <Route path='/commentpg/:id' element={<CommentDialog/>} />
+  {/*<Route path='/commentpg/:id' element={<CommentDialog/>} />*/}
 
 </Routes>
 <ToastContainer autoClose={1500}/>

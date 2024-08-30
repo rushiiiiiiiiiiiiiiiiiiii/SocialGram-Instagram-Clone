@@ -14,7 +14,7 @@ const Post = () => {
   const [likeall, setLikeall] = useState([])
   const [showcom, setShowcom] = useState()
 
-  const [likeallpost, setLikeallpost] = useState(0)
+  // const [likeallpost, setLikeallpost] = useState(0)
   const [open, setOpen] = useState(false)
 
   const getallpost = () => {
@@ -22,7 +22,6 @@ const Post = () => {
     axios.get("http://127.0.0.1:8000/getpostall")
       .then(res => {
         setPostall(res.data)
-        console.log(res.data)
       })
       .catch(err => console.log(err))
   }
@@ -36,10 +35,9 @@ const Post = () => {
   useEffect(() => {
     getallpost()
   }, [])
-
   useEffect(() => {
     getlikec()
-  }, [likeallpost])
+  }, [likeall])
 
   const showus = (postid)=>{
     setOpen(true)
@@ -58,7 +56,8 @@ const Post = () => {
 }
 
       {
-        postall.map((data, i) => (
+        postall.map((data, i) =>
+           
           <div className="post w-[540px] mt-2  border-b-2 border-gray" key={i}>
             <div className="info  ml-5 pt-2 pb-2 flex w-60">
               <img src="./image/prof.jpg" alt="" className='rounded-3xl cursor-pointer w-10 h-10' />
@@ -73,7 +72,7 @@ const Post = () => {
             <div className="icon flex text-black justify-between">
               <div className='flex gap-7 text-xl -mt-2'>
                 <div className='-mt-1 hover:text-red-500'>
-                  <Lke className='' data={data.id} likcount={likeallpost} likecounttwo={setLikeallpost} />
+                  <Lke className='' data={data.id} likcount={likeall} likecounttwo={setLikeall} />
                 </div>
                 <h1 className='cursor-pointer'><FaRegComment onClick={e=>showus(data.id)} /></h1>
                 <h1 ><BiShareAlt /></h1>
@@ -81,7 +80,6 @@ const Post = () => {
                   <Sav data={data.id} />
                 </div>
               </div>
-
             </div>
             <p className='flex ml-6 -mt-[4px] text-[15px] '>{likeall} Likes</p>
 
@@ -93,8 +91,8 @@ const Post = () => {
 
             </div>
           </div>
-        ))
-      }
+        )
+      }  
 
     </div>
 </>

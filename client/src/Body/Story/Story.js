@@ -42,15 +42,15 @@ useEffect(()=>{
       <div className="box-story w-24 h-40 bg-loww rounded-xl ml-[1px] relative">
       <img src="/image/prof.jpg" className="h-10 w-10 rounded-full z-30 absolute top-2 left-2" alt="" />
       
-      {
+      {/* {
+      storyd?
          storyd.map((data,i)=>(
           <div key={i}>
         <img src={`http://127.0.0.1:8000/uploads/${data.photos}`} alt="/" className='rounded-xl cursor-pointer object-cover w-24 h-40 ' />
-      {/* <input type="file" className='hidden' />
-      <button className='text-3xl mt-4 p-0 ml-8 text-center'><FaPlus/></button> */}
+      
       </div>
-       ))
-      }
+       )):"no story"
+      } */}
       { 
       storyd.length<=0 ?     
       <div className='mt-9'>

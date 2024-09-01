@@ -2,11 +2,13 @@ import React,{useState,useEffect} from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { RiMessage2Line } from 'react-icons/ri'
+import ChatPage from '../ChatPage/ChatPage'
 const Searchchat = () => {
 
   const[sdata,setSdata]= useState([])
   const [search,setSearch]= useState('')
-
+  const [chatshow, setChatshow] = useState(false)
+  const [chatid, setChatid] = useState()
 
   const getdata = ()=>{
     axios.get("http://127.0.0.1:8000/getuserall")
@@ -19,8 +21,13 @@ const Searchchat = () => {
    useEffect(() => {
     getdata()
   }, [])
+  const show = (id)=>{
+    setChatshow(true)
+    setChatid(id)
+  }
   return (
-    <div className='h-full w-96 bg-white  border-r-2 border-black fixed z-50 ml-[245px] rounded-br-2xl rounded-tr-2xl'>
+    <div className='w-full '>
+    <div className='h-full w-96 bg-white  border-r-2 border-black fixed z-50 ml-[245px]'>
       <div className='ml-5 mt-5'>
         <div className='flex'>
       <h1 className='text-3xl font-semibold'>Messages</h1>
@@ -37,18 +44,24 @@ sdata.filter((data)=>{
     ? data
     : data.name.toLowerCase().includes(search)    
 }).map(((data, i) => 
-           <div className='flex hover:bg-loww py-3 border-r-2 border-black' key={i}>
+           <div className='flex hover:bg-loww py-3 border-r-2 border-black' key={i} onClick={()=>show(data.id)}>
             <div className='ml-5'>
-            <Link to={`/prof/${data.id}`}><img src={`http://127.0.0.1:8000/uploads/${data.photos}`} className='h-10 w-10 rounded-full '  alt="" /></Link>
+            <Link ><img src={`http://127.0.0.1:8000/uploads/${data.photos}`} className='h-10 w-10 rounded-full '  alt="" /></Link>
             </div>
             <div className='ml-3'>
-              <Link to={`/prof/${data.id}`}><h1 className='font-semibold'>{data.name}</h1></Link>
-              <Link to={`/prof/${data.id}`}><p className='text-sm'>{data.username}</p></Link>
+              <Link ><h1 className='font-semibold'>{data.name}</h1></Link>
+              <Link ><p className='text-sm'>{data.username}</p></Link>
             </div>
             
            </div>
 ))}
       </div>
+     
+    </div>
+     {
+      chatshow?
+      <ChatPage id={chatid}/>:""
+    }
     </div>
   )
 }

@@ -15,7 +15,19 @@ const CommentDialog = ({setOpen, postid}) => {
     const [name, setName] = useState()
     const [uname, setUame] = useState()
     const[com, setCom]= useState(0)
-  
+    const[sdata,setSdata]= useState([])
+
+  const getdata = ()=>{
+    axios.get("http://127.0.0.1:8000/getuserall")
+    .then(res => {
+      console.log(res.data)
+      setSdata(res.data)})
+    .catch(err => console.log(err))
+   }
+   
+   useEffect(() => {
+    getdata()
+  }, [])
     const userid = sessionStorage.getItem("userid")
     const showpost = ()=>{
       axios.get("http://127.0.0.1:8000/getuser/"+ userid)
@@ -61,6 +73,7 @@ const CommentDialog = ({setOpen, postid}) => {
                         
                             {
                             commentpost.map((data,i)=>(
+
                     <div className='bg-black w-[450px] h-[570px]' key={i}>
                     <img className='w-[450px] h-[570px] pt-' src={`http://127.0.0.1:8000/uploads/${data.photos}`} alt="/" />
                         {/*<img className='w-[450px] h-[570px] ' src='/image/india.jpg' alt="/" />*/}
@@ -68,36 +81,45 @@ const CommentDialog = ({setOpen, postid}) => {
                     </div>
     ))}
                     <div className=' w-[450px] h-[570px] bg-loww'>
+                        {
+                                 commentpost.map((data,i)=>{
+                                    const user = sdata.find(user=> user.id === data.sid)
+                                    return(
+
                         <div className="acc flex  border-black  h-16 w-full items-center justify-around">
                             <div className="prof w-9 h-9 mx-5">
-                                <Link to={`/prof/${sessionStorage.getItem("userid")}}`}><img src="/image/prof.jpg" alt="" className='rounded-3xl cursor-pointer' /></Link>
+                                <Link to={`/prof/${sessionStorage.getItem("userid")}}`}><img src={`http://127.0.0.1:8000/uploads/${user?.photos}`} alt="" className='rounded-3xl cursor-pointer' /></Link>
                             </div>
                             <div className="det mr-64">
-                                <h1 className='font-semibold'>{name}</h1>
-                                <Link to={`/prof/${sessionStorage.getItem("userid")}`}><a className='text-gray-500 text-sm'>{uname}</a></Link>
+                                <h1 className='font-semibold'>{user?.name}</h1>
+                                <Link to={`/prof/${sessionStorage.getItem("userid")}`}><a className='text-gray-500 text-sm'>{user?.username}</a></Link>
                             </div>
                          
                         </div>
+                                    )})
+}
+
                         <div className='bg-white h-[442px] overflow-hidden'>
                             {
-                                comment.map((data,i)=>(
+                                comment.map((data,i)=>{
+                                    const user = sdata.find(user=> user.id === data.sid)
+                                    return(
                             <div className="com bg-white py-2 cursor-pointer pl-7 border-gray flex" key={i}>
                                 <div>
-                                    <img src="/image/prof.jpg" alt="" className='h-8 w-8 rounded-full' />
+                                    <img src={`http://127.0.0.1:8000/uploads/${user?.photos}`} alt="" className='h-8 w-8 rounded-full' />
                                 </div>
                                 <div>
-                                 <h1 className='ml-5'>{name}</h1>
+                                 <h1 className='ml-5'>{user?.name}</h1>
                                 <h1 className='ml-5 font-semibold'>{data.comment}</h1>
                                 </div>
                             </div>
-                                ))
-}
+                                )})
+                            }
+
                         </div>
                         {
                             commentpost.map((data,i)=>(
                         <div className='flex  border-black bg-transparent' key={i} >
-                        {/* <input type="text" placeholder='Add Comment' className='bg-transparent font-semibold text-left pl-5 px-[150px] py-[18px]'/>
-                            <button className='bg-blue-500 px-7 py-5 font-semibold'>Post</button> */}
                           <Com data={data.id} postid={postid} com={com} setCom={setCom}/>
                             
                         </div>

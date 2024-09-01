@@ -28,7 +28,7 @@ useEffect(()=>{
             <div className="prof w-10 h-10 mx-5 ">
               <Link to={`/prof/${sessionStorage.getItem("userid")}}`}><img src={`http://127.0.0.1:8000/uploads/${file}`} alt="" className='h-10 w-10 rounded-3xl cursor-pointer' /></Link>
             </div>
-            <div className="det mr-[50px]">
+            <div className="det mr-[30px]">
               <h1 className='font-semibold'>{name}</h1>
               <Link to={`/prof/${sessionStorage.getItem("userid")}`}><a className='text-gray-500 text-sm'>@{uname}</a></Link>
             </div>

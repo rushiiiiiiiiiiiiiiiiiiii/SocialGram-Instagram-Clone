@@ -35,7 +35,7 @@ const Create = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+        console.log(file)
         const formData = new FormData();
         formData.append("caption", caption);
         formData.append("location", location);

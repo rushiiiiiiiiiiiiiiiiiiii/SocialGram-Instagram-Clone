@@ -14,6 +14,7 @@ const Story = () => {
   const [uname, setUame] = useState()
  const[photo,setphoto]=useState()
   const[sdata,setSdata]= useState([])
+  const[file,setFile]= useState(null)
 
 
   const getdata = ()=>{
@@ -66,7 +67,7 @@ useEffect(()=>{
   }
   
   return (
-    <div className="slider-container story mt-6 flex gap-3 overflow-x-hidden w-[638px]">
+    <div className="slider-container story mb-3 mt-6 flex gap-3 overflow-x-hidden w-[638px]">
       {
         showaddst ?
           <Storyupload setShowaddst={setShowaddst} getstory={getstoryall} /> : ""
@@ -140,7 +141,7 @@ useEffect(()=>{
           <input name='photo' onChange={e=>setFile(e.target.files[0])}  class="text-sm ml-5 cursor-pointer border-none  w-[50px] hidden" type="file" multiple />
           <div class="text  ml-7 border-gray-300 rounded border-none -mt-3 font-semibold cursor-pointer p-1 w-[50px] text-center text-3xl"><FaPlus/></div>
         </label>
-        <button onClick={create} className='w-10 h-5 bg-indigo-500 ml-7 text-center text-sm'>add</button>
+        {/* <button onClick={create} className='w-10 h-5 bg-indigo-500 ml-7 text-center text-sm'>add</button> */}
         <h1 className='mt- text-center flex p-0 text-sm'>Rushikesh Arote</h1>
         </div>:
         ""

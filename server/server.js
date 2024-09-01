@@ -32,7 +32,7 @@ const storage = multer.diskStorage({
         cb(null, './uploads')
     },
     filename:(req,file,cb)=>{
-        cb(null,`image-${Date.now()}.${file.originalname}`)
+        cb(null,`image-${Date.now()}${file.originalname}`)
     }
 })
 
@@ -61,8 +61,7 @@ app.post('/create/:id',upload.single("photo"),(req,res)=>{
   var caption = req.body.caption;
   var location = req.body.location;
   var filename = req.file.filename;
-
-
+  console.log(filename)
   con.query(sql,[sid,caption,location,filename],(err,result)=>{
     if(err)  return res.json(err)
       return res.json(result)
@@ -166,15 +165,42 @@ app.post('/like/:id',(req,res)=>{
  })
 })
 
+// app.get('/getlike',(req,res)=>{
+//   const sql = "SELECT * FROM liketb"
+//   con.query(sql,(err,result)=>{
+//     if(err) return res.json(err)
+//       return res.json(result)
+//   })
+// })
 
+// app.get('/getlike/:id',(req,res)=>{
+//   const ids=req.params.id;
+//   const sql = `SELECT count(*) FROM liketb WHERE pid=${ids}`
+//   con.query(sql,(err,result)=>{
+//     if(err) return res.json(err)
+//       return res.json(result)
 
-app.get('/getlike',(req,res)=>{
-  const sql = "SELECT * FROM liketb"
-  con.query(sql,(err,result)=>{
-    if(err) return res.json(err)
-      return res.json(result)
-  })
-})
+//     // if(result.length>0){
+
+//     // }
+//   })
+// })
+app.get('/getlike/:id', (req, res) => {
+  const ids = req.params.id;
+  const sql = `SELECT count(*) AS \`${ids}\` FROM liketb WHERE pid = ?`;
+  // Execute the query with a parameterized value for pid
+  con.query(sql, [ids], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: err.message }); // Return error with proper status code
+    }
+    // Return the result with the dynamic alias as the key
+    if (result.length > 0) {
+      return res.json(result[0]); // The dynamic alias will be the key of the result
+    } else {
+      return res.status(404).json({ message: 'No likes found for the given post ID' });
+}
+});
+});
 app.get('/getsave/:id',(req,res)=>{
   const id = req.params.id
   const sql = "SELECT * FROM savetb WHERE sid=?"

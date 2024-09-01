@@ -118,12 +118,40 @@ useEffect(()=>{
             </div>
           )})
         }
+
+    <div className="story mt-6 flex gap-3 overflow-x-hidden w-[638px]">
+      
+      <div className="box-story w-24 h-40 bg-loww rounded-xl ml-[1px] relative">
+      <img src="/image/prof.jpg" className="h-10 w-10 rounded-full z-30 absolute top-2 left-2" alt="" />
+      
+      {/* {
+      storyd?
+         storyd.map((data,i)=>(
+          <div key={i}>
+        <img src={`http://127.0.0.1:8000/uploads/${data.photos}`} alt="/" className='rounded-xl cursor-pointer object-cover w-24 h-40 ' />
+      
+      </div>
+       )):"no story"
+      } */}
+      { 
+      storyd.length<=0 ?     
+      <div className='mt-9'>
+      <label className='ml-10'>
+          <input name='photo' onChange={e=>setFile(e.target.files[0])}  class="text-sm ml-5 cursor-pointer border-none  w-[50px] hidden" type="file" multiple />
+          <div class="text  ml-7 border-gray-300 rounded border-none -mt-3 font-semibold cursor-pointer p-1 w-[50px] text-center text-3xl"><FaPlus/></div>
+        </label>
+        <button onClick={create} className='w-10 h-5 bg-indigo-500 ml-7 text-center text-sm'>add</button>
+        <h1 className='mt- text-center flex p-0 text-sm'>Rushikesh Arote</h1>
+        </div>:
+        ""
+}
+
         </div>
 
     </div>
+</div>
 
-
-
+</div>
   )
 }
 

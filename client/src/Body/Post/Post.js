@@ -204,23 +204,22 @@ import { Link } from 'react-router-dom';
 import CommentDialog from '../../Commentdialog/CommentDialog';
 
 const Post = () => {
-  const [postall, setPostall] = useState([]);
-  const [likeall, setLikeall] = useState(0);
-  const [showcom, setShowcom] = useState();
-  const [likeallpost, setLikeallpost] = useState(0);
-  const [open, setOpen] = useState(false);
-  const [sdata, setSdata] = useState([]);
-  const [comment, setComment]= useState([])
-  const getallpost = async () => {
-    try {
-      const res = await axios.get("http://127.0.0.1:8000/getpostall");
-      setPostall(res.data);
-      console.log('Posts fetched:', res.data); // Debug log
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const [postall, setPostall] = useState([])
+  const [likeall, setLikeall] = useState([])
+  const [showcom, setShowcom] = useState()
 
+  const [likeallpost, setLikeallpost] = useState(0)
+  const [open, setOpen] = useState(false)
+
+  const getallpost = () => {
+
+    axios.get("http://127.0.0.1:8000/getpostall")
+      .then(res => {
+        setPostall(res.data)
+        console.log(res.data)
+      })
+      .catch(err => console.log(err))
+  }
   const getlikec = async () => {
     try {
       const res = await axios.get("http://127.0.0.1:8000/getlike");
@@ -250,13 +249,12 @@ const Post = () => {
     getcommentc()
    })
   useEffect(() => {
-    getallpost();
-    getdata(); // Fetch user data when component mounts
-  }, []);
+    getallpost()
+  }, [])
 
   useEffect(() => {
-    getlikec();
-  }, [likeallpost]);
+    getlikec()
+  }, [likeallpost])
 
   const showus = (postid) => {
     setOpen(true);
@@ -265,60 +263,56 @@ const Post = () => {
 
   return (
     <>
-      <div className='ml-[50px]'>
-        {open && <CommentDialog className='bg-black bg-opacity-50' setOpen={setOpen} postid={showcom} />}
-        {postall.slice().reverse().map((data) => {
-          const user = sdata.find(user => user.id === data.sid);
-          
 
-          return (
-            <div className="post w-[540px] mt-2 border-b-2 border-gray" key={data.id}>
-              <Link to={`/prof/${data.sid}`}>
-                <div className="info ml-5 pt-2 pb-2 flex w-60">
-               
-                  <img 
-                    src={`http://127.0.0.1:8000/uploads/${user?.photos}`} 
-                    alt="" 
-                    className='rounded-3xl cursor-pointer w-10 h-10' 
-                  />
-          
-                  <div className="det ml-5 w-80">
-                    <h1 className='font-semibold flex w-40'>{user?.name}</h1>
-                    <p className='text-sm flex'>{data.location}</p>
-                  </div>
-                  <h1 className='ml-64 mt-1 pr-2'><FaBars className='mt-1 text-xl' /></h1>
-                </div>
-              </Link>
-              <img 
-                src={`http://127.0.0.1:8000/uploads/${data.photos}`}
-                alt="" 
-                className='w-[500px] object-contain h-80 items-center ml-5 pb-4' 
-              />
-              <div className="icon flex text-black justify-between">
-                <div className='flex gap-7 text-xl -mt-2'>
-                  <div className='-mt-1 '>
-                    <Lke data={data.id} likcount={likeallpost} likecounttwo={setLikeallpost} />
-                  </div>
-                  <h1 className='cursor-pointer'><FaRegComment onClick={() => showus(data.id)} /></h1>
-                  <h1><BiShareAlt /></h1>
-                  <div className='-ml-2'>
-                    <Sav data={data.id}  />
-                  </div>
-                </div>
+    <div className='ml-[50px]'>
+      {
+        open ? 
+        <CommentDialog setOpen={setOpen} postid={showcom}/>:""
+}
+
+      {
+        postall.map((data, i) => (
+          <div className="post w-[540px] mt-2  border-b-2 border-gray" key={i}>
+            <div className="info  ml-5 pt-2 pb-2 flex w-60">
+              <img src="./image/prof.jpg" alt="" className='rounded-3xl cursor-pointer w-10 h-10' />
+              <div className="det ml-5 w-80 ">
+                <h1 className='font-semibold flex w-40' onClick={send}>Rushikesh Arote</h1>
+                <p className='text-sm flex'>{data.location}</p>
               </div>
-              <p className='flex ml-6 -mt-[4px] text-[15px]'>{likeall} Likes</p>
-              <p className='ml-6 mt-[2px] text-[15px] flex '><p className='font-semibold pr-2'>{user?.username}</p>{data.caption}</p>
-              <p className='ml-6 text-gray-600 font-medium mt-[2px] text-[14px]' onClick={()=>getcommentc(data.id)}>View all {comment} Comments</p>
-              <div className='flex items-center justify-between mt-1'>
-                <Com data={data.id} />
-              </div>
+              <h1 className='ml-64 mt-1 pr-2'><FaBars className='mt-1 text-xl' /></h1>
             </div>
-          );
-        })}
-      </div>
-    </>
-  );
-};
+
+            <img src={`http://127.0.0.1:8000/uploads/${data.photos}`} alt="" className='w-[500px] object-cover h-80 items-center ml-5 pb-4' />
+            <div className="icon flex text-black justify-between">
+              <div className='flex gap-7 text-xl -mt-2'>
+                <div className='-mt-1 hover:text-red-500'>
+                  <Lke className='' data={data.id} likcount={likeallpost} likecounttwo={setLikeallpost} />
+                </div>
+                <h1 className='cursor-pointer'><FaRegComment onClick={e=>showus(data.id)} /></h1>
+                <h1 ><BiShareAlt /></h1>
+                <div className='-ml-2'>
+                  <Sav data={data.id} />
+                </div>
+              </div>
+
+            </div>
+            <p className='flex ml-6 -mt-[4px] text-[15px] '>{likeall} Likes</p>
+
+            <p className='ml-6 mt-[2px] text-sm font-semibold'>{data.caption}</p>
+
+
+            <div className='flex items-center justify-between mt-1'>
+              <Com data={data.id} />
+
+            </div>
+          </div>
+        ))
+      }
+
+    </div>
+</>
+  )
+}
 
 export default Post;
 

@@ -210,7 +210,7 @@ const Post = () => {
   const [likeallpost, setLikeallpost] = useState(0);
   const [open, setOpen] = useState(false);
   const [sdata, setSdata] = useState([]);
-
+  const [comment, setComment]= useState([])
   const getallpost = async () => {
     try {
       const res = await axios.get("http://127.0.0.1:8000/getpostall");
@@ -234,12 +234,21 @@ const Post = () => {
     try {
       const res = await axios.get("http://127.0.0.1:8000/getuserall");
       setSdata(res.data);
-      console.log('User data fetched:', res.data); // Debug log
     } catch (err) {
       console.log(err);
     }
   };
-
+  const getcommentc = async(postid)=>{
+    await axios.get("http://127.0.0.1:8000/getcomment/"+postid)
+    .then(res=>{
+      setComment(res.data.length)
+      console.log(res.data.length)
+    })
+    .catch(err=>console.log(err))
+   }
+   useEffect(()=>{
+    getcommentc()
+   })
   useEffect(() => {
     getallpost();
     getdata(); // Fetch user data when component mounts
@@ -298,7 +307,8 @@ const Post = () => {
                 </div>
               </div>
               <p className='flex ml-6 -mt-[4px] text-[15px]'>{likeall} Likes</p>
-              <p className='ml-6 mt-[2px] text-sm font-semibold'>{data.caption}</p>
+              <p className='ml-6 mt-[2px] text-[15px] flex '><p className='font-semibold pr-2'>{user?.username}</p>{data.caption}</p>
+              <p className='ml-6 text-gray-600 font-medium mt-[2px] text-[14px]' onClick={()=>getcommentc(data.id)}>View all {comment} Comments</p>
               <div className='flex items-center justify-between mt-1'>
                 <Com data={data.id} />
               </div>

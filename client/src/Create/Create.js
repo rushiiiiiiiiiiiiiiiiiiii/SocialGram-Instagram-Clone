@@ -12,7 +12,6 @@ const Create = () => {
     const { userid } = useParams();
     const [name, setName] = useState('');
     const [uname, setUname] = useState('');
-    
     const id = sessionStorage.getItem("userid");
 
     useEffect(() => {
@@ -55,15 +54,33 @@ const Create = () => {
             // Add user feedback here, e.g., setting an error state
         }
     };
-
+    const [username, setUsername] = useState()
+    const [useruname, setUseruname] = useState()
+    const [userfile, setUserfile] = useState()
+  
+    const showlogin = () => {
+        axios.get("http://127.0.0.1:8000/getuser/" + id)
+            .then(res => {
+                setUsername(res.data[0].name)
+                setUseruname(res.data[0].username)
+                setUserfile(res.data[0].photos)
+            })
+            .catch(err => console.log(err))
+    }
+    useEffect(() => {
+        showlogin()
+  
+    }, [userid])
+  
     return (
-        <div className='w-full h-auto'>
+        <div className='w-full h-screen bg-white
+        '>
             <div className='flex'>
                 <Nav2 />
                 <div className='w-[965px] ml-[505px] mt-4 bg-white rounded-xl'>
                     <h1 className='font-bold text-xl pb-2'>Create New Post</h1>
                     <div className='flex bg-loww mt-2 rounded-xl w-[550px] items-center h-14'>
-                        <img src="/image/prof.jpg" alt="Profile" className='rounded-full h-10 w-10 ml-5 mr-5' />
+                        <img src={`http://127.0.0.1:8000/uploads/${userfile}`} alt="Profile" className='rounded-full h-10 w-10 ml-5 mr-5' />
                         <div className='mr-56'>
                             <h1 className='font-semibold'>{name}</h1>
                             <p>{uname}</p>
@@ -123,3 +140,26 @@ const Create = () => {
 };
 
 export default Create;
+  // const register = (event) => {
+  //   setLoader(true)
+  //   event.preventDefault();
+  //   if (values.name != "" && values.uname != "" && values.email != "" && values.password != "") {
+  //     axios.post('http://127.0.0.1:8000/register', { ...values })
+  //       .then(res => {
+  //         toast.success("Registered Succsesfully")
+  //         console.log(res)
+  //         navigate('/login')
+  //         setLoader(false)
+  //       })
+  //       .catch(err =>
+  //         { 
+  //           toast("Register Failed")
+  //           setLoader(false)
+  //           console.log(err)
+
+  //         })
+  //   }
+  //   else {
+  //     toast.error("Fill all the details")
+  //   }
+  // }

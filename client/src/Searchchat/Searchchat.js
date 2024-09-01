@@ -39,7 +39,7 @@ sdata.filter((data)=>{
 }).map(((data, i) => 
            <div className='flex hover:bg-loww py-3 border-r-2 border-black' key={i}>
             <div className='ml-5'>
-            <Link to={`/prof/${data.id}`}><img src="/image/prof.jpg" className='h-10 w-10 rounded-full '  alt="" /></Link>
+            <Link to={`/prof/${data.id}`}><img src={`http://127.0.0.1:8000/uploads/${data.photos}`} className='h-10 w-10 rounded-full '  alt="" /></Link>
             </div>
             <div className='ml-3'>
               <Link to={`/prof/${data.id}`}><h1 className='font-semibold'>{data.name}</h1></Link>

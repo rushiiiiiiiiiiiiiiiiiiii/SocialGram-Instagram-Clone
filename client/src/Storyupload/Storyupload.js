@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { MdCancel } from 'react-icons/md';
 
-const Storyupload = ({setShowaddst}) => {
+const Storyupload = ({setShowaddst, getstory}) => {
     const navigate = useNavigate();
     const [file, setFile] = useState(null);
     const [filePreview, setFilePreview] = useState(null);
@@ -49,9 +49,10 @@ const Storyupload = ({setShowaddst}) => {
           
          .then(res=>{
              console.log(res)
-             window.location.reload()
       })
          .catch(err=>console.log(err))
+         getstory()
+         setShowaddst(false)
      }
     
     return (
@@ -98,7 +99,7 @@ const Storyupload = ({setShowaddst}) => {
             <button
                 onClick={create}
                 className='ml-5 h-8 px-4 mb-5 mt-[10px] w-[550px] text-center rounded hover:bg-indigo-500 text-white text-sm font-medium bg-indigo-600'>
-                Add Post
+                Add to Story
             </button>
             </div>
         

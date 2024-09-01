@@ -5,6 +5,7 @@ import axios from 'axios';
 const Chat = () => {
   const [name, setName] = useState()
   const [uname, setUame] = useState()
+  const [file, setFile] = useState()
 
   const userid = sessionStorage.getItem("userid")
   const showpost = ()=>{
@@ -12,6 +13,7 @@ const Chat = () => {
     .then(res=>{
         setName(res.data[0].name)
         setUame(res.data[0].username)
+        setFile(res.data[0].photos)
     })
     .catch(err=>console.log(err))
 }
@@ -21,12 +23,12 @@ useEffect(()=>{
 },[userid])
   return (
      
-    <div className=' w-72  md:fixed md:block hidden h-full -ml-[230px] border-l-2 border-gray pl-4'>
+    <div className=' w-72  md:fixed md:block hidden h-full -ml-[230px] border-l border-gray pl-4'>
       <div className="acc flex rounded-xl mt-5 h-14 w-60 items-center justify-around">
             <div className="prof w-10 h-10 mx-5 ">
-              <Link to={`/prof/${sessionStorage.getItem("userid")}}`}><img src="./image/prof.jpg" alt="" className='rounded-3xl cursor-pointer' /></Link>
+              <Link to={`/prof/${sessionStorage.getItem("userid")}}`}><img src={`http://127.0.0.1:8000/uploads/${file}`} alt="" className='h-10 w-10 rounded-3xl cursor-pointer' /></Link>
             </div>
-            <div className="det mr-10">
+            <div className="det mr-[50px]">
               <h1 className='font-semibold'>{name}</h1>
               <Link to={`/prof/${sessionStorage.getItem("userid")}`}><a className='text-gray-500 text-sm'>@{uname}</a></Link>
             </div>

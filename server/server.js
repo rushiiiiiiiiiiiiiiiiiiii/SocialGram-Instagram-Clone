@@ -7,15 +7,15 @@ app.use(cors())
 app.use(express.json())
 
 
-app.post('/register', (req,res)=>{
-    var sql = 'INSERT INTO login(name,username,email,password) VALUES(?,?,?,?)'
-    var {name,uname,email,password} = req.body;
+// app.post('/register', (req,res)=>{
+//     var sql = 'INSERT INTO login(name,username,email,password) VALUES(?,?,?,?)'
+//     var {name,uname,email,password} = req.body;
       
-    con.query(sql,[name,uname,email,password],(err,result)=>{
-        if(err) return res.json(err)
-            return res.json(result);
-    })
-})
+//     con.query(sql,[name,uname,email,password],(err,result)=>{
+//         if(err) return res.json(err)
+//             return res.json(result);
+//     })
+// })
 
 app.post('/login', (req,res)=>{
   var sql = 'SELECT * FROM login WHERE email = ? AND password = ?'
@@ -41,6 +41,19 @@ const upload = multer({
 })
 const data = multer()
 
+app.post('/register', upload.single("photo"),(req,res)=>{
+  var sql = 'INSERT INTO login(photos,name,username,email,password) VALUES(?,?,?,?,?)'
+  var filename = req.file.filename;
+  var name = req.body.name;
+  var uname = req.body.uname;
+  var email = req.body.email;
+  var password = req.body.password;
+
+  con.query(sql,[filename,name,uname,email,password],(err,result)=>{
+      if(err) return res.json(err)
+          return res.json(result);
+  })
+})
 
 app.post('/create/:id',upload.single("photo"),(req,res)=>{
   var sql ='INSERT INTO addpost(sid,caption,location,photos) VALUES(?,?,?,?)'
@@ -150,8 +163,11 @@ app.post('/like/:id',(req,res)=>{
       return res.json(result)
   })
 }
-  })
+ })
 })
+
+
+
 app.get('/getlike',(req,res)=>{
   const sql = "SELECT * FROM liketb"
   con.query(sql,(err,result)=>{
@@ -187,17 +203,40 @@ app.post('/comment/:id',(req,res)=>{
      return res.json(result)
   })
 })
+// app.post('/save/:id',(req,res)=>{
+//   var sid = req.body.id;
+//   var pid = req.body.pid;
+//   var save = req.body.save;
+//   var sql ='INSERT INTO savetb(sid,pid,save) VALUES(?,?,?)'
+
+  
+//   con.query(sql,[sid,pid,save],(err,result)=>{
+//     if(err)  return res.json(err)
+//       return res.json(result)
+//   })
+// })
 app.post('/save/:id',(req,res)=>{
   var sid = req.body.id;
   var pid = req.body.pid;
   var save = req.body.save;
-  var sql ='INSERT INTO savetb(sid,pid,save) VALUES(?,?,?)'
-
-  
+  var sqls=`SELECT * FROM savetb WHERE sid=${sid} and pid=${pid}`
+  con.query(sqls,(err,result)=>{
+    if(err) return err;
+      if(result.length>0){
+  var sql ='DELETE FROM savetb WHERE sid=? AND pid=?'
+    con.query(sql,[sid,pid],(err,result)=>{
+      if(err)  return res.json(err);
+        return res.json(result)
+    })
+  }
+  else{
+  var sql ='INSERT INTO savetb(sid,pid,save) VALUES(?,?,?)'    
   con.query(sql,[sid,pid,save],(err,result)=>{
     if(err)  return res.json(err)
       return res.json(result)
   })
+}
+ })
 })
 app.listen(8000, ()=>{
   console.log("server running on 8000")

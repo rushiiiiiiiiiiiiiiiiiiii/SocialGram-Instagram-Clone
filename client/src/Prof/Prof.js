@@ -45,11 +45,14 @@ const Prof = () => {
 
     const [name, setName] = useState()
     const [uname, setUame] = useState()
+    const [file, setFile] = useState()
+
     const showlogin = () => {
         axios.get("http://127.0.0.1:8000/getuser/" + userid)
             .then(res => {
                 setName(res.data[0].name)
                 setUame(res.data[0].username)
+                setFile(res.data[0].photos)
             })
             .catch(err => console.log(err))
     }
@@ -57,14 +60,15 @@ const Prof = () => {
         showlogin()
 
     }, [userid])
+    
     return (
-        <div className='w-full h-auto bg-white'>
+        <div className='w-full h-auto bg-white text-black'>
 
             <div className='flex'>
                 <Nav2 />
                 <div className='w-[965px] ml-[335px] mt-4  bg-white rounded-xl'>
                     <div className="prof-dte flex gap-20 ml-24 mt-5 border-b-2 border-gray-500 pb-[30px] w-[760px]">
-                        <img src="/image/prof.jpg" alt="" className='rounded-[50%] cursor-pointer w-36 h-36 mt-10' />
+                        <img src={`http://127.0.0.1:8000/uploads/${file}`} alt="" className='rounded-[50%] cursor-pointer w-36 h-36 mt-10' />
                         <div className="div">
                             <div className='flex gap-48'>
                                 <h1 className='text-2xl '>{uname}</h1>

@@ -2,8 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* index.css or global.css */
-.bg-white {
+/* .bg-white {
     background-color: white;
   }
   
@@ -20,10 +19,10 @@
   }
   
   .dark .bg-white {
-    background-color: black; /* Dark mode background */
+    background-color: black; /* Dark mode background 
   }
   
   .dark .text-black {
-    color: white; /* Dark mode text */
-  }
+    color: white; /* Dark mode text 
+  } */
   

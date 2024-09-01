@@ -1,11 +1,17 @@
 import React, { useState,useEffect } from 'react'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
+import Profilepost from './Profilepost'
 const Save = ({id}) => {
     const[postdata, setPostdata]=useState([])
     const [savedata, setSavedata] = useState([])
     const userid= sessionStorage.getItem("userid")
-  
+    const[open,setOpen] = useState(false)
+    const[showopen,setShowopen] = useState()
+    const  showus =(id)=>{
+        setOpen(true)
+        setShowopen(id)
+    }
     useEffect(() => {
         window.scrollTo(0, 0)
     })
@@ -36,6 +42,7 @@ const Save = ({id}) => {
     }, [id])
   return (
     <div className='flex gap-x-4 gap-y-4 -ml-7 flex-wrap mt-5'>
+        {open && <Profilepost className='bg-black bg-opacity-50' setOpen={setOpen} postid={showopen} />}
         
 
          {/*<div>
@@ -53,8 +60,8 @@ const Save = ({id}) => {
                 savedata.map((data) => {
                     const post = postdata.find(post => post.id === data.pid);
                     return post ? (
-                        <div className="imf flex" key={post.id}>
-                            <img
+                        <div className="imf flex object-cover" key={post.id}>
+                            <img onClick={e=>showus(data.pid)}
                                 src={`http://127.0.0.1:8000/uploads/${post.photos}`}
                                 alt=""
                                 className='object-cover cursor-pointer w-60 h-64'

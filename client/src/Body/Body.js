@@ -54,9 +54,9 @@ const Body = () => {
   return (
     <>
       
-      <div className='w-full bg-white dark:text-white dark:bg-black h-auto md:gap-[325px] flex'>
+      <div className='w-full bg-white h-auto md:gap-[325px] flex'>
         <div>
-          <Nav2 themechange={handleThemeSwitch} />
+          <Nav2  />
         </div>
         <div>
           <Story />

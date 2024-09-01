@@ -6,8 +6,8 @@ module.exports = {
     extend: {
       colors: {
         loww : 'hsl(252,30%,93%)',
-        black: '#000000',
-        white: '#ffffff',
+        // black: '#000000',
+        // white: '#ffffff',
       },
     },
   },

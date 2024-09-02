@@ -11,10 +11,11 @@ const Searchchat = () => {
   const [chatid, setChatid] = useState()
 
   const getdata = ()=>{
-    axios.get("http://127.0.0.1:8000/getuserall")
+    axios.get("http://127.0.0.1:8000/chatuser/"+sessionStorage.getItem("userid"))
     .then(res => {
-      console.log(res.data)
+      // console.log(res.data)
       setSdata(res.data)})
+
     .catch(err => console.log(err))
    }
    

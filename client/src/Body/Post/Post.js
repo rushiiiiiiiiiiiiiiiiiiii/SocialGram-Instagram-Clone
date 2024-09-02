@@ -22,7 +22,6 @@ const Post = () => {
   const getdata = ()=>{
     axios.get("http://127.0.0.1:8000/getuserall")
     .then(res => {
-      console.log(res.data)
       setSdata(res.data)})
     .catch(err => console.log(err))
    }
@@ -61,7 +60,6 @@ const Post = () => {
     await axios.get("http://127.0.0.1:8000/getcomment/"+postid)
     .then(res=>{
       setComment(res.data.length)
-      console.log(res.data.length)
     })
     .catch(err=>console.log(err))
    }

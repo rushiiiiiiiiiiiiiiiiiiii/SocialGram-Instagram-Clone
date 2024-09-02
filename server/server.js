@@ -164,27 +164,15 @@ app.post('/like/:id',(req,res)=>{
 }
  })
 })
+app.get('/chatuser/:id',async (req,res) => {
+  const id=req.params.id;
+  var sql="SELECT * FROM login WHERE id <> ?"
+  con.query(sql,[id],(err,result)=>{
+    if(err) return err;
+    return res.json(result)
+  })
+})
 
-// app.get('/getlike',(req,res)=>{
-//   const sql = "SELECT * FROM liketb"
-//   con.query(sql,(err,result)=>{
-//     if(err) return res.json(err)
-//       return res.json(result)
-//   })
-// })
-
-// app.get('/getlike/:id',(req,res)=>{
-//   const ids=req.params.id;
-//   const sql = `SELECT count(*) FROM liketb WHERE pid=${ids}`
-//   con.query(sql,(err,result)=>{
-//     if(err) return res.json(err)
-//       return res.json(result)
-
-//     // if(result.length>0){
-
-//     // }
-//   })
-// })
 app.get('/getlike/:id', (req, res) => {
   const ids = req.params.id;
   const sql = `SELECT count(*) AS \`${ids}\` FROM liketb WHERE pid = ?`;
@@ -229,18 +217,6 @@ app.post('/comment/:id',(req,res)=>{
      return res.json(result)
   })
 })
-// app.post('/save/:id',(req,res)=>{
-//   var sid = req.body.id;
-//   var pid = req.body.pid;
-//   var save = req.body.save;
-//   var sql ='INSERT INTO savetb(sid,pid,save) VALUES(?,?,?)'
-
-  
-//   con.query(sql,[sid,pid,save],(err,result)=>{
-//     if(err)  return res.json(err)
-//       return res.json(result)
-//   })
-// })
 app.post('/save/:id',(req,res)=>{
   var sid = req.body.id;
   var pid = req.body.pid;
@@ -263,6 +239,26 @@ app.post('/save/:id',(req,res)=>{
   })
 }
  })
+})
+app.post('/SendMess',async(req,res)=>{
+  const {Message,ReceiverID,SenderID}=req.body
+  var sql ='INSERT INTO chats(SenderID,ReceiverID,Message) VALUES(?,?,?)'  
+  con.query(sql,[SenderID,ReceiverID,Message],(err,result)=>{
+    if(err) return err;
+    return res.json(result)
+  })  
+})
+app.get('/Message',async(req,res)=>{
+  const{userId,id}=req.query
+  const sql=` SELECT * FROM chats
+    WHERE (SenderID = ? AND ReceiverID = ?)
+    OR (SenderID = ? AND ReceiverID = ?)
+    `
+  con.query(sql,[userId,id,id,userId],(err,result)=>{
+    console.log(userId,id)
+    if(err) return err;
+    return res.json(result)
+  })
 })
 app.listen(8000, ()=>{
   console.log("server running on 8000")

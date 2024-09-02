@@ -20,7 +20,6 @@ const Story = () => {
   const getdata = ()=>{
     axios.get("http://127.0.0.1:8000/getuserall")
     .then(res => {
-      console.log(res.data)
       setSdata(res.data)})
     .catch(err => console.log(err))
    }
@@ -75,6 +74,7 @@ useEffect(()=>{
 
       <div className="box-story w-24 h-40 bg-loww rounded-xl ml-[1px] relative cursor-pointer">
         {
+          storyd.length>0?
           storyd.map((data, i) =>{
           const user= sdata.find(user=> user.id === data.sid)
 
@@ -84,7 +84,8 @@ useEffect(()=>{
 
               <img src={`http://127.0.0.1:8000/uploads/${data.photos}`} alt="" className='w-24 h-40 object-cover rounded-xl' />
             </div>
-      )})
+      )}):
+      ""
     }
         {/* <h1 className='-mt-11 ml-2 text-[14px] font-semibold text-black'>{name}</h1> */}
     
@@ -106,6 +107,7 @@ useEffect(()=>{
 
       <div className="box-story w-24 flex gap-3  h-40 bg-loww rounded-xl ml-[1px] cursor-pointer">
         {
+          storyalluser.length>0?
           storyalluser.slice().reverse().map((data, i) =>{
             const user = sdata.find(user=> user.id === data.sid)
               return(
@@ -117,7 +119,7 @@ useEffect(()=>{
               {/* <h1  className='h-10 w-10 rounded-full z-50 pt-20 absolute top-2 left-2' alt="" >Rushikesh Arote</h1> */}
             </div>
             </div>
-          )})
+          )}):""
         }
 
     <div className="story mt-6 flex gap-3 overflow-x-hidden w-[638px]">

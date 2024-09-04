@@ -3,9 +3,9 @@ import Nav from '../Body/Nav/Nav'
 import Nav2 from '../Body/Nav2/Nav2'
 import { MdPanoramaVerticalSelect } from 'react-icons/md'
 import { useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { json, Link, useParams } from 'react-router-dom'
 import { FaRegSquarePlus } from 'react-icons/fa6'
-import { FaVideo } from 'react-icons/fa'
+import { FaAlgolia, FaVideo } from 'react-icons/fa'
 import { FaRegBookmark } from "react-icons/fa";
 import { FiVideo } from 'react-icons/fi'
 import axios from 'axios'
@@ -14,15 +14,20 @@ import Save from '../Profcomponent/Save'
 const Prof = () => {
     const { userid } = useParams();
     const [postall, setPostall] = useState([])
-    const[showpostall, setShowpostall] = useState(true)
-    const[showsaveall, setShowsaveall] = useState(false)
-
-    const getpost = ()=>{
+    const [showpostall, setShowpostall] = useState(true)
+    const [showsaveall, setShowsaveall] = useState(false)
+    const [name, setName] = useState()
+    const [uname, setUame] = useState()
+    const [file, setFile] = useState()
+    const [follower,setfollower]=useState(0)
+    const [following,setfollowing]=useState(0)
+    const [youfollow,setyoufollow]=useState(0)
+    const getpost = () => {
         setShowsaveall(false)
         setShowpostall(true)
 
     }
-    const getsave = ()=>{
+    const getsave = () => {
         setShowpostall(false)
         setShowsaveall(true)
     }
@@ -34,19 +39,66 @@ const Prof = () => {
         axios.get("http://127.0.0.1:8000/getpost/" + userid)
             .then(res => {
                 setPostall(res.data.length)
-                console.log(res)
             })
             .catch(err => console.log(err))
     }
+    const followerlist = async () => {
+        try {
+            const send = await axios.get("http://127.0.0.1:8000/getfollower", {
+                params: {
+                    id: userid
+                }
+            }
+            )
+            const follower=[]
+            const following=[]
+            const arr=send.data.map((name,i)=>{
+                if(name.following==sessionStorage.getItem('userid')){
+                    setyoufollow(name)
+                }
+                if(name.following==userid){
+                    following.push(name.following)
+                }
+                if(name.follower==userid){
+                    follower.push(name.follower);
+                }
+                else{
+                    setfollower(0);
+                }
+                
+            })
+            setfollower(follower.length)
+            setfollowing(following.length)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    const follow = async (id) => {
+        try {
+            const send = await fetch("http://127.0.0.1:8000/follow", {
+                method: "post",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify({ userId: sessionStorage.getItem('userid'), id: id })
+            })
+            console.log(send)
+        } catch (error) {
+            console.log(error)
+        }
+        followerlist()
+    }
     useEffect(() => {
         showpost()
-
     }, [userid])
-
-    const [name, setName] = useState()
-    const [uname, setUame] = useState()
-    const [file, setFile] = useState()
-
+    const unfollow=async()=>{
+        try {
+            await axios.delete("http://127.0.0.1:8000/unfollow/"+sessionStorage.getItem('userid'))
+        } catch (error) {
+            console.log(error)
+        }
+        followerlist();
+    }
     const showlogin = () => {
         axios.get("http://127.0.0.1:8000/getuser/" + userid)
             .then(res => {
@@ -58,9 +110,11 @@ const Prof = () => {
     }
     useEffect(() => {
         showlogin()
-
+        followerlist()
     }, [userid])
-    
+    useEffect(() => {
+    })
+
     return (
         <div className='w-full h-auto bg-white text-black'>
 
@@ -73,19 +127,28 @@ const Prof = () => {
                             <div className='flex gap-48'>
                                 <h1 className='text-2xl '>{uname}</h1>
                                 {
-                                    userid==sessionStorage.getItem("userid")?
-                                <Link to='/profedit'><button className='px-4 h-8 ml-[45px] mt-1 text-center hover:bg-indigo-400  text-white text-sm font-medium btn bg-indigo-500 rounded-xl'>Edit Profile</button></Link>                
- : 
- <div className='flex'>
- <button className='px-4 h-8 ml- mt-1 text-center hover:bg-indigo-400  text-white text-sm font-medium btn bg-indigo-500 rounded-xl'>Follow</button>               
- <button className='px-4 h-8 ml-[5px] mt-1 text-center hover:bg-indigo-400  text-white text-sm font-medium btn bg-indigo-500 rounded-xl'>Message</button>               
-</div>
-}</div>
+                                    userid == sessionStorage.getItem("userid") ?
+                                        <Link to='/profedit'><button className='px-4 h-8 ml-[45px] mt-1 text-center hover:bg-indigo-400  text-white text-sm font-medium btn bg-indigo-500 rounded-xl'>Edit Profile</button></Link>
+                                        :
+                                        <div className='flex'>
 
-                                    <div className='flex gap-16 font-semibold mt-3 text-[19px]'>
+                                            {
+                                                // <>
+                                                youfollow?
+                                                <button onClick={(e) => unfollow()} className='px-4 h-8 ml- mt-1 text-center hover:bg-indigo-400  text-white text-sm font-medium btn bg-indigo-500 rounded-xl'>Unfollow</button>
+                                                :
+                                                <button onClick={(e) => follow(userid)} className='px-4 h-8 ml- mt-1 text-center hover:bg-indigo-400  text-white text-sm font-medium btn bg-indigo-500 rounded-xl'>Follow</button>
+                                                // </>
+                                                }
+                                            
+                                            <button className='px-4 h-8 ml-[5px] mt-1 text-center hover:bg-indigo-400  text-white text-sm font-medium btn bg-indigo-500 rounded-xl'>Message</button>
+                                        </div>
+                                }</div>
+
+                            <div className='flex gap-16 font-semibold mt-3 text-[19px]'>
                                 <h1>{postall} Posts</h1>
-                                <h1>1230 Followers</h1>
-                                <h1>256 Following</h1>
+                                <h1>{follower} Followers</h1>
+                                <h1>{following} Following</h1>
                             </div>
                             <h1 className='mt-2 font-bold'>{name}</h1>
 
@@ -100,11 +163,11 @@ const Prof = () => {
                     <div className="pic ml-24 mt-3">
                         <div className='flex gap-0 ml-40 font-semibold cursor-pointer'>
                             <h1 onClick={getpost} className='w-40 hover:text-indigo-500 text-center border-black flex'><FaRegSquarePlus className='mr-1 mt-[3px]' />POSTS</h1>
-                            <h1 className='w-40 hover:text-indigo-500  text-center border-black flex'><FiVideo className='mr-1 mt-[3px]'  />REELS</h1>
-                            <h1 onClick={getsave}className='w-40 hover:text-indigo-500 text-center border-black flex' ><FaRegBookmark className='mr-1  mt-[3px]'/>SAVED</h1>
+                            <h1 className='w-40 hover:text-indigo-500  text-center border-black flex'><FiVideo className='mr-1 mt-[3px]' />REELS</h1>
+                            <h1 onClick={getsave} className='w-40 hover:text-indigo-500 text-center border-black flex' ><FaRegBookmark className='mr-1  mt-[3px]' />SAVED</h1>
                         </div>
 
-                       {/*} <div className='flex gap-x-4 gap-y-4 -ml-7 flex-wrap mt-5'>
+                        {/*} <div className='flex gap-x-4 gap-y-4 -ml-7 flex-wrap mt-5'>
                             {
                                 postdata.map((data, i) => (
 
@@ -118,16 +181,16 @@ const Prof = () => {
                             }
                         </div>*/}
                         {
-                            showpostall?<Postdisplay   id={userid}/>
-                            :""
+                            showpostall ? <Postdisplay id={userid} />
+                                : ""
 
-        
-                           }
-{
-                            showsaveall?
-                            <Save  id={userid}/>:  ""
 
-}
+                        }
+                        {
+                            showsaveall ?
+                                <Save id={userid} /> : ""
+
+                        }
                     </div>
 
                 </div>

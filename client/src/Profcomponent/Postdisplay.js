@@ -24,7 +24,6 @@ const Postdisplay = ({id}) => {
             .then(res => {
                 setPostdata(res.data)
                 setPostall(res.data.length)
-                console.log(res)
             })
             .catch(err => console.log(err))
     }

@@ -7,14 +7,12 @@ const ChatPage = ({ id }) => {
     const [sdata, setSdata] = useState([])
     const [name, setName] = useState([])
     const [mess, setMess] = useState('')
-    const [Sendermes, SetSendermes] = useState([])
     const [Receiver, SetReceiver] = useState([])
     //   console.log(id)
 
     const getdata = () => {
         axios.get("http://127.0.0.1:8000/getuserall")
             .then(res => {
-                // console.log(res.data)
                 setSdata(res.data)
             })
             .catch(err => console.log(err))

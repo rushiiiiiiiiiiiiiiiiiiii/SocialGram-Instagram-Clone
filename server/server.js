@@ -260,6 +260,33 @@ app.get('/Message',async(req,res)=>{
     return res.json(result)
   })
 })
+app.post('/follow',(req,res)=>{
+  const{userId,id}=req.body
+  console.log(userId,id)
+  const sql ='INSERT INTO follower(follower,following) VALUES(?,?)';
+   con.query(sql,[id,userId],(err,result)=>{
+    if(err) return err;
+    return res.json(result)
+  })
+})
+app.get('/getfollower',async(req,res)=>{
+  const{userId,id}=req.query
+  const sql=`SELECT * FROM follower
+    WHERE (follower = ?)
+    OR (following = ?)`
+  con.query(sql,[id,id],(err,result)=>{
+    if(err) return err;
+    return res.json(result)
+  })
+})
+app.delete('/unfollow/:id',async(req,res)=>{
+  const id=req.params.id;
+  const sql="DELETE FROM follower WHERE following=?";
+  con.query(sql,[id],(err,result)=>{
+    if(err) return err;
+    return res.json(result)
+  })
+})
 app.listen(8000, ()=>{
   console.log("server running on 8000")
 })

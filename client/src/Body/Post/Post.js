@@ -30,7 +30,6 @@ const Post = () => {
     getdata()
   }, [])
   const getallpost = () => {
-
     axios.get("http://127.0.0.1:8000/getpostall")
       .then(res => {
         setPostall(res.data);
@@ -101,17 +100,6 @@ const Post = () => {
                   </div>
                 </div>
               </div>
-              {/* {
-                likeall.filter((likes, i) => {
-                  if (likes.pid == data.id) {
-                    return likes
-                  }
-                }).map((likes, i) => {
-                  return (
-                    <p className='flex ml-6 -mt-[4px] text-[15px] '>Likes</p>
-                  );
-                })
-              } */}
               <p className='flex ml-6 -mt-[4px] text-[15px]' id={data.id} >{data.id} Likes</p>
               <p className='ml-6 mt-[px] text-[14px] flex'><p className='font-semibold pr-2 font-[15px]'>{user?.username}</p>{data.caption}</p>
               <p className='ml-6 text-[15px] text-gray-700 font-medium mt-[3px] cursor-pointer' onClick={e => showus(data.id)}>View all  {comment} comments</p>

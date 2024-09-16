@@ -72,6 +72,7 @@ const CommentDialog = ({setOpen, postid}) => {
                 <div className='bg-red-500 w-[900px] h-[570px] mt-10 flex shadow-xl'>
                         
                             {
+                            commentpost.length>0?
                             commentpost.map((data,i)=>(
 
                     <div className='bg-black w-[450px] h-[570px]' key={i}>
@@ -79,9 +80,10 @@ const CommentDialog = ({setOpen, postid}) => {
                         {/*<img className='w-[450px] h-[570px] ' src='/image/india.jpg' alt="/" />*/}
                     
                     </div>
-    ))}
+    )):""}
                     <div className=' w-[450px] h-[570px] bg-loww'>
                         {
+                          commentpost.length>0?
                                  commentpost.map((data,i)=>{
                                     const user = sdata.find(user=> user.id === data.sid)
                                     return(
@@ -96,11 +98,12 @@ const CommentDialog = ({setOpen, postid}) => {
                             </div>
                          
                         </div>
-                                    )})
+                                    )}):""
 }
 
                         <div className='bg-white h-[442px] overflow-hidden'>
                             {
+                              comment.length>0?
                                 comment.map((data,i)=>{
                                     const user = sdata.find(user=> user.id === data.sid)
                                     return(
@@ -113,18 +116,19 @@ const CommentDialog = ({setOpen, postid}) => {
                                 <h1 className='ml-5 font-semibold'>{data.comment}</h1>
                                 </div>
                             </div>
-                                )})
+                                )}):""
                             }
 
                         </div>
                         {
+                          commentpost.length>0?
                             commentpost.map((data,i)=>(
                         <div className='flex  border-black bg-transparent' key={i} >
                           <Com data={data.id} postid={postid} com={com} setCom={setCom}/>
                             
                         </div>
                         
-                        ))}
+                        )):""}
                     </div>
                 </div>
             </div>

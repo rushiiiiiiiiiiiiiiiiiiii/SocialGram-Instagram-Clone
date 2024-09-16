@@ -22,7 +22,14 @@ app.post('/login', (req,res)=>{
   var {email,password} = req.body;
   con.query(sql,[email,password],(err,result)=>{
     if(err) return res.json(err)
-      return res.json(result)
+      // console.log(result[0].id)
+      if(result.length>0){
+        const sql='UPDATE login SET IsLogin = 1 WHERE id = ?';
+        con.query(sql,[result[0].id],(err,response)=>{
+          if(err) return res.json(err)
+            return res.json(result)
+        })
+      }
   })
 })
 app.use('/uploads', express.static('uploads'))                                                           
@@ -42,7 +49,7 @@ const upload = multer({
 const data = multer()
 
 app.post('/register', upload.single("photo"),(req,res)=>{
-  var sql = 'INSERT INTO login(photos,name,username,email,password) VALUES(?,?,?,?,?)'
+  var sql = 'INSERT INTO login(photos,name,username,email,password,IsLogin) VALUES(?,?,?,?,?,0)'
   var filename = req.file.filename;
   var name = req.body.name;
   var uname = req.body.uname;
@@ -61,7 +68,7 @@ app.post('/create/:id',upload.single("photo"),(req,res)=>{
   var caption = req.body.caption;
   var location = req.body.location;
   var filename = req.file.filename;
-  console.log(filename)
+  // console.log(filename)
   con.query(sql,[sid,caption,location,filename],(err,result)=>{
     if(err)  return res.json(err)
       return res.json(result)
@@ -205,6 +212,14 @@ app.get('/getcomment/:id',(req,res)=>{
       return res.json(result)
   })
 })
+app.get('/commentlength/:id',async(req,res)=>{
+  const ids=req.params.id
+  const sql = `SELECT count(*) AS \`${ids}\` FROM commenttb WHERE pid = ?`;
+  con.query(sql,[ids],(err,result)=>{
+    if(err)return err;
+    return res.json(result[0]);
+  })
+})
 app.post('/comment/:id',(req,res)=>{
   var sid = req.body.id;
   var pid = req.body.pid;
@@ -255,7 +270,7 @@ app.get('/Message',async(req,res)=>{
     OR (SenderID = ? AND ReceiverID = ?)
     `
   con.query(sql,[userId,id,id,userId],(err,result)=>{
-    console.log(userId,id)
+    // console.log(userId,id)
     if(err) return err;
     return res.json(result)
   })
@@ -290,3 +305,4 @@ app.delete('/unfollow/:id',async(req,res)=>{
 app.listen(8000, ()=>{
   console.log("server running on 8000")
 })
+// AIzaSyCUquQJirgRWIJ9Bn7nmXt6BAvxMhK6L2Y

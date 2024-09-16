@@ -86,9 +86,12 @@ const ChatPage = ({ id }) => {
                             </div>
                             < div>
                                 <h1 className='p-0 font-semibold'>{data.name}</h1>
+                                <p className='text-sm'>{
+                                    data.IsLogin==0?"Offline":"Online"
+                                    }</p>
                             </div>
                         </div>
-                    ))} ;
+                    ))} 
                 <div className='mr-10'><FaBars /></div>
             </div>
 

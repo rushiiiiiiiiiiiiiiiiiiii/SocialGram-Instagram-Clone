@@ -40,6 +40,7 @@ const Post = () => {
     await axios.get("http://127.0.0.1:8000/getlike/" + id)
       .then(res => {
         if (res.data != null) {
+          console.log(res.data)
           document.getElementById(id).innerText = res.data[`${id}`] + " likes"
         }
         else {
@@ -47,6 +48,20 @@ const Post = () => {
         }
       })
       .catch(err => console.log(err))
+
+      try {
+        await axios.get('http://127.0.0.1:8000/commentlength/'+id)
+        .then(res=>{
+          if(res.data!=null){
+            // console.log(res.data[id])
+            document.getElementById(id+"p").innerText="view all "+res.data[`${id}`]+" comments"
+            // console.log(res.data)
+          }
+        }) 
+      } catch (error) {
+        console.log(error)
+      }
+    
   }
   useEffect(() => {
     getallpost();
@@ -93,7 +108,10 @@ const Post = () => {
                   <div className='-mt-1 '>
                     <Lke className='' data={data.id} likcount={likeallpost} likecounttwo={setLikeallpost} getlikec={(e) => getlikec(data.id)} />
                   </div>
-                  <h1 className='cursor-pointer'><FaRegComment onClick={e => showus(data.id)} /></h1>
+                  <h1 className='cursor-pointer'>
+                    <FaRegComment onClick={e => showus(data.id)} />
+
+                    </h1>
                   <h1 ><BiShareAlt /></h1>
                   <div className='-ml-2'>
                     <Sav data={data.id} />
@@ -101,11 +119,13 @@ const Post = () => {
                 </div>
               </div>
               <p className='flex ml-6 -mt-[4px] text-[15px]' id={data.id} >{data.id} Likes</p>
-              <p className='ml-6 mt-[px] text-[14px] flex'><p className='font-semibold pr-2 font-[15px]'>{user?.username}</p>{data.caption}</p>
-              <p className='ml-6 text-[15px] text-gray-700 font-medium mt-[3px] cursor-pointer' onClick={e => showus(data.id)}>View all  {comment} comments</p>
+              <p className='ml-6 mt-[px] text-[14px] flex'>
+              <p className='font-semibold pr-2 font-[15px]'>{user?.username}</p>{data.caption}
+              </p>
+              <p className='ml-6 text-[15px] text-gray-400 font-medium mt-[3px] cursor-pointer' onClick={e => showus(data.id)} id={`${data.id}`+"p"}></p>
            
               <div className='flex items-center justify-between  mt-1'>
-                <Com data={data.id} />
+                <Com data={data.id} getlikec={(e) => getlikec(data.id)}  />
 
               </div>
             </div>
@@ -148,7 +168,7 @@ const Lke = ({ data, likcount, likecounttwo, getlikec }) => {
   )
 }
 
-const Com = ({ data }) => {
+const Com = ({ data,getlikec }) => {
   const [comment, setComment] = useState('')
   const id = sessionStorage.getItem("userid")
 
@@ -164,6 +184,8 @@ const Com = ({ data }) => {
         console.log(err)
         toast.error("Faild to post comment")
       })
+      getlikec()
+
   }
   return (
     <>

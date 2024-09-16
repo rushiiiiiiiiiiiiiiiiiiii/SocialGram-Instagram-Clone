@@ -225,6 +225,7 @@ const Profilepost = ({setOpen, postid}) => {
                         </div>
                         <div className='bg-white h-[442px] overflow-hidden'>
                             {
+                            comment.length>0?
                                 comment.map((data,i)=>(
                             <div className="com bg-white py-2 cursor-pointer pl-7 border-gray flex" key={i}>
                                 <div>
@@ -235,7 +236,7 @@ const Profilepost = ({setOpen, postid}) => {
                                 <h1 className='ml-5 font-semibold'>{data.comment}</h1>
                                 </div>
                             </div>
-                                ))
+                                )):""
 }
                         </div>
                         {

@@ -236,8 +236,7 @@ import { BiShareAlt } from "react-icons/bi";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import axios from 'axios';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import CommentDialog from '../../Commentdialog/CommentDialog';
 

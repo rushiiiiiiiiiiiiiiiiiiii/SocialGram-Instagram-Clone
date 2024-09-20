@@ -6,7 +6,7 @@ import Register from './Register/Register';
 import Login from './Login/Login';
 import Start from './Start/Start';
 import Prof from './Prof/Prof';
-import { ToastContainer } from 'react-toastify';
+import toast, { Toaster } from 'react-hot-toast';
 import 'react-toastify/dist/ReactToastify.css';
 import Editprof from './Editprof/Editprof';
 import Create from './Create/Create';
@@ -31,7 +31,8 @@ function App() {
   {/*<Route path='/commentpg/:id' element={<CommentDialog/>} />*/}
 
 </Routes>
-<ToastContainer autoClose={1500}/>
+{/* <ToastContainer autoClose={1500}/> */}
+<Toaster/>
 </BrowserRouter>
   )
 }

@@ -57,7 +57,8 @@ const Explore = ({id}) => {
             <div className='flex'>
                 <Nav2 />
     <div className=' ml-80 flex gap-x-4 gap-y-4 -ml-7 flex-wrap mt-5'>
-    {postall.map((data,i) => (
+    {
+        postall.map((data,i) => (
        
     <div className='flex gap-x-4 gap-y-4 flex-wrap'key={i}>
 

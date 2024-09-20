@@ -2,6 +2,7 @@ import React from 'react'
 import Nav2 from '../Body/Nav2/Nav2'
 
 const Reelsshow = () => {
+    
     return (
         <div className='w-full h-auto bg-white text-black'>
 

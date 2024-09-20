@@ -31,7 +31,15 @@ const Postdisplay = ({id}) => {
         showpost()
 
     }, [id])
-   
+    const isImage = (filename) => {
+        const extensions = ['jpg', 'jpeg', 'png', 'gif'];
+        return extensions.some(ext => filename.toLowerCase().endsWith(ext));
+      };
+    
+      const isVideo = (filename) => {
+        const extensions = ['mp4', 'webm', 'ogg'];
+        return extensions.some(ext => filename.toLowerCase().endsWith(ext));
+      };
   return (
     <div className='flex gap-x-4 gap-y-4 -ml-7 flex-wrap mt-5'>
         {open && <Profilepost className='bg-black bg-opacity-50' setOpen={setOpen} postid={showopen} />}
@@ -41,9 +49,11 @@ const Postdisplay = ({id}) => {
         postdata.map((data, i) => (
 
             <div className='flex gap-x-4 gap-y-4 flex-wrap'>
-                <div className="imf flex">
-                    <img onClick={e=>showus(data.id)} src={`http://127.0.0.1:8000/uploads/${data.photos}`} alt="" className='object-cover cursor-pointer w-60 h-64' />
-                </div>
+                 {isImage(data.photos) ? (
+                <img src={`http://127.0.0.1:8000/uploads/${data.photos}`} alt="" className='object-cover cursor-pointer w-60 h-64' />
+              ) : isVideo(data.photos) ? (
+                <video src={`http://127.0.0.1:8000/uploads/${data.photos}`} controls className='object-cover cursor-pointer w-60 h-64' />
+              ) : null}
             </div>
 
         ))

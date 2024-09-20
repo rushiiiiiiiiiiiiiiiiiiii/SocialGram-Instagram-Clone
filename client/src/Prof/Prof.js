@@ -12,6 +12,7 @@ import axios from 'axios'
 import Postdisplay from '../Profcomponent/Postdisplay'
 import Save from '../Profcomponent/Save'
 import Reels from '../Profcomponent/Reels'
+import { toast } from 'react-toastify'
 const Prof = () => {
     const { userid } = useParams();
     const [postall, setPostall] = useState([])
@@ -90,8 +91,11 @@ const Prof = () => {
                     "content-type": "application/json"
                 },
                 body: JSON.stringify({ userId: sessionStorage.getItem('userid'), id: id })
+
             })
             console.log(send)
+            toast.success("Follow Done")
+
         } catch (error) {
             console.log(error)
         }
@@ -103,6 +107,7 @@ const Prof = () => {
     const unfollow=async()=>{
         try {
             await axios.delete("http://127.0.0.1:8000/unfollow/"+sessionStorage.getItem('userid'))
+            toast.success("UnFollow Done")
         } catch (error) {
             console.log(error)
         }

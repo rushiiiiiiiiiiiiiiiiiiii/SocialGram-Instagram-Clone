@@ -40,6 +40,15 @@ const Reels = ({id}) => {
     useEffect(() => {
         showpost()
     }, [id])
+    const isImage = (filename) => {
+        const extensions = ['jpg', 'jpeg', 'png', 'gif'];
+        return extensions.some(ext => filename.toLowerCase().endsWith(ext));
+      };
+    
+      const isVideo = (filename) => {
+        const extensions = ['mp4', 'webm', 'ogg'];
+        return extensions.some(ext => filename.toLowerCase().endsWith(ext));
+      };
   return (
     <div className='flex gap-x-4 gap-y-4 -ml-7 flex-wrap mt-5'>
         
@@ -66,7 +75,7 @@ const Reels = ({id}) => {
                                 alt=""
                                 className='object-cover cursor-pointer w-60 h-64'
                             /> */}
-                <video src={`http://127.0.0.1:8000/uploads/${data.photos}`} controls className='object-cover cursor-pointer w-60 h-64' />
+                <video src={`http://127.0.0.1:8000/uploads/${post.photos}`} controls className='object-cover cursor-pointer w-60 h-64' />
 
                         </div>
                     ) : ""

@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { BeatLoader } from 'react-spinners'
-
+import toast, { Toaster } from 'react-hot-toast';
 const Login = () => {
   const [loader,setLoader] = useState(false)
   const navigate = useNavigate()

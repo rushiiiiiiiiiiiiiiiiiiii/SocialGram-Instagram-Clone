@@ -58,9 +58,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { BeatLoader } from 'react-spinners';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { FaCamera, FaPlus, FaUser } from 'react-icons/fa';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Register = () => {
   const [loader, setLoader] = useState(false);

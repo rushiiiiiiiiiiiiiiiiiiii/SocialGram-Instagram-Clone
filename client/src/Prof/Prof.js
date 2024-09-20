@@ -11,10 +11,12 @@ import { FiVideo } from 'react-icons/fi'
 import axios from 'axios'
 import Postdisplay from '../Profcomponent/Postdisplay'
 import Save from '../Profcomponent/Save'
+import Reels from '../Profcomponent/Reels'
 const Prof = () => {
     const { userid } = useParams();
     const [postall, setPostall] = useState([])
     const [showpostall, setShowpostall] = useState(true)
+    const [showreelsall, setShowreelsall] = useState(false)
     const [showsaveall, setShowsaveall] = useState(false)
     const [name, setName] = useState()
     const [uname, setUame] = useState()
@@ -23,12 +25,19 @@ const Prof = () => {
     const [following,setfollowing]=useState(0)
     const [youfollow,setyoufollow]=useState(0)
     const getpost = () => {
+        setShowreelsall(false)
         setShowsaveall(false)
         setShowpostall(true)
 
     }
+    const getreels = () => {
+        setShowpostall(false)
+        setShowsaveall(false)
+        setShowreelsall(true)
+    }
     const getsave = () => {
         setShowpostall(false)
+        setShowreelsall(false)
         setShowsaveall(true)
     }
     useEffect(() => {
@@ -163,7 +172,7 @@ const Prof = () => {
                     <div className="pic ml-24 mt-3">
                         <div className='flex gap-0 ml-40 font-semibold cursor-pointer'>
                             <h1 onClick={getpost} className='w-40 hover:text-indigo-500 text-center border-black flex'><FaRegSquarePlus className='mr-1 mt-[3px]' />POSTS</h1>
-                            <h1 className='w-40 hover:text-indigo-500  text-center border-black flex'><FiVideo className='mr-1 mt-[3px]' />REELS</h1>
+                            <h1 onClick={getreels} className='w-40 hover:text-indigo-500  text-center border-black flex'><FiVideo className='mr-1 mt-[3px]' />REELS</h1>
                             <h1 onClick={getsave} className='w-40 hover:text-indigo-500 text-center border-black flex' ><FaRegBookmark className='mr-1  mt-[3px]' />SAVED</h1>
                         </div>
 
@@ -184,6 +193,11 @@ const Prof = () => {
                             showpostall ? <Postdisplay id={userid} />
                                 : ""
 
+
+                        }
+                        {
+                            showreelsall ?
+                                <Reels id={userid} /> : ""
 
                         }
                         {

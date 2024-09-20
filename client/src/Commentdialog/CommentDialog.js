@@ -76,7 +76,14 @@ const CommentDialog = ({setOpen, postid}) => {
                             commentpost.map((data,i)=>(
 
                     <div className='bg-black w-[450px] h-[570px]' key={i}>
-                    <img className='w-[450px] h-[570px] pt-' src={`http://127.0.0.1:8000/uploads/${data.photos}`} alt="/" />
+                    {/* <img className='w-[450px] h-[570px] pt-' src={`http://127.0.0.1:8000/uploads/${data.photos}`} alt="/" /> */}
+                              <video 
+  src={`http://127.0.0.1:8000/uploads/${data.photos}`} 
+  controls 
+  className='w-[500px] object-contain h-80 items-center ml-5 pb-4'
+>
+</video>
+                        
                         {/*<img className='w-[450px] h-[570px] ' src='/image/india.jpg' alt="/" />*/}
                     
                     </div>

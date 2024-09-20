@@ -68,8 +68,8 @@ const Nav2 = ({themechange}) => {
             <ul className=''>
               <Link to='/home'><li className='py-4 flex pl-10 w-60 text-[16px] font-semibold hover:bg-indigo-500  text-2xl'><IoHomeOutline className='mt-1 text-2xl mr-5'/>Home</li></Link>
               <h1 onClick={show} className='py-4 flex pl-10 w-60 text-[16px] font-semibold hover:bg-indigo-500'><FiSearch className='mt- mr-5 text-2xl'/>Search</h1>
-              <h1  className='py-4 flex pl-10 w-60 text-[16px] font-semibold hover:bg-indigo-500'><MdOutlineExplore className='mt- mr-5 text-2xl' />Explore</h1>
-              <li className='py-4 flex pl-10 w-60 text-[16px] font-semibold hover:bg-indigo-500'><FiVideo className='mt- mr-5 text-2xl'/>Reels</li>
+              <Link to='/explore'><h1  className='py-4 flex pl-10 w-60 text-[16px] font-semibold hover:bg-indigo-500'><MdOutlineExplore className='mt- mr-5 text-2xl' />Explore</h1></Link>
+              <Link to='/reelshow'><li className='py-4 flex pl-10 w-60 text-[16px] font-semibold hover:bg-indigo-500'><FiVideo className='mt- mr-5 text-2xl'/>Reels</li></Link>
               <h1 onClick={showchat}className='py-4 flex  pl-10 w-60 text-[16px] font-semibold hover:bg-indigo-500'><RiMessage2Line className='mt mr-5 text-2xl'/>Message</h1>
               <li className='py-4 flex  pl-10 w-60 text-[16px] font-semibold hover:bg-indigo-500'><FaRegHeart className='mt- mr-5 text-2xl'/>Notification</li>
               <Link to={`/create/${sessionStorage.getItem("userid")}`}><li className='py-4 flex  pl-10 w-60 text-[16px] font-semibold hover:bg-indigo-500'><FaRegSquarePlus className='mt- mr-5 text-2xl'/>Create</li></Link>

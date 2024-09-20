@@ -12,6 +12,8 @@ import Editprof from './Editprof/Editprof';
 import Create from './Create/Create';
 import CommentDialog from './Commentdialog/CommentDialog';
 import Demo from './Body/Post/Demo';
+import Reelsshow from './Reelsshow/Reelsshow';
+import Explore from './Explore/Explore';
 function App() {
   return (
 <BrowserRouter>
@@ -23,7 +25,9 @@ function App() {
   <Route path='/prof/:userid' element={<Prof/>} />
   <Route path='/profedit' element={<Editprof/>} />
   <Route path='/likes' element={<Demo/>} />
+  <Route path='/reelshow' element={<Reelsshow/>} />
   <Route path='/create/:userid' element={<Create/>} />
+  <Route path='/explore' element={<Explore/>} />
   {/*<Route path='/commentpg/:id' element={<CommentDialog/>} />*/}
 
 </Routes>

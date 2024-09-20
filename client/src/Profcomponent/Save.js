@@ -67,10 +67,8 @@ const Save = ({id}) => {
                                 className='object-cover cursor-pointer w-60 h-64'
                             />
                         </div>
-                    ) : 
-                    ""
-                })
-                :<div>
+                    ):""
+                }):<div>
                 <h1 className='text-3xl font-semibold ml-56 mt-24'>No Post Saved Yet</h1>
             </div>
             }

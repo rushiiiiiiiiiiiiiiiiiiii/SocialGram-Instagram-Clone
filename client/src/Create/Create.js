@@ -118,13 +118,30 @@ const Create = () => {
                                 </div>
                             </label>
                         </div>
-                        {filePreview && (
+                        {/* {filePreview && (
                             <div className='w-[550px] h-40 object-cover mt-2 border-none'>
                                 <img
                                     src={filePreview}
                                     alt="Preview"
                                     className='border-none w-[550px] h-60 object-contain'
                                 />
+                            </div>
+                        )} */}
+                          {filePreview && (
+                            <div className='w-[550px] h-40 object-cover mt-2 border-none'>
+                                {file.type.startsWith('image') ? (
+                                    <img
+                                        src={filePreview}
+                                        alt="Preview"
+                                        className='border-none w-[550px] h-60 object-contain'
+                                    />
+                                ) : (
+                                    <video
+                                        src={filePreview}
+                                        controls
+                                        className='border-none w-[550px] h-60 object-contain'
+                                    />
+                                )}
                             </div>
                         )}
                     </div>

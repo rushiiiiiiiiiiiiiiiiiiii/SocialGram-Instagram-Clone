@@ -32,6 +32,14 @@ app.post('/login', (req,res)=>{
       }
   })
 })
+app.post('/logout/:id',(req,res)=>{
+  const id=req.params.id
+  const sql='UPDATE login SET IsLogin = 0 WHERE id = ?'
+  con.query(sql,[id],(err,result)=>{
+    if(err) return res.json(err)
+      return res.json(result)
+  })
+})
 app.use('/uploads', express.static('uploads'))                                                           
 
 const storage = multer.diskStorage({

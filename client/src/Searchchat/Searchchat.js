@@ -45,7 +45,7 @@ sdata.filter((data)=>{
     ? data
     : data.name.toLowerCase().includes(search)    
 }).map(((data, i) => 
-           <div className='flex hover:bg-loww py-3 border-r-2 border-black' key={i} onClick={()=>show(data.id)}>
+           <div className='flex hover:bg-gray-50 rounded-xl py-2 w-[350px] mt-2 ml-4 border-black' key={i} onClick={()=>show(data.id)}>
             <div className='ml-5'>
             <Link ><img src={`http://127.0.0.1:8000/uploads/${data.photos}`} className='h-10 w-10 rounded-full '  alt="" /></Link>
             </div>

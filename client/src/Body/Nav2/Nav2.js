@@ -62,22 +62,22 @@ const Nav2 = ({themechange}) => {
     <div className='flex'>
     <div className="body flex md:fixed border-r border-gray md:block hidden h-full">
         <div className="nav-comp  md:block mt-6 ">
-          <div className="logo font-semibold "><h1 className='text-indigo-500 text-[22px] ml-10'>SOCIAL GRAM</h1></div>
+          <div className="logo font-semibold "><h1 className='text-blue-500 text-[22px] ml-10'>SOCIAL GRAM</h1></div>
 
-          <div className="nav-items mt-4 ml- rounded-xl w-68 cursor-pointer ">
-            <ul className=''>
-              <Link to='/home'><li className='py-4 flex pl-10 w-60 text-[16px] font-semibold hover:bg-indigo-500  text-2xl'><IoHomeOutline className='mt-1 text-2xl mr-5'/>Home</li></Link>
-              <h1 onClick={show} className='py-4 flex pl-10 w-60 text-[16px] font-semibold hover:bg-indigo-500'><FiSearch className='mt- mr-5 text-2xl'/>Search</h1>
-              <Link to='/explore'><h1  className='py-4 flex pl-10 w-60 text-[16px] font-semibold hover:bg-indigo-500'><MdOutlineExplore className='mt- mr-5 text-2xl' />Explore</h1></Link>
-              <Link to='/reelshow'><li className='py-4 flex pl-10 w-60 text-[16px] font-semibold hover:bg-indigo-500'><FiVideo className='mt- mr-5 text-2xl'/>Reels</li></Link>
-              <h1 onClick={showchat}className='py-4 flex  pl-10 w-60 text-[16px] font-semibold hover:bg-indigo-500'><RiMessage2Line className='mt mr-5 text-2xl'/>Message</h1>
-              <li className='py-4 flex  pl-10 w-60 text-[16px] font-semibold hover:bg-indigo-500'><FaRegHeart className='mt- mr-5 text-2xl'/>Notification</li>
-              <Link to={`/create/${sessionStorage.getItem("userid")}`}><li className='py-4 flex  pl-10 w-60 text-[16px] font-semibold hover:bg-indigo-500'><FaRegSquarePlus className='mt- mr-5 text-2xl'/>Create</li></Link>
-              <Link to={`/prof/${sessionStorage.getItem("userid")}`}><li className='py-4 flex  pl-9 w-60 text-[16px] font-semibold hover:bg-indigo-500 '><img src={`http://127.0.0.1:8000/uploads/${file}`} className=' rounded-3xl cursor-pointer w-8 h-8 mr-5'/>Profile</li></Link>
+          <div className="nav-items mt-4 ml- rounded-xl w-[248px] cursor-pointer ">
+            <ul className='ml-3 rounded-xl '>
+              <Link to='/home'><li className='rounded-xl h-14 flex  pl-10 px-1 w-56 text-[16px] text-center pt-[12px] font-semibold hover:bg-indigo-500  text-2xl'><IoHomeOutline className='mt-1 text-2xl mr-5 -ml-3'/>Home</li></Link>
+              <h1 onClick={show} className='rounded-xl h-14 pt-[14px] flex pl-10 w-56 text-[16px] font-semibold hover:bg-indigo-500'><FiSearch className='mt- mr-5  text-2xl -ml-3'/>Search</h1>
+              <Link to='/explore'><h1  className='rounded-xl pt-[14px] h-14 flex pl-10 w-56 text-[16px] font-semibold hover:bg-indigo-500'><MdOutlineExplore className='mt- mr-5  text-2xl -ml-3' />Explore</h1></Link>
+              <Link to='/reelshow'><li className='rounded-xl pt-[14px] h-14 flex pl-10 w-56 text-[16px] font-semibold hover:bg-indigo-500'><FiVideo className='mt- mr-5  text-2xl -ml-3'/>Reels</li></Link>
+              <h1 onClick={showchat}className='rounded-xl pt-[14px] h-14 flex  pl-10 w-56 text-[16px] font-semibold hover:bg-indigo-500'><RiMessage2Line className='mt mr-5  text-2xl -ml-3'/>Message</h1>
+              <li className='rounded-xl h-14 flex  pl-10 pt-[14px] w-56 text-[16px] font-semibold hover:bg-indigo-500'><FaRegHeart className='mt- mr-5  text-2xl -ml-3'/>Notification</li>
+              <Link to={`/create/${sessionStorage.getItem("userid")}`}><li className='rounded-xl pt-[14px] h-14 flex  pl-10 w-56 text-[16px] font-semibold hover:bg-indigo-500'><FaRegSquarePlus className='-ml-3 mr-5  text-2xl '/>Create</li></Link>
+              <Link to={`/prof/${sessionStorage.getItem("userid")}`}><li className='rounded-xl pt-[14px]  h-14 flex  pl-9 w-56 text-[16px] font-semibold hover:bg-indigo-500 '><img src={`http://127.0.0.1:8000/uploads/${file}`} className='-ml-2 rounded-3xl cursor-pointer w-8 h-8 mr-5 '/>Profile</li></Link>
             </ul>
           </div>
           <div onClick={themechange} className="btn2 mt-7 flex ml-[43px] mb-5">
-            <h1 className='flex font-semibold cursor-pointer' onClick={logout}><FaBars className='mr-4 mt text-2xl cursor-pointer'/> Logout</h1>
+            <h1 className='flex font-semibold cursor-pointer hover:text-red-500' onClick={logout}><FaBars className='mr-4 mt text-2xl cursor-pointer'/> Logout</h1>
           </div>
 
         </div>

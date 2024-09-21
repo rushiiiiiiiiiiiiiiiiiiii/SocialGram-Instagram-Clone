@@ -20,14 +20,16 @@ const ChatPage = ({ id }) => {
     const sendmess = async (id) => {
         if (mess != "")
             try {
-                await fetch('http://127.0.0.1:8000/SendMess',{
+                await fetch('http://127.0.0.1:8000/SendMess', {
                     method: "post",
                     headers: {
                         "content-type": "application/json"
                     },
-                    body: JSON.stringify({ Message: mess,
+                    body: JSON.stringify({
+                        Message: mess,
                         SenderID: sessionStorage.getItem('userid'),
-                        ReceiverID: id })
+                        ReceiverID: id
+                    })
                 })
 
             } catch (error) {
@@ -87,11 +89,12 @@ const ChatPage = ({ id }) => {
                             < div>
                                 <h1 className='p-0 font-semibold'>{data.name}</h1>
                                 <p className='text-sm'>{
-                                    data.IsLogin==0?"Offline":"Online"
-                                    }</p>
+                                    data.IsLogin == 0 ? "offline" : "online"
+                                }
+                                </p>
                             </div>
                         </div>
-                    ))} 
+                    ))}
                 <div className='mr-10'><FaBars /></div>
             </div>
 
@@ -100,11 +103,11 @@ const ChatPage = ({ id }) => {
                     Receiver.map((name, i) =>
                     (
                         <p className='w-[95%]  ml-5 float-left'>
-                            <h1 className={`{${name.SenderID==sessionStorage.getItem('userid')?'incoming-msg float-right bg-green-500 mt-5  w-auto p-3 rounded-3xl':'outgoing-msg text-right float-left bg-red-500 w-auto mt-10 p-3 rounded-3xl'}}`}>{name.Message}</h1>
+                            <h1 className={`{${name.SenderID == sessionStorage.getItem('userid') ? 'incoming-msg float-right bg-green-500 mt-5  w-auto p-3 rounded-3xl' : 'outgoing-msg text-right float-left bg-red-500 w-auto mt-10 p-3 rounded-3xl'}}`}>{name.Message}</h1>
                         </p>
                     ))
                 }
-               
+
             </div>
 
             <div className='w-full h-[10%] bg-green-500 border-t-2 border-black'>

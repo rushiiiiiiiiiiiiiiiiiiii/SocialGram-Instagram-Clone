@@ -25,4 +25,11 @@
   .dark .text-black {
     color: white; /* Dark mode text 
   } */
-  
+  /* Custom class */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  scrollbar-width: none; /* For Firefox */
+}

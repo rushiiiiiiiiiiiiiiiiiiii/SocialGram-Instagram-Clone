@@ -174,12 +174,19 @@ const Prof = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="pic ml-24 mt-3">
-                        <div className='flex gap-0 ml-40 font-semibold cursor-pointer'>
-                            <h1 onClick={getpost} className='w-40 hover:text-indigo-500 text-center border-black flex'><FaRegSquarePlus className='mr-1 mt-[3px]' />POSTS</h1>
-                            <h1 onClick={getreels} className='w-40 hover:text-indigo-500  text-center border-black flex'><FiVideo className='mr-1 mt-[3px]' />REELS</h1>
-                            <h1 onClick={getsave} className='w-40 hover:text-indigo-500 text-center border-black flex' ><FaRegBookmark className='mr-1  mt-[3px]' />SAVED</h1>
-                        </div>
+                    <div className="pic ml-24 mt-2">
+                        <div className='flex gap-20 ml-40 font-semibold cursor-pointer text-center'>
+                            {
+                                showpostall?<h1 onClick={getpost} className=' border-b-4 text-indigo-500 border-blue-500 text-center p-0  flex'><FaRegSquarePlus className='mr-1 mt-[3px]' />POSTS</h1>:
+                                <h1 onClick={getpost} className='  text-center border-black flex'><FaRegSquarePlus className='mr-1 mt-[3px]' />POSTS</h1>
+                            }
+                            {showreelsall?<h1 onClick={getreels} className='border-b-4 text-indigo-500 border-blue-500 text-center p-0  flex'><FiVideo className='mr-1 mt-[3px]' />REELS</h1>:
+                            <h1 onClick={getreels} className='  text-center border-black flex'><FiVideo className='mr-1 mt-[3px]' />REELS</h1>
+                            }
+                            {showsaveall?<h1 onClick={getsave} className='border-b-4 text-indigo-500 border-blue-500 text-center p-0  flex' ><FaRegBookmark className='mr-1  mt-[3px]' />SAVED</h1>
+                            :<h1 onClick={getsave} className=' text-center border-black flex' ><FaRegBookmark className='mr-1  mt-[3px]' />SAVED</h1>
+                            }
+                            </div>
 
                         {/*} <div className='flex gap-x-4 gap-y-4 -ml-7 flex-wrap mt-5'>
                             {

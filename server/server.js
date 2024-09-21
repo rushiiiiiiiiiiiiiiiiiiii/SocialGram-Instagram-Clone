@@ -27,19 +27,21 @@ app.post('/login', (req,res)=>{
         const sql='UPDATE login SET IsLogin = 1 WHERE id = ?';
         con.query(sql,[result[0].id],(err,response)=>{
           if(err) return res.json(err)
-            return res.json(result)
+            return res.json(result);
         })
       }
   })
 })
+
 app.post('/logout/:id',(req,res)=>{
   const id=req.params.id
   const sql='UPDATE login SET IsLogin = 0 WHERE id = ?'
   con.query(sql,[id],(err,result)=>{
     if(err) return res.json(err)
-      return res.json(result)
+      return res.json(result);
   })
 })
+
 app.use('/uploads', express.static('uploads'))                                                           
 
 const storage = multer.diskStorage({
@@ -285,7 +287,7 @@ app.get('/Message',async(req,res)=>{
 })
 app.post('/follow',(req,res)=>{
   const{userId,id}=req.body
-  console.log(userId,id)
+  console.log(userId,id);
   const sql ='INSERT INTO follower(follower,following) VALUES(?,?)';
    con.query(sql,[id,userId],(err,result)=>{
     if(err) return err;

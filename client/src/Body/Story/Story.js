@@ -66,7 +66,7 @@ useEffect(()=>{
   }
   
   return (
-    <div className="slider-container story mb-3 mt-6 flex gap-3 overflow-x-hidden w-[638px]">
+    <div className="slider-container story mb-3 mt-6 flex gap-3 overflow-x-hidden w-[638px] pb-5 border-b-2">
       {
         showaddst ?
           <Storyupload setShowaddst={setShowaddst} getstory={getstoryall} /> : ""

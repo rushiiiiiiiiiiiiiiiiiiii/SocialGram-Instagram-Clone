@@ -34,12 +34,13 @@ const Explore = ({id}) => {
     const getallpost = () => {
         axios.get("http://127.0.0.1:8000/getpostall")
           .then(res => {
-            setPostall(res.data);
+            setPostall(res.data)
           })
           .catch(err => console.log(err));
       };
       useEffect(()=>{
         getallpost()
+        console.log(postall)
       })
       
   const isImage = (filename) => {

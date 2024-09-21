@@ -283,7 +283,11 @@ const Post = () => {
       await axios.get('http://127.0.0.1:8000/commentlength/' + id)
         .then(res => {
           if (res.data != null) {
-            document.getElementById(id + "p").innerText = "view all " + res.data[`${id}`] + " comments";
+            document.getElementById(id + "p").innerText = "View all " + res.data[`${id}`] + " Comments";
+          }
+          else{
+            document.getElementById(id + "p").innerText = "";
+
           }
         });
     } catch (error) {
@@ -295,10 +299,6 @@ const Post = () => {
     getallpost();
   }, []);
 
-  const showus = (postid) => {
-    setOpen(true);
-    setShowcom(postid);
-  };
 
   const getcommentc = async (postid) => {
     await axios.get("http://127.0.0.1:8000/getcomment/" + postid)
@@ -322,6 +322,10 @@ const Post = () => {
     return extensions.some(ext => filename.toLowerCase().endsWith(ext));
   };
 
+  const showus = (postid) => {
+    setOpen(true);
+    setShowcom(postid);
+  };
   return (
     <>
       <div className='ml-[50px]'>
@@ -364,9 +368,9 @@ const Post = () => {
               </div>
               <p className='flex ml-6 -mt-[4px] text-[15px]' id={data.id}>{data.id} Likes</p>
               <p className='ml-6 mt-[px] text-[14px] flex'>
-                <p className='font-semibold pr-2 font-[15px]'>{user?.username}</p>{data.caption}
+                <p className=' pr-2 font-[15px]'>{user?.username}</p>{data.caption}
               </p>
-              <p className='ml-6 text-[15px] text-gray-400 font-medium mt-[3px] cursor-pointer' onClick={() => showus(data.id)} id={`${data.id}p`}></p>
+              <p className='ml-6 text-[14.2px] text-gray-400 mt-[3px] cursor-pointer' onClick={() => showus(data.id)} id={`${data.id}p`}></p>
               <div className='flex items-center justify-between mt-1'>
                 <Com data={data.id} getlikec={() => getlikec(data.id)} />
               </div>
@@ -429,9 +433,9 @@ const Com = ({ data,getlikec }) => {
   }
   return (
     <>
-      <input value={comment} onChange={e => setComment(e.target.value)} type="text" placeholder='Add a comment' className='ml-6 text-[14px] mb-1 border-none border-b-2 border-black outline-none bg-transparent' />
+      <input value={comment} onChange={e => setComment(e.target.value)} type="text" placeholder='Add a comment..' className='ml-6 text-[14px] mb-1 border-none border-b-2 border-black outline-none bg-transparent' />
 
-      <button className='font-semibold text-sm mr-5 hover:text-indigo-500'
+      <button className='font-semibold text-sm mr-5 hover:text-gray-500 text-blue-500'
         onClick={() => commentp(data)}>Post</button>
     </>
 

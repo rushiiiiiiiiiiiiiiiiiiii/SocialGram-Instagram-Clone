@@ -114,6 +114,15 @@ app.get('/getstory/:id', (req, res) => {
     return res.json(result);
   });
 });
+app.get('/getstorypic/:id', (req, res) => {
+  const sql = "SELECT * FROM storytb WHERE id=?";
+  const sid = req.params.id;
+
+  con.query(sql, [sid], (err, result) => {
+    if (err) return res.json(err);
+    return res.json(result);
+  });
+});
 app.get('/getstoryall/:id', (req, res) => {
   const id =parseInt(req.params.id);
   const sql = "SELECT * FROM storytb WHERE sid != ? ";
@@ -129,6 +138,15 @@ app.get('/getuser/:id', (req, res) => {
   // Correct variable name
 
   con.query(sql, [sid], (err, result) => {
+    if (err) return res.json(err);
+    return res.json(result);
+  });
+});
+app.get('/getuserall', (req, res) => {
+  const sql = "SELECT * FROM login";
+
+
+  con.query(sql, (err, result) => {
     if (err) return res.json(err);
     return res.json(result);
   });

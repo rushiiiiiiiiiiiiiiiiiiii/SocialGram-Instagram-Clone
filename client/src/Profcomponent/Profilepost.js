@@ -198,9 +198,9 @@ const Profilepost = ({setOpen, postid}) => {
             },[com])
         
     return (
-        <div className='w-[110%] h-screen bg-opacity-50 bg-black -ml-[400px] -mt-80 z-50 fixed'>
+        <div className='w-[110%] h-screen bg-opacity-50 bg-black -ml-[405px] -mt-[308px] z-50 fixed'>
             <button className=' float-right mr-72 mt-5 cursor-pointer'><MdCancel onClick={()=>setOpen(false)} className='text-4xl text-blue-500'/></button>
-            <div className='flex ml-60'>
+            <div className='flex ml-60 -mt-5'>
                 
                 <div className='bg-red-500 w-[900px] h-[570px] mt-10 flex shadow-xl'>
                         

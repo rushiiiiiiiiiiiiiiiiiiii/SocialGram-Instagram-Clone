@@ -13,6 +13,7 @@ import Postdisplay from '../Profcomponent/Postdisplay'
 import Save from '../Profcomponent/Save'
 import Reels from '../Profcomponent/Reels'
 import { toast } from 'react-toastify'
+import Reelsshow from '../Reelsshow/Reelsshow'
 const Prof = () => {
     const { userid } = useParams();
     const [postall, setPostall] = useState([])
@@ -209,7 +210,7 @@ const Prof = () => {
                         }
                         {
                             showreelsall ?
-                                <Reels id={userid} /> : ""
+                                <Reelsshow id={userid} /> : ""
 
                         }
                         {

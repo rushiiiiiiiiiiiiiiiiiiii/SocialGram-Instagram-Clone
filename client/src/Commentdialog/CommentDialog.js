@@ -63,13 +63,21 @@ const CommentDialog = ({setOpen, postid}) => {
             useEffect(()=>{
               getcommentc()
             },[com])
-        
+            const isImage = (filename) => {
+              const extensions = ['jpg', 'jpeg', 'png', 'gif'];
+              return extensions.some(ext => filename.toLowerCase().endsWith(ext));
+            };
+          
+            const isVideo = (filename) => {
+              const extensions = ['mp4', 'webm', 'ogg'];
+              return extensions.some(ext => filename.toLowerCase().endsWith(ext));
+            };
     return (
-        <div className='w-[110%] h-screen bg-opacity-50 bg-black -ml-[400px] -mt-48 z-50 fixed'>
+        <div className='w-[110%] h-screen bg-opacity-50 bg-black -ml-[400px] -mt-56 z-50 fixed'>
             <button className=' float-right mr-72 mt-5 cursor-pointer'><MdCancel onClick={()=>setOpen(false)} className='text-4xl text-blue-500'/></button>
             <div className='flex ml-60'>
                 
-                <div className='bg-red-500 w-[900px] h-[570px] mt-10 flex shadow-xl'>
+                <div className='bg-red-500 w-[900px] h-[570px] mt-5 flex shadow-xl'>
                         
                             {
                             commentpost.length>0?
@@ -77,15 +85,14 @@ const CommentDialog = ({setOpen, postid}) => {
 
                     <div className='bg-black w-[450px] h-[570px]' key={i}>
                     {/* <img className='w-[450px] h-[570px] pt-' src={`http://127.0.0.1:8000/uploads/${data.photos}`} alt="/" /> */}
-                              <video 
-  src={`http://127.0.0.1:8000/uploads/${data.photos}`} 
-  controls 
-  className='w-[500px] object-contain h-80 items-center ml-5 pb-4'
->
-</video>
-                        
+              
                         {/*<img className='w-[450px] h-[570px] ' src='/image/india.jpg' alt="/" />*/}
-                    
+                        {isImage(data.photos) ? (
+                <img src={`http://127.0.0.1:8000/uploads/${data.photos}`} alt="" className=' object-contain' />
+              ) : isVideo(data.photos) ? (
+                <video src={`http://127.0.0.1:8000/uploads/${data.photos}`} controls className='object-contain' />
+              ) : null}
+
                     </div>
     )):""}
                     <div className=' w-[450px] h-[570px] bg-loww'>

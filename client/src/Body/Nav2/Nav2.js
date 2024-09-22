@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react'
-
+import { FiLogOut } from "react-icons/fi";
 import { IoHomeOutline } from "react-icons/io5";
 import { MdOutlineExplore } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
@@ -77,7 +77,7 @@ const Nav2 = ({themechange}) => {
             </ul>
           </div>
           <div onClick={themechange} className="btn2 mt-7 flex ml-[43px] mb-5">
-            <h1 className='flex font-semibold cursor-pointer hover:text-red-500' onClick={logout}><FaBars className='mr-4 mt text-2xl cursor-pointer'/> Logout</h1>
+            <h1 className='flex font-semibold cursor-pointer hover:text-red-500' onClick={logout}><FiLogOut className='mr-4 mt text-2xl cursor-pointer'/> Logout</h1>
           </div>
 
         </div>

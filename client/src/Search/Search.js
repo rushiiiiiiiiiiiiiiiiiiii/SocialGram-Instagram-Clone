@@ -1,57 +1,85 @@
-import React,{useState,useEffect} from 'react'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
-import { FiSearch } from 'react-icons/fi'
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { FiSearch } from 'react-icons/fi';
+
 const Search = () => {
+  const [sdata, setSdata] = useState([]);
+  const [search, setSearch] = useState('');
+  const [isVisible, setIsVisible] = useState(true); // State to track visibility of the search container
+  const searchRef = useRef(); // Reference to the search container
 
-  const[sdata,setSdata]= useState([])
-  const [search,setSearch]= useState('')
+  const getdata = () => {
+    axios.get('http://127.0.0.1:8000/getuserall')
+      .then(res => {
+        setSdata(res.data);
+      })
+      .catch(err => console.log(err));
+  };
 
+  useEffect(() => {
+    getdata();
+  }, []);
 
-  const getdata = ()=>{
-    axios.get("http://127.0.0.1:8000/getuserall")
-    .then(res => {
-      console.log(res.data)
-      setSdata(res.data)})
-    .catch(err => console.log(err))
-   }
-   
-   useEffect(() => {
-    getdata()
-  }, [])
-  
+  // Handle click outside the search container
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setIsVisible(false); // Close the search container
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [searchRef]);
+
   return (
-    <div className='h-full w-96 bg-white border-r-2  border-black fixed z-50 ml-[245px] rounded-br-2xl rounded-tr-2xl'>
-      <div className='ml-5 mt-5'>
-          <div className='flex'>
-      <h1 className='text-3xl font-semibold'>Search</h1>
-      <p className='ml-56 text-[25px] font-bold mt-2'><FiSearch/></p>
+    isVisible && ( // Only render the search container when it is visible
+      <div ref={searchRef} className="h-full w-96 bg-white border-r-2 border-black fixed z-50 ml-[252px] rounded-br-2xl rounded-tr-2xl">
+        <div className="ml-5 mt-5">
+          <div className="flex">
+            <h1 className="text-3xl font-semibold">Search</h1>
+            <p className="ml-56 text-[25px] font-bold mt-2"><FiSearch /></p>
+          </div>
+          <input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="mt-5 border-b-2 pl-5 font-medium text-lg rounded-xl w-[95%] py-4 bg-loww border-none outline-none"
+            type="text"
+            placeholder="Search"
+          />
+        </div>
+        <hr className="mt-5 border-black rounded-br-xl" />
+        <div className="h-full w-96">
+          {sdata
+            .filter((data) => {
+              return search.toLowerCase() === ''
+                ? ''
+                : data.name.toLowerCase().includes(search);
+            })
+            .map((data, i) => (
+              <Link to={`/prof/${data.id}`} key={i}>
+                <div className="flex hover:bg-gray-100 rounded-xl py-2 w-[350px] mt-2 ml-4 border-black">
+                  <div className="ml-5">
+                    <img
+                      src={`http://127.0.0.1:8000/uploads/${data.photos}`}
+                      className="h-10 w-10 rounded-full"
+                      alt=""
+                    />
+                  </div>
+                  <div className="ml-3">
+                    <h1 className="font-semibold">{data.name}</h1>
+                    <p className="text-sm">{data.username}</p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+        </div>
       </div>
-      <input value={search} onChange={e=>setSearch(e.target.value)} className='mt-5 border-b-2 pl-5 font-mediumtext-lg rounded-xl w-[95%] py-4 bg-loww border-none outline-none' type="text" placeholder='Search' />
-      </div>
-      <hr  className='mt-5 border-black rounded-br-xl'/>
-      <div className=' h-full w-96'>
-      {
+    )
+  );
+};
 
-sdata.filter((data)=>{
-    return search.toLowerCase() === ''
-    ? ""
-    : data.name.toLowerCase().includes(search)    
-}).map(((data, i) => 
-           <div className='flex hover:bg-gray-50 rounded-xl py-2 w-[350px] mt-2 ml-4 border-black' key={i}>
-            <div className='ml-5'>
-            <Link to={`/prof/${data.id}`}><img src={`http://127.0.0.1:8000/uploads/${data.photos}`} className='h-10 w-10 rounded-full '  alt="" /></Link>
-            </div>
-            <div className='ml-3'>
-              <Link to={`/prof/${data.id}`}><h1 className='font-semibold'>{data.name}</h1></Link>
-              <Link to={`/prof/${data.id}`}><p className='text-sm'>{data.username}</p></Link>
-            </div>
-            
-           </div>
-))}
-      </div>
-    </div>
-  )
-}
-
-export default Search
+export default Search;

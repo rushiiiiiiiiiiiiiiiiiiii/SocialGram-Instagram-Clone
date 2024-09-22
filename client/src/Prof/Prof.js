@@ -14,6 +14,7 @@ import Save from '../Profcomponent/Save'
 import Reels from '../Profcomponent/Reels'
 import { toast } from 'react-toastify'
 import Reelsshow from '../Reelsshow/Reelsshow'
+import Reelspageprof from '../Profcomponent/Reelspageprof'
 const Prof = () => {
     const { userid } = useParams();
     const [postall, setPostall] = useState([])
@@ -176,7 +177,7 @@ const Prof = () => {
                         </div>
                     </div>
                     <div className="pic ml-24 mt-2">
-                        <div className='flex gap-20 ml-40 font-semibold cursor-pointer text-center'>
+                        <div className='flex gap-20 ml-[180px] font-semibold cursor-pointer text-center'>
                             {
                                 showpostall?<h1 onClick={getpost} className=' border-b-4 text-indigo-500 border-blue-500 text-center p-0  flex'><FaRegSquarePlus className='mr-1 mt-[3px]' />POSTS</h1>:
                                 <h1 onClick={getpost} className='  text-center border-black flex'><FaRegSquarePlus className='mr-1 mt-[3px]' />POSTS</h1>
@@ -210,7 +211,7 @@ const Prof = () => {
                         }
                         {
                             showreelsall ?
-                                <Reelsshow id={userid} /> : ""
+                                <Reelspageprof id={userid} /> : ""
 
                         }
                         {

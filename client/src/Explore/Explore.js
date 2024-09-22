@@ -42,7 +42,14 @@ const Explore = ({id}) => {
         getallpost()
         console.log(postall)
       })
-      
+      const handleVideoClick = (e) => {
+        const video = e.target;
+        if (video.paused) {
+          video.play();
+        } else {
+          video.pause();
+        }
+      };
   const isImage = (filename) => {
     const extensions = ['jpg', 'jpeg', 'png', 'gif'];
     return extensions.some(ext => filename.toLowerCase().endsWith(ext));
@@ -59,7 +66,7 @@ const Explore = ({id}) => {
                 <Nav2 />
     <div className=' ml-80 flex gap-x-4 gap-y-4 -ml-7 flex-wrap mt-5'>
     {
-        postall.map((data,i) => (
+        postall.slice().reverse().map((data,i) => (
        
     <div className='flex gap-x-4 gap-y-4 flex-wrap'key={i}>
 
@@ -67,7 +74,7 @@ const Explore = ({id}) => {
                 {isImage(data.photos) ? (
                 <img src={`http://127.0.0.1:8000/uploads/${data.photos}`} alt="" className='object-cover cursor-pointer w-60 h-64' />
               ) : isVideo(data.photos) ? (
-                <video src={`http://127.0.0.1:8000/uploads/${data.photos}`} controls className='object-cover cursor-pointer w-60 h-64' />
+                <video src={`http://127.0.0.1:8000/uploads/${data.photos}`} onClick={handleVideoClick}  autoPlay className='object-cover cursor-pointer w-60 h-64' />
               ) : null}
               </div>
             

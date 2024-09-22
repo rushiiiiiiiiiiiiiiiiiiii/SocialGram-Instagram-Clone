@@ -88,7 +88,7 @@ const ChatPage = ({ id }) => {
                             </div>
                             < div>
                                 <h1 className='p-0 font-semibold'>{data.name}</h1>
-                                <p className='text-sm mr-[52px]'>{
+                                <p className='text-sm '>{
                                     data.IsLogin == 0 ? <div className='text-sm font-medium text-red-500'>Offline</div> : <div className='font-medium text-sm text-green-500 '>Online</div>
                                 }
                                 </p>

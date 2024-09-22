@@ -72,8 +72,16 @@ const CommentDialog = ({setOpen, postid}) => {
               const extensions = ['mp4', 'webm', 'ogg'];
               return extensions.some(ext => filename.toLowerCase().endsWith(ext));
             };
+            const handleVideoClick = (e) => {
+              const video = e.target;
+              if (video.paused) {
+                video.play();
+              } else {
+                video.pause();
+              }
+            };
     return (
-        <div className='w-[110%] h-screen bg-opacity-50 bg-black -ml-[400px] -mt-56 z-50 fixed'>
+        <div className='w-[110%] h-screen bg-opacity-50 bg-black -ml-[400px] -mt-[218px] z-50 fixed'>
             <button className=' float-right mr-72 mt-5 cursor-pointer'><MdCancel onClick={()=>setOpen(false)} className='text-4xl text-blue-500'/></button>
             <div className='flex ml-60'>
                 
@@ -90,7 +98,7 @@ const CommentDialog = ({setOpen, postid}) => {
                         {isImage(data.photos) ? (
                 <img src={`http://127.0.0.1:8000/uploads/${data.photos}`} alt="" className=' object-contain' />
               ) : isVideo(data.photos) ? (
-                <video src={`http://127.0.0.1:8000/uploads/${data.photos}`} controls className='object-contain' />
+                <video src={`http://127.0.0.1:8000/uploads/${data.photos}`}onClick={handleVideoClick} loop autoPlay className='w-[450px] h-[570px] object-contain' />
               ) : null}
 
                     </div>
@@ -103,10 +111,10 @@ const CommentDialog = ({setOpen, postid}) => {
                                     return(
 
                         <div className="acc flex  border-black  h-16 w-full items-center justify-around">
-                            <div className="prof w-9 h-9 mx-5">
+                            <div className="prof w-10 h-10 mx-5">
                                 <Link to={`/prof/${sessionStorage.getItem("userid")}}`}><img src={`http://127.0.0.1:8000/uploads/${user?.photos}`} alt="" className='rounded-3xl cursor-pointer' /></Link>
                             </div>
-                            <div className="det mr-64">
+                            <div className="det mr-[265px]">
                                 <h1 className='font-semibold'>{user?.name}</h1>
                                 <Link to={`/prof/${sessionStorage.getItem("userid")}`}><a className='text-gray-500 text-sm'>{user?.username}</a></Link>
                             </div>

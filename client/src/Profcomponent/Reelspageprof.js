@@ -59,7 +59,7 @@ const Reelspageprof = ({id}) => {
 
             <div className='flex gap-x-4 gap-y-4 flex-wrap'>
                 { isVideo(data.photos) ? (
-                <video src={`http://127.0.0.1:8000/uploads/${data.photos}`}  loop autoPlay className='object-cover cursor-pointer w-60 h-64' />
+                <video src={`http://127.0.0.1:8000/uploads/${data.photos}`} mute={true} loop autoPlay className='object-cover cursor-pointer w-60 h-64' />
               ) : null}
             </div>
 

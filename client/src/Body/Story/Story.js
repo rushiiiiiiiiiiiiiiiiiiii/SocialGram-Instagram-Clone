@@ -73,7 +73,7 @@ useEffect(()=>{
     setShowcom(postid);
   };
   return (
-    <div className="slider-container story mb-3 mt-6 flex gap-3 overflow-x-hidden w-[638px] pb-5 border-b-2">
+    <div className="slider-container ml-[2px]  md:ml-0 story mb-3 mt-6 flex gap-3 overflow-x-scroll scrollbar-hide w-[540px] md:w-[638px] pb-5 border-b-2">
       {
         showaddst ?
           <Storyupload setShowaddst={setShowaddst} getstory={getstoryall} /> : ""
@@ -133,20 +133,12 @@ useEffect(()=>{
           )}):""
         }
 
-    <div className="story mt-6 flex gap-3 overflow-x-hidden w-[638px]">
+    <div className="story mt-6 flex gap-3 ">
       
       <div className="box-story w-24 h-40 bg-loww rounded-xl ml-[1px] relative">
       <img src="/image/prof.jpg" className="h-10 w-10 rounded-full z-30 absolute top-2 left-2" alt="" />
       
-      {/* {
-      storyd?
-         storyd.map((data,i)=>(
-          <div key={i}>
-        <img src={`http://127.0.0.1:8000/uploads/${data.photos}`} alt="/" className='rounded-xl cursor-pointer object-cover w-24 h-40 ' />
-      
-      </div>
-       )):"no story"
-      } */}
+   
       { 
       storyd.length<=0 ?     
       <div className='mt-9' >
@@ -170,5 +162,3 @@ useEffect(()=>{
 }
 
 export default Story
-
-

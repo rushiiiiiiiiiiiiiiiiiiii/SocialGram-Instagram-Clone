@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 /* .bg-white {
     background-color: white;
   }
@@ -19,19 +18,18 @@
   }
   
   .dark .bg-white {
-    background-color: black; /* Dark mode background 
+    background-color: black; 
   }
   
   .dark .text-black {
-    color: white; /* Dark mode text 
-  } */
-  /* Custom class */
+    color: white;  
+  } 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
-}
+} */
 
 .scrollbar-hide {
-  scrollbar-width: none; /* For Firefox */
+  scrollbar-width: none; 
 }
 .instagram-logo {
   background-position: 0 -130px;

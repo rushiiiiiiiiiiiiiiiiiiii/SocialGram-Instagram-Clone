@@ -36,7 +36,7 @@ const Chat = () => {
   }, [])
   return (
 
-    <div className=' w-72  md:fixed md:block hidden h-full -ml-[270px] border-l border-gray pl-4'>
+    <div className=' w-72  md:fixed md:block hidden h-full text-black  border-l border-gray pl-4'>
       <div className="acc flex rounded-xl mt-5 h-14 w-[300px] items-center justify-between ">
         <div className='flex -ml-5'>
           <div className="prof  w-11 h-11 mx-5   ">

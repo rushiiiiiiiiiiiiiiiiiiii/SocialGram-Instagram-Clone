@@ -49,7 +49,7 @@ const Postdisplay = ({id}) => {
         }
       };
   return (
-    <div className='flex gap-x-4 gap-y-4 -ml- flex-wrap mt-5'>
+    <div className='flex gap-x-4 gap-y-4 -ml- flex-wrap mt-4'>
         {open && <Profilepost className='bg-black bg-opacity-50' setOpen={setOpen} postid={showopen} />}
 
     {
@@ -60,7 +60,7 @@ const Postdisplay = ({id}) => {
                  {isImage(data.photos) ? (
                 <img src={`http://127.0.0.1:8000/uploads/${data.photos}`} alt="" className='object-cover cursor-pointer w-60 h-64' />
               ) : isVideo(data.photos) ? (
-                <video src={`http://127.0.0.1:8000/uploads/${data.photos}`} loop autoPlay className='object-cover cursor-pointer w-60 h-64' />
+                <video src={`http://127.0.0.1:8000/uploads/${data.photos}`} loop muted={true} autoPlay className='object-cover cursor-pointer w-60 h-64' />
               ) : null}
             </div>
 

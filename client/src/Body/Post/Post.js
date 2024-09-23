@@ -576,12 +576,13 @@ const Post = () => {
 
   return (
     <>
-      <div className='ml-[50px]'>
+      <div className='w-[100%] text-black mr-[25px]'>
         {open ? <CommentDialog setOpen={setOpen} postid={showcom} /> : ""}
         {postall.slice().reverse().map((data) => {
           const user = sdata.find(user => user.id === data.sid);
           return (
-            <div className="post w-[540px] mt-2 border-b-2 border-gray" key={data.id} onLoad={() => getlikec(data.id)}>
+            <div className='md:w-[90%] md:ml-8  '>
+            <div className="post  ml-5  md:ml-[25px] flex flex-col p-0 m-0 w-[530px] md:w-[85%] justify-center mt-2 border-b-2 border-gray" key={data.id} onLoad={() => getlikec(data.id)}>
               <Link to={`/prof/${data.sid}`}>
                 <div className="info ml-5 pt-2 pb-2 flex w-60">
                   <img src={`http://127.0.0.1:8000/uploads/${user?.photos}`} alt="" className='rounded-3xl cursor-pointer w-10 h-10' />
@@ -601,10 +602,11 @@ const Post = () => {
                   <video
                     src={`http://127.0.0.1:8000/uploads/${data.photos}`}
                     className='w-[500px] object-contain h-80 items-center ml-5 pb-4'
-                    muted={muted} // Bind the muted state
+                     // Bind the muted state
                     onClick={handleVideoClick} // Toggle play/pause on click
                     loop // Loop the video
                     autoPlay
+                    muted={true}
                   />
                   {/* <button className="ml-5 mt-2 px-2 py-1 bg-blue-500 text-white rounded" onClick={toggleMute}>
                     {muted ? "Unmute" : "Mute"}
@@ -634,6 +636,7 @@ const Post = () => {
               <div className='flex items-center justify-between mt-1'>
                 <Com data={data.id} getlikec={() => getlikec(data.id)} />
               </div>
+            </div>
             </div>
           );
         })}
@@ -695,7 +698,7 @@ const Com = ({ data,getlikec }) => {
     <>
       <input value={comment} onChange={e => setComment(e.target.value)} type="text" placeholder='Add a comment..' className='ml-6 text-[14px] mb-1 border-none border-b-2 border-black outline-none bg-transparent' />
 
-      <button className='font-semibold text-sm mr-5 hover:text-gray-500 text-blue-500'
+      <button className='font-semibold text-sm mr-3 md:mr-5  hover:text-gray-500 text-blue-500'
         onClick={() => commentp(data)}>Post</button>
     </>
 

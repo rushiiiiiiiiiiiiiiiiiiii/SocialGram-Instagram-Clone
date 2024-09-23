@@ -60,7 +60,7 @@ const Nav2 = ({themechange}) => {
 
   return (
     <div className='flex'>
-    <div className="body flex md:fixed border-r border-gray md:block hidden h-full">
+    <div className="body flex text-black md:fixed border-r border-gray md:block hidden h-full">
         <div className="nav-comp  md:block mt-6 ">
           <div className="logo font-semibold "><h1 className='text-blue-500 text-[22px] ml-10'>SOCIAL GRAM</h1></div>
 
@@ -77,7 +77,7 @@ const Nav2 = ({themechange}) => {
             </ul>
           </div>
           <div onClick={themechange} className="btn2 mt-7 flex ml-[43px] mb-5">
-            <h1 className='flex font-semibold cursor-pointer hover:text-red-500' onClick={logout}><FiLogOut className='mr-4 mt text-2xl cursor-pointer'/> Logout</h1>
+            <h1 className='flex font-semibold cursor-pointer hover:text-red-500' ><FiLogOut className='mr-4 mt text-2xl cursor-pointer'/> Logout</h1>
           </div>
 
         </div>

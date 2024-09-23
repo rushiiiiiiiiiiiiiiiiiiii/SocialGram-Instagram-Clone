@@ -62,14 +62,14 @@ const Storyview = ({ setShowcom, getstoryid }) => {
     //     getstoryalluser()
     // }, [])
     return (
-        <div className='w-[110%] h-screen bg-opacity-50 bg-black -ml-[400px] -mt-6 z-50 fixed'>
-            <button className=' float-right mr-[480px] mt-3 cursor-pointer'><MdCancel onClick={() => setShowcom(false)} className='text-4xl text-blue-500' /></button>
+        <div className='w-[100%] h-[150%] -mt-6 bg-opacity-50 bg-black md:-ml-[310zpx] md:-mt-6 z-50 fixed'>
+            <button className=' float-right mt-60 md:mt-2  mr-[480px]  cursor-pointer'><MdCancel onClick={() => setShowcom(false)} className='text-4xl text-blue-500' /></button>
             <div className='flex ml-[530px]'>
                 {
                     storyd.map((data, i) => (
-                        <div className='bg-red-500 w-[400px] h-[570px] mt-4 flex shadow-xl rounded-2xl' key={i} >
+                        <div className='md:ml-0 -ml-[485px] w-[450px] h-[570px] mt-4 flex shadow-xl rounded-2xl' key={i} >
 
-                            <img src={`http://127.0.0.1:8000/uploads/${data.photos}`} className='bg-red-500 w-[440px] h-[570px] flex shadow-xl rounded-2xl' />
+                            <img src={`http://127.0.0.1:8000/uploads/${data.photos}`} className='bg-red-500 w-[450px] h-[570px] flex shadow-xl object-cover  rounded-2xl' />
 
                         </div>
                     ))}

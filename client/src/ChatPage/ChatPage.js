@@ -66,7 +66,6 @@ const ChatPage = ({ id }) => {
         axios.get("http://127.0.0.1:8000/getuser/" + id)
             .then(res => {
                 setName(res.data)
-                // console.log(res.data)
             })
             .catch(err => console.log(err))
     }
@@ -107,7 +106,6 @@ const ChatPage = ({ id }) => {
                         </p>
                     ))
                 }
-
             </div>
 
             <div className='w-full h-[10%] bg-green-500 border-t-2 border-black'>

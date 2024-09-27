@@ -10,9 +10,10 @@ const Create = () => {
     const [caption, setCaption] = useState('');
     const [location, setLocation] = useState('');
     const { userid } = useParams();
+    const id = sessionStorage.getItem("userid");
     const [name, setName] = useState('');
     const [uname, setUname] = useState('');
-    const id = sessionStorage.getItem("userid");
+    const [userfile, setUserfile] = useState('');
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -20,6 +21,7 @@ const Create = () => {
                 const res = await axios.get(`http://127.0.0.1:8000/getuser/${userid}`);
                 setName(res.data[0].name);
                 setUname(res.data[0].username);
+                setUserfile(res.data[0].photos);
             } catch (err) {
                 console.error(err);
             }
@@ -29,13 +31,14 @@ const Create = () => {
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
-        setFile(selectedFile);
-        setFilePreview(URL.createObjectURL(selectedFile));
+        if (selectedFile) {
+            setFile(selectedFile);  // Set the new file
+            setFilePreview(URL.createObjectURL(selectedFile));  // Generate a preview for the new file
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(file)
         const formData = new FormData();
         formData.append("caption", caption);
         formData.append("location", location);
@@ -51,132 +54,115 @@ const Create = () => {
             navigate('/home');
         } catch (err) {
             console.error(err);
-            // Add user feedback here, e.g., setting an error state
         }
     };
-    const [username, setUsername] = useState()
-    const [useruname, setUseruname] = useState()
-    const [userfile, setUserfile] = useState()
-  
-    const showlogin = () => {
-        axios.get("http://127.0.0.1:8000/getuser/" + id)
-            .then(res => {
-                setUsername(res.data[0].name)
-                setUseruname(res.data[0].username)
-                setUserfile(res.data[0].photos)
-            })
-            .catch(err => console.log(err))
-    }
-    useEffect(() => {
-        showlogin()
-  
-    }, [userid])
-  
+
     return (
-        <div className='w-full h-screen bg-white
-        '>
+        <div className='w-full h-screen bg-white'>
             <div className='flex'>
                 <Nav2 />
-                <div className='w-[965px] ml-[505px] mt-4 bg-white rounded-xl'>
-                    <h1 className='font-bold text-xl pb-2'>Create New Post</h1>
-                    <div className='flex bg-loww mt-2 rounded-xl w-[550px] items-center h-14'>
-                        <img src={`http://127.0.0.1:8000/uploads/${userfile}`} alt="Profile" className='rounded-full h-10 w-10 ml-5 mr-5' />
-                        <div className='mr-56'>
-                            <h1 className='font-semibold'>{name}</h1>
-                            <p>{uname}</p>
-                        </div>
-                    </div>
-                    <div className='mt-2'>
-                        <h1 className='font-semibold text-[16px]'>Description</h1>
-                        <input
-                            type='text'
-                            value={caption}
-                            onChange={e => setCaption(e.target.value)}
-                            className='mt-2 h-10 w-[550px] border-2 pl-5 border-loww rounded-xl'
-                        />
-                    </div>
-                    <div className='mt-2'>
-                        <h1 className='font-semibold text-[16px]'>Add Location</h1>
-                        <input
-                            type='text'
-                            value={location}
-                            onChange={e => setLocation(e.target.value)}
-                            className='mt-2 pl-5 w-[550px] border-2 h-10 border-loww rounded-xl'
-                        />
-                    </div>
-                    <div className='mt-2'>
-                        <h1 className='font-semibold text-[16px]'>Upload Picture</h1>
-                        <div className='input_field mt-2'>
-                            <label>
-                                <input
-                                    type='file'
-                                    onChange={handleFileChange}
-                                    className='text-sm cursor-pointer w-[550px] hidden'
-                                />
-                                <div className='text bg-indigo-600 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 w-[550px] text-center hover:bg-indigo-500'>
-                                    Select File
-                                </div>
-                            </label>
-                        </div>
-                        {/* {filePreview && (
-                            <div className='w-[550px] h-40 object-cover mt-2 border-none'>
-                                <img
-                                    src={filePreview}
-                                    alt="Preview"
-                                    className='border-none w-[550px] h-60 object-contain'
-                                />
+                <div className='bg-white ml-[350px] rounded-xl mt-3 border-black h-[580px] shadow-lg w-[900px] flex flex-col p-6'>
+                    {/* Top section: User profile and title */}
+                    <div className='flex items-center justify-between border-b pb-3 -mt-2'>
+                        <h1 className='font-semibold text-xl'>Create New Post</h1>
+                        <div className='flex items-center'>
+                            <img
+                                src={`http://127.0.0.1:8000/uploads/${userfile}`}
+                                alt="Profile"
+                                className='w-10 h-10 rounded-full mr-3'
+                            />
+                            <div>
+                                <h1 className='font-semibold'>{name}</h1>
+                                <p className='text-sm text-gray-500'>{uname}</p>
                             </div>
-                        )} */}
-                          {filePreview && (
-                            <div className='w-[550px] h-40 object-cover mt-2 border-none'>
-                                {file.type.startsWith('image') ? (
-                                    <img
-                                        src={filePreview}
-                                        alt="Preview"
-                                        className='border-none w-[550px] h-60 object-contain'
-                                    />
+                        </div>
+                    </div>
+
+                    {/* Middle section: File input, caption, location */}
+                    <div className='mt-6'>
+                        <div className='flex justify-between'>
+                            {/* Left: Image/Video preview */}
+                            <div className='w-[60%] h-[400px] border-dashed border-2 border-gray-300 flex items-center justify-center relative'>
+                                {filePreview ? (
+                                    <>
+                                        {file && file.type.startsWith('image') ? ( // Check if file is not null and is an image
+                                            <img
+                                                src={filePreview}
+                                                alt="Preview"
+                                                className='w-full h-full object-cover'
+                                            />
+                                        ) : (
+                                            <video
+                                                src={filePreview}
+                                                autoPlay
+                                                className='w-full h-full object-cover'
+                                            />
+                                        )}
+                                        {/* Centered Change File button */}
+                                        <button
+                                            className='absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-300 hover:bg-gray-400 transition text-sm font-semibold py-2 px-4 rounded'
+                                            onClick={() => {
+                                                setFile(null);
+                                                setFilePreview(null); // Reset both the file and preview
+                                            }}  
+                                        >
+                                            Change File
+                                        </button>
+                                    </>
                                 ) : (
-                                    <video
-                                        src={filePreview}
-                                        controls
-                                        className='border-none w-[550px] h-60 object-contain'
-                                    />
+                                    <label className='cursor-pointer text-indigo-600'>
+                                        <input
+                                            type='file'
+                                            onChange={handleFileChange}
+                                            className='hidden'
+                                        />
+                                        <div className='text-center'>
+                                            <p className='font-semibold'>Select a file to upload</p>
+                                            <p className='text-sm'>Drag & drop or click to select</p>
+                                        </div>
+                                    </label>
                                 )}
                             </div>
-                        )}
+
+                            {/* Right: Caption and Location inputs */}
+                            <div className='w-[35%]'>
+                                <div className='mb-4'>
+                                    <label className='font-semibold block mb-2 text-gray-700'>Caption</label>
+                                    <textarea
+                                        value={caption}
+                                        onChange={(e) => setCaption(e.target.value)}
+                                        rows={4}
+                                        className='w-full border border-gray-300 p-3 rounded-md resize-none'
+                                        placeholder="Write a caption..."
+                                    />
+                                </div>
+
+                                <div className='mb-4'>
+                                    <label className='font-semibold block mb-2 text-gray-700'>Location</label>
+                                    <input
+                                        type='text'
+                                        value={location}
+                                        onChange={(e) => setLocation(e.target.value)}
+                                        className='w-full border border-gray-300 p-3 rounded-md'
+                                        placeholder="Add location"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Bottom section: Add Post button */}
+                    <div className='mt-6'>
+                        <button
+                            onClick={handleSubmit}
+                            className='w-full bg-indigo-600 text-white py-2 rounded-md text-center font-semibold hover:bg-indigo-500 transition'>
+                            Add Post
+                        </button>
                     </div>
                 </div>
             </div>
-            <button
-                onClick={handleSubmit}
-                className='ml-[505px] h-8 px-4 mt-[90px] w-[550px] text-center rounded hover:bg-indigo-500 text-white text-sm font-medium bg-indigo-600'>
-                Add Post
-            </button>
         </div>
     );
 };
 
 export default Create;
-  // const register = (event) => {
-  //   setLoader(true)
-  //   event.preventDefault();
-  //   if (values.name != "" && values.uname != "" && values.email != "" && values.password != "") {
-  //     axios.post('http://127.0.0.1:8000/register', { ...values })
-  //       .then(res => {
-  //         toast.success("Registered Succsesfully")
-  //         console.log(res)
-  //         navigate('/login')
-  //         setLoader(false)
-  //       })
-  //       .catch(err =>
-  //         { 
-  //           toast("Register Failed")
-  //           setLoader(false)
-  //           console.log(err)
-
-  //         })
-  //   }
-  //   else {
-  //     toast.error("Fill all the details")
-  //   }
-  // }

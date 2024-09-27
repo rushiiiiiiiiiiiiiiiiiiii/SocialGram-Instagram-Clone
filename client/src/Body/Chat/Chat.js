@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { RiMessage2Line } from "react-icons/ri";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 const Chat = () => {
   const [name, setName] = useState()
   const [uname, setUame] = useState()
   const [file, setFile] = useState()
   const [user, setUser] = useState([])
+  const nav=useNavigate()
 
   const userid = sessionStorage.getItem("userid")
   const showpost = () => {
@@ -34,9 +35,17 @@ const Chat = () => {
     showallluser()
 
   }, [])
+  const logout=async()=>{
+    const data=await fetch("http://127.0.0.1:8000/logout/"+sessionStorage.getItem('userid'),{
+      method:"post"
+    })
+    console.log(data)
+    sessionStorage.removeItem('userid')
+    nav('/login')
+  }
   return (
 
-    <div className=' w-72  md:fixed md:block hidden h-full text-black  border-l border-gray pl-4'>
+    <div className=' w-72   md:block hidden h-full text-black  border-l border-gray pl-4'>
       <div className="acc flex rounded-xl mt-5 h-14 w-[300px] items-center justify-between ">
         <div className='flex -ml-5'>
           <div className="prof  w-11 h-11 mx-5   ">
@@ -48,7 +57,7 @@ const Chat = () => {
         </div>
         </div>
         <div>
-          <h1 className='text-[12px] font-medium mr-2 text-blue-500'>Switch</h1>
+          <h1 className='text-[12px] font-medium mr-2 text-blue-500 cursor-pointer  hover:text-blue-300' onClick={logout}>LogOut</h1>
         </div>
       </div>
       <div className=' mt-8 h-[500px] w-[310px] -ml-1'>

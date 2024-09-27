@@ -81,7 +81,7 @@ const CommentDialog = ({ setOpen, postid }) => {
   return (
     <div className='w-full h-screen bg-opacity-50 bg-black fixed top-0 left-0 flex items-center justify-center z-50'>
       <div className='w-[90%] max-w-[900px] h-[80%] bg-white relative'>
-        <button className='absolute top-3 right-5'>
+        <button className='absolute top-4 right-3'>
           <MdCancel onClick={() => setOpen(false)} className='text-4xl text-blue-500' />
         </button>
         <div className='flex flex-col md:flex-row h-full'>
@@ -104,7 +104,7 @@ const CommentDialog = ({ setOpen, postid }) => {
             {commentpost.length > 0 && commentpost.map((data, i) => {
               const user = sdata.find(user => user.id === data.sid)
               return (
-                <div className="flex items-center p-4" key={i}>
+                <div className="flex items-center p-3 border-b-2 border-gray-300" key={i}>
                   <Link to={`/prof/${sessionStorage.getItem("userid")}`}>
                     <img src={`http://127.0.0.1:8000/uploads/${user?.photos}`} alt="" className='w-10 h-10 rounded-full' />
                   </Link>
@@ -123,9 +123,9 @@ const CommentDialog = ({ setOpen, postid }) => {
               {comment.length > 0 && comment.map((data, i) => {
                 const user = sdata.find(user => user.id === data.sid)
                 return (
-                  <div className="flex items-center p-4 border-b" key={i}>
+                  <div className="flex items-center p-1 pl-3 border-b" key={i}>
                     <img src={`http://127.0.0.1:8000/uploads/${user?.photos}`} alt="" className='w-8 h-8 rounded-full' />
-                    <div className='ml-4'>
+                    <div className='ml-5  '>
                       <h1>{user?.name}</h1>
                       <h2 className='font-semibold'>{data.comment}</h2>
                     </div>
@@ -136,7 +136,7 @@ const CommentDialog = ({ setOpen, postid }) => {
 
             {/* Comment Input */}
             {commentpost.length > 0 && commentpost.map((data, i) => (
-              <div className='flex p-4' key={i}>
+              <div className='flex p-3 mt-5 md:-mt-5' key={i}>
                 <Com data={data.id} postid={postid} com={com} setCom={setCom} />
               </div>
             ))}

@@ -1,81 +1,70 @@
-import React, { useState, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import axios from 'axios'
-
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { FaX } from 'react-icons/fa6';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { MdCancel } from 'react-icons/md';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+
 const Storyview = ({ setShowcom, getstoryid }) => {
-
-    const [storyd, setStoryd] = useState([])
-    const [storyalluser, setStoryalluser] = useState([])
-    // const getdata = () => {
-    //     axios.get("http://127.0.0.1:8000/getuserall")
-    //         .then(res => {
-    //             console.log(res.data)
-    //             setSdata(res.data)
-    //         })
-    //         .catch(err => console.log(err))
-    // }
-
-    // useEffect(() => {
-    //     getdata()
-    // }, [])
-    console.log(getstoryid)
-    const userid = sessionStorage.getItem("userid")
-    // const showpost = () => {
-    //     axios.get("http://127.0.0.1:8000/getuser/" + id)
-    //         .then(res => {
-    //             setName(res.data[0].name)
-    //             setUame(res.data[0].username)
-    //         })
-    //         .catch(err => console.log(err))
-    // }
-    // useEffect(() => {
-    //     showpost()
-
-    // }, [userid])
+    const [storyd, setStoryd] = useState([]);
+    const [currentIndex, setCurrentIndex] = useState(0); // Track current story index
 
     const getstoryall = () => {
-        axios.get("http://127.0.0.1:8000/getstorypic/" + getstoryid)
+        axios.get(`http://127.0.0.1:8000/getstorypic/${getstoryid}`)
             .then(res => {
-                setStoryd(res.data)
-                console.log(res.data)
-
+                setStoryd(res.data);
+                if (res.data.length > 0) {
+                    setCurrentIndex(0); // Reset to first story
+                }
             })
-            .catch(err => console.log(err))
-    }
+            .catch(err => console.log(err));
+    };
+
     useEffect(() => {
-        getstoryall()
-    }, [])
-    // const getstoryalluser = () => {
-    //     axios.get("http://127.0.0.1:8000/getstoryall/" + getstoryid)
-    //         .then(res => {
-    //             setStoryalluser(res.data)
-    // console.log(storyalluser)
+        getstoryall();
+    }, []);
 
-    //         })
-    //         .catch(err => console.log(err))
-    // }
-    // useEffect(() => {
-    //     getstoryalluser()
-    // }, [])
+    const nextStory = () => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % storyd.length); // Loop back to start
+    };
+
+    const prevStory = () => {
+        setCurrentIndex((prevIndex) => (prevIndex - 1 + storyd.length) % storyd.length); // Loop to end
+    };
+
     return (
-        <div className='w-[100%] h-[150%] -mt-6 bg-opacity-50 bg-black md:-ml-[310zpx] md:-mt-6 z-50 fixed'>
-            <button className=' float-right mt-60 md:mt-2  mr-[480px]  cursor-pointer'><MdCancel onClick={() => setShowcom(false)} className='text-4xl text-blue-500' /></button>
-            <div className='flex ml-[530px]'>
-                {
-                    storyd.map((data, i) => (
-                        <div className='md:ml-0 -ml-[485px] w-[450px] h-[570px] mt-4 flex shadow-xl rounded-2xl' key={i} >
+        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+            <button className="absolute top-5 right-5 text-white text-3xl" onClick={() => setShowcom(false)}>
+                <MdCancel />
+            </button>
 
-                            <img src={`http://127.0.0.1:8000/uploads/${data.photos}`} className='bg-red-500 w-[450px] h-[570px] flex shadow-xl object-cover  rounded-2xl' />
+            {storyd.length > 0 ? (
+                <div className="relative flex items-center">
+                    <button
+                        className="absolute left-5 text-white text-4xl bg-gray-800 rounded-full p-2 hover:bg-gray-700 transition"
+                        onClick={prevStory}
+                    >
+                        <FaChevronLeft />
+                    </button>
 
-                        </div>
-                    ))}
-            </div>
+                    <div className="w-[500px] h-[600px] overflow-hidden shadow-lg rounded-lg">
+                        <img
+                            src={`http://127.0.0.1:8000/uploads/${storyd[currentIndex].photos}`}
+                            alt="Story"
+                            className="object-cover w-full h-full transition-transform duration-300"
+                        />
+                    </div>
+
+                    <button
+                        className="absolute right-5 text-white text-4xl bg-gray-800 rounded-full p-2 hover:bg-gray-700 transition"
+                        onClick={nextStory}
+                    >
+                        <FaChevronRight />
+                    </button>
+                </div>
+            ) : (
+                <p className="text-white text-xl">No story available</p>
+            )}
         </div>
-    )
-}
+    );
+};
 
-export default Storyview
+export default Storyview;

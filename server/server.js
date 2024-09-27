@@ -167,6 +167,7 @@ app.get('/getpostcom/:id', (req, res) => {
 app.post('/like/:id', (req, res) => {
   var sid = req.body.id;
   var pid = req.body.pid;
+  var rid = req.body.recid;
   var like = req.body.likes;
   var sqls = `SELECT * FROM liketb WHERE sid=${sid} and pid=${pid}`
   con.query(sqls, (err, result) => {
@@ -179,8 +180,8 @@ app.post('/like/:id', (req, res) => {
       })
     }
     else {
-      var sql = 'INSERT INTO liketb(sid,pid,likes) VALUES(?,?,?)'
-      con.query(sql, [sid, pid, like], (err, result) => {
+      var sql = 'INSERT INTO liketb(sid,pid,recid,likes) VALUES(?,?,?,?)'
+      con.query(sql, [sid, pid, rid, like], (err, result) => {
         if (err) return res.json(err)
         return res.json(result)
       })
@@ -224,6 +225,22 @@ app.get('/getcomment/:id', (req, res) => {
   var id = req.params.id;
   const sql = "SELECT * FROM commenttb WHERE pid=?"
   con.query(sql, [id], (err, result) => {
+    if (err) return res.json(err)
+    return res.json(result)
+  })
+})
+app.get('/getlikec/:id', (req, res) => {
+  var id = req.params.id;
+  const sql = "SELECT * FROM liketb WHERE pid=?"
+  con.query(sql, [id], (err, result) => {
+    if (err) return res.json(err)
+    return res.json(result)
+  })
+})
+app.get('/getliknoot/:id', (req, res) => {
+  var id = req.params.id;
+  const sql = "SELECT * FROM liketb where recid=?"
+  con.query(sql,[id],(err, result) => {
     if (err) return res.json(err)
     return res.json(result)
   })

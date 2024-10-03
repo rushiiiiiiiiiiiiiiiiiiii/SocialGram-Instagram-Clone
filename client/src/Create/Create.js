@@ -89,13 +89,13 @@ const Create = () => {
                                             <img
                                                 src={filePreview}
                                                 alt="Preview"
-                                                className='w-full h-full object-cover'
+                                                className='w-full h-full object-contain'
                                             />
                                         ) : (
                                             <video
                                                 src={filePreview}
                                                 autoPlay
-                                                className='w-full h-full object-cover'
+                                                className='w-full h-full object-contain'
                                             />
                                         )}
                                         {/* Centered Change File button */}

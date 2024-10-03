@@ -6,6 +6,7 @@
     "@mui/icons-material": "^6.0.0",
     "axios": "^1.7.5",
     "date-fns": "^4.1.0",
+    "emoji-picker-react": "^4.12.0",
     "node-modules": "^1.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

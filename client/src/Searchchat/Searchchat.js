@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { RiMessage2Line } from 'react-icons/ri';
 import ChatPage from '../ChatPage/ChatPage';
+import Nav from '../Body/Nav/Nav';
+import Nav2 from '../Body/Nav2/Nav2';
+import { BiMessageAlt } from 'react-icons/bi';
 
 const Searchchat = () => {
   const [sdata, setSdata] = useState([]);
@@ -29,9 +32,10 @@ const Searchchat = () => {
 
   return (
     <div className='w-full flex'>
+      <Nav2/>
       {/* Sidebar */}
       <div className='h-full w-96 bg-white border-r border-gray-300 fixed z-50 ml-[252px] overflow-y-scroll scrollbar-hide'>
-        <div className='p-5'>
+        <div className='p-5 '>
           {/* Header */}
           <div className='flex items-center justify-between'>
             <h1 className='text-2xl font-semibold text-black'>Messages</h1>
@@ -76,6 +80,15 @@ const Searchchat = () => {
             ))}
         </div>
       </div>
+      <div className='w-[870px] h-[100vh] ml-[500px] flex flex-col items-center justify-center'>
+
+        <div className='ml-40 p-0 flex flex-col items-center justify-center'>
+      <RiMessage2Line className='text-6xl border-1 border-black'/>
+      <h1 className='text-lg font-semibold mt-1 '>Your Message</h1>
+      <p>Send a message to start a chat.</p>
+      <button className='px-8 py-2 rounded-xl mt-3 text-white bg-blue-500'>Send Message</button>
+      </div>
+        </div>
       {chatshow && <ChatPage id={chatid} />}
     </div>
   );

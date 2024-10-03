@@ -256,11 +256,12 @@ app.get('/commentlength/:id', async (req, res) => {
 app.post('/comment/:id', (req, res) => {
   var sid = req.body.id;
   var pid = req.body.pid;
+  var rid = req.body.recidcom;
   var comment = req.body.comment;
-  var sql = 'INSERT INTO commenttb(sid,pid,comment) VALUES(?,?,?)'
+  var sql = 'INSERT INTO commenttb(sid,pid,recid,comment) VALUES(?,?,?,?)'
 
 
-  con.query(sql, [sid, pid, comment], (err, result) => {
+  con.query(sql, [sid, pid, rid, comment], (err, result) => {
     if (err) return res.json(err)
     return res.json(result)
   })

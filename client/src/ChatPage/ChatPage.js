@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { FaBars } from 'react-icons/fa';
 
@@ -7,6 +7,7 @@ const ChatPage = ({ id }) => {
     const [name, setName] = useState([]);
     const [mess, setMess] = useState('');
     const [Receiver, SetReceiver] = useState([]);
+    const bottomRef = useRef(null); // Ref for the last message
 
     const getdata = () => {
         axios.get("http://127.0.0.1:8000/getuserall")
@@ -73,8 +74,15 @@ const ChatPage = ({ id }) => {
         ShowMess();
     }, [id]);
 
+    // Scroll to the bottom whenever messages change
+    useEffect(() => {
+        if (bottomRef.current) {
+            bottomRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [Receiver]);
+
     return (
-        <div className='h-full w-[730px] bg-white border-l border-gray-300 fixed right-0 top-0 z-50'>
+        <div className='h-full w-[731px] bg-white border-l border-gray-300 fixed right-0 top-0 z-50'>
             {/* Header */}
             <div className='w-full h-16 flex items-center justify-between px-4 bg-white shadow-md border-b border-gray-200'>
                 {name.map((data, i) => (
@@ -91,14 +99,17 @@ const ChatPage = ({ id }) => {
                 <FaBars className='text-xl text-gray-600' />
             </div>
 
-            <div className='w-full h-[calc(100vh-160px)] overflow-auto overflow-y-scroll scrollbar-hide px-4 py-4 flex flex-col space-y-3 '>
+            {/* Messages */}
+            <div className='w-full h-[calc(100vh-160px)] overflow-auto overflow-y-scroll scrollbar-hide px-4 py-4 flex flex-col space-y-3'>
                 {Receiver.map((message, i) => (
                     <div key={i} className={`w-auto max-w-[75%] mb-3 p-3 rounded-3xl text-sm ${message.SenderID == sessionStorage.getItem('userid') ? 'ml-auto bg-blue-500 text-white' : 'mr-auto bg-gray-200 text-black'}`}>
                         {message.Message}
                     </div>
                 ))}
+                <div ref={bottomRef} /> {/* Scroll to this div */}
             </div>
 
+            {/* Input box */}
             <div className='w-full h-16 px-4 mt-2 bg-white border-t border-gray-200 flex items-center'>
                 <input
                     type="text"

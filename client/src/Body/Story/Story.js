@@ -73,19 +73,28 @@ const Story = () => {
   };
 
   const scrollLeft = () => {
-    sliderRef.current.scrollBy({ left: -100, behavior: 'smooth' });
+    sliderRef.current.scrollBy({ left: -500, behavior: 'smooth' });
   };
 
   const scrollRight = () => {
-    sliderRef.current.scrollBy({ left: 100, behavior: 'smooth' });
+    sliderRef.current.scrollBy({ left: 500, behavior: 'smooth' });
+  };
+  const isImage = (filename) => {
+    const extensions = ['jpg', 'jpeg', 'png', 'gif'];
+    return extensions.some(ext => filename.toLowerCase().endsWith(ext));
+  };
+
+  const isVideo = (filename) => {
+    const extensions = ['mp4', 'webm', 'ogg'];
+    return extensions.some(ext => filename.toLowerCase().endsWith(ext));
   };
 
   return (
     <div className="relative">
-      <div className="absolute left-[-50px] top-[50px] cursor-pointer bg-gray-100 rounded-full p-2" onClick={scrollLeft}>
+      <div className="absolute left-[10px] z-10 top-[50px] cursor-pointer bg-gray-100 rounded-full p-2" onClick={scrollLeft}>
         <FaArrowLeft size={24} />
       </div>
-      <div className="slider-container story mb-3 mt-6 flex gap-3 ml-1 overflow-x-scroll scrollbar-hide w-[633px] pb-5 border-b-2" ref={sliderRef}>
+      <div className="slider-container story -mb-1 mt-6 flex gap-3 ml-1 overflow-x-scroll scrollbar-hide w-[633px] pb-5 border-b-2" ref={sliderRef}>
         {showaddst ? <Storyupload setShowaddst={setShowaddst} getstory={getstoryall} /> : ""}
 
         {open ? <Storyview setShowcom={setOpen} getstoryid={showcom} /> : ""}
@@ -101,11 +110,26 @@ const Story = () => {
                     className="h-[50px] w-[50px] border-4 border-gray-500 rounded-full z-10 absolute top-1 left-2"
                     alt=""
                   />
-                  <img
+                  {/* <img
                     src={`http://127.0.0.1:8000/uploads/${data.photos}`}
                     alt=""
                     className="w-24 h-40 object-cover rounded-xl"
+                  /> */}
+                  {isImage(data.photos) ? (
+                <img src={`http://127.0.0.1:8000/uploads/${data.photos}`} alt="" className='w-24 h-40 object-cover rounded-xl' />
+              ) : isVideo(data.photos) ? (
+                <div>
+                  <video
+                    src={`http://127.0.0.1:8000/uploads/${data.photos}`}
+                    className='w-24 h-40 object-cover rounded-xl'
+               
+                    muted={true}
                   />
+                
+                </div>
+              ) : null}
+
+
                 </div>
               );
             })
@@ -145,7 +169,7 @@ const Story = () => {
           )}
         </div>
       </div>
-      <div className="absolute right-[13px] top-[50px] cursor-pointer bg-gray-100 rounded-full p-2" onClick={scrollRight}>
+      <div className="absolute right-[70px] top-[50px] cursor-pointer bg-gray-100 rounded-full p-2" onClick={scrollRight}>
         <FaArrowRight size={24} />
       </div>
     </div>

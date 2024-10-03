@@ -103,3 +103,14 @@
     margin: 0 4px; /* Add some spacing */
   }
 }
+.emoji-picker {
+  position: absolute;
+  z-index: 1000;
+  margin-top: 10px;
+}
+
+.emoji-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+}

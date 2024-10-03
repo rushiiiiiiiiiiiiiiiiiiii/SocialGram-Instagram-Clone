@@ -15,6 +15,7 @@ import Demo from './Body/Post/Demo';
 import Reelsshow from './Reelsshow/Reelsshow';
 import Explore from './Explore/Explore';
 import Notification from './Notification/Notification';
+import Searchchat from './Searchchat/Searchchat';
 function App() {
   return (
 <BrowserRouter>
@@ -29,6 +30,7 @@ function App() {
   <Route path='/create/:userid' element={<Create/>} />
   <Route path='/explore' element={<Explore/>} />
   <Route path='/notification' element={<Notification/>} />
+  <Route path='/chat' element={<Searchchat/>} />
   {/*<Route path='/commentpg/:id' element={<CommentDialog/>} />*/}
 
 </Routes>

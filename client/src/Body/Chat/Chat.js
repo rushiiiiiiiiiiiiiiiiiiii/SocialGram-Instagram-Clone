@@ -45,7 +45,7 @@ const Chat = () => {
   }
   return (
 
-    <div className=' w-72   md:block hidden h-full text-black  border-l border-gray pl-4'>
+    <div className=' w-72   md:block hidden h-full text-black   pl-4'>
       <div className="acc flex rounded-xl mt-5 h-14 w-[300px] items-center justify-between ">
         <div className='flex -ml-5'>
           <div className="prof  w-11 h-11 mx-5   ">
@@ -60,9 +60,9 @@ const Chat = () => {
           <h1 className='text-[12px] font-medium mr-2 text-blue-500 cursor-pointer  hover:text-blue-300' onClick={logout}>LogOut</h1>
         </div>
       </div>
-      <div className=' mt-8 h-[500px] w-[310px] -ml-1'>
+      <div className=' mt-7 h-[500px] w-[310px] -ml-1'>
         <div className='flex items-center justify-between '>
-          <h1 className='text-gray-500 font-semibold text-[15px] ml-2'>Suggested for you</h1>
+          <h1 className='text-gray-500 font-semibold text-[14px] ml-2'>Suggested for you</h1>
           <p className='text-[13px] mr-2 font-medium'>See All</p>
         </div>
         <div className='mt-2'>

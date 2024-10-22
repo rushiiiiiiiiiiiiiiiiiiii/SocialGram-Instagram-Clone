@@ -24,9 +24,9 @@ const Prof = () => {
     const [name, setName] = useState()
     const [uname, setUame] = useState()
     const [file, setFile] = useState()
-    const [follower,setfollower]=useState(0)
-    const [following,setfollowing]=useState(0)
-    const [youfollow,setyoufollow]=useState(0)
+    const [follower, setfollower] = useState(0)
+    const [following, setfollowing] = useState(0)
+    const [youfollow, setyoufollow] = useState(0)
     const getpost = () => {
         setShowreelsall(false)
         setShowsaveall(false)
@@ -47,6 +47,7 @@ const Prof = () => {
         window.scrollTo(0, 0)
     })
 
+
     const showpost = () => {
         axios.get("http://127.0.0.1:8000/getpost/" + userid)
             .then(res => {
@@ -62,22 +63,22 @@ const Prof = () => {
                 }
             }
             )
-            const follower=[]
-            const following=[]
-            const arr=send.data.map((name,i)=>{
-                if(name.following==sessionStorage.getItem('userid')){
+            const follower = []
+            const following = []
+            const arr = send.data.map((name, i) => {
+                if (name.following == sessionStorage.getItem('userid')) {
                     setyoufollow(name)
                 }
-                if(name.following==userid){
+                if (name.following == userid) {
                     following.push(name.following)
                 }
-                if(name.follower==userid){
+                if (name.follower == userid) {
                     follower.push(name.follower);
                 }
-                else{
+                else {
                     setfollower(0);
                 }
-                
+
             })
             setfollower(follower.length)
             setfollowing(following.length)
@@ -106,9 +107,9 @@ const Prof = () => {
     useEffect(() => {
         showpost()
     }, [userid])
-    const unfollow=async()=>{
+    const unfollow = async () => {
         try {
-            await axios.delete("http://127.0.0.1:8000/unfollow/"+sessionStorage.getItem('userid'))
+            await axios.delete("http://127.0.0.1:8000/unfollow/" + sessionStorage.getItem('userid') + "/" + userid)
             toast.success("UnFollow Done")
         } catch (error) {
             console.log(error)
@@ -150,14 +151,14 @@ const Prof = () => {
 
                                             {
                                                 // <>
-                                                youfollow?
-                                                <button onClick={(e) => unfollow()} className='px-4 h-8 ml- mt-1 text-center hover:bg-indigo-400  text-white text-sm font-medium btn bg-indigo-500 rounded-xl'>Unfollow</button>
-                                                :
-                                                <button onClick={(e) => follow(userid)} className='px-4 h-8 ml- mt-1 text-center hover:bg-indigo-400  text-white text-sm font-medium btn bg-indigo-500 rounded-xl'>Follow</button>
+                                                youfollow ?
+                                                    <button onClick={(e) => unfollow(userid)} className='px-4 h-8 ml- mt-1 text-center hover:bg-indigo-400  text-white text-sm font-medium btn bg-indigo-500 rounded-xl'>Unfollow</button>
+                                                    :
+                                                    <button onClick={(e) => follow(userid)} className='px-4 h-8 ml- mt-1 text-center hover:bg-indigo-400  text-white text-sm font-medium btn bg-indigo-500 rounded-xl'>Follow</button>
                                                 // </>
-                                                }
-                                            
-                                            <button className='px-4 h-8 ml-[5px] mt-1 text-center hover:bg-indigo-400  text-white text-sm font-medium btn bg-indigo-500 rounded-xl'>Message</button>
+                                            }
+
+                                            <Link to='/chat'><button className='px-4 h-8 ml-[5px] mt-1 text-center hover:bg-indigo-400  text-white text-sm font-medium btn bg-indigo-500 rounded-xl'>Message</button></Link>
                                         </div>
                                 }</div>
 
@@ -179,16 +180,16 @@ const Prof = () => {
                     <div className="pic ml-24 mt-2">
                         <div className='flex gap-20 ml-[180px] font-semibold cursor-pointer text-center'>
                             {
-                                showpostall?<h1 onClick={getpost} className=' border-b-4 text-indigo-500 border-blue-500 text-center p-0  flex'><FaRegSquarePlus className='mr-1 mt-[3px]' />POSTS</h1>:
-                                <h1 onClick={getpost} className='  text-center border-black flex'><FaRegSquarePlus className='mr-1 mt-[3px]' />POSTS</h1>
+                                showpostall ? <h1 onClick={getpost} className=' border-b-4 text-indigo-500 border-blue-500 text-center p-0  flex'><FaRegSquarePlus className='mr-1 mt-[3px]' />POSTS</h1> :
+                                    <h1 onClick={getpost} className='  text-center border-black flex'><FaRegSquarePlus className='mr-1 mt-[3px]' />POSTS</h1>
                             }
-                            {showreelsall?<h1 onClick={getreels} className='border-b-4 text-indigo-500 border-blue-500 text-center p-0  flex'><FiVideo className='mr-1 mt-[3px]' />REELS</h1>:
-                            <h1 onClick={getreels} className='  text-center border-black flex'><FiVideo className='mr-1 mt-[3px]' />REELS</h1>
+                            {showreelsall ? <h1 onClick={getreels} className='border-b-4 text-indigo-500 border-blue-500 text-center p-0  flex'><FiVideo className='mr-1 mt-[3px]' />REELS</h1> :
+                                <h1 onClick={getreels} className='  text-center border-black flex'><FiVideo className='mr-1 mt-[3px]' />REELS</h1>
                             }
-                            {showsaveall?<h1 onClick={getsave} className='border-b-4 text-indigo-500 border-blue-500 text-center p-0  flex' ><FaRegBookmark className='mr-1  mt-[3px]' />SAVED</h1>
-                            :<h1 onClick={getsave} className=' text-center border-black flex' ><FaRegBookmark className='mr-1  mt-[3px]' />SAVED</h1>
+                            {showsaveall ? <h1 onClick={getsave} className='border-b-4 text-indigo-500 border-blue-500 text-center p-0  flex' ><FaRegBookmark className='mr-1  mt-[3px]' />SAVED</h1>
+                                : <h1 onClick={getsave} className=' text-center border-black flex' ><FaRegBookmark className='mr-1  mt-[3px]' />SAVED</h1>
                             }
-                            </div>
+                        </div>
 
                         {/*} <div className='flex gap-x-4 gap-y-4 -ml-7 flex-wrap mt-5'>
                             {

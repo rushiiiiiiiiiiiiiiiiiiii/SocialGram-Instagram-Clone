@@ -86,7 +86,6 @@ app.post('/createstory/:id', upload.single("photo"), (req, res) => {
 app.get('/getpost/:id', (req, res) => {
   const sql = "SELECT * FROM addpost WHERE sid=?";
   const sid = req.params.id;
-  // Correct variable name
 
   con.query(sql, [sid], (err, result) => {
     if (err) return res.json(err);
@@ -245,6 +244,14 @@ app.get('/getliknoot/:id', (req, res) => {
     return res.json(result)
   })
 })
+app.get('/getcomnoot/:id', (req, res) => {
+  var id = req.params.id;
+  const sql = "SELECT * FROM commenttb where recid=?"
+  con.query(sql,[id],(err, result) => {
+    if (err) return res.json(err)
+    return res.json(result)
+  })
+})
 app.get('/commentlength/:id', async (req, res) => {
   const ids = req.params.id
   const sql = `SELECT count(*) AS \`${ids}\` FROM commenttb WHERE pid = ?`;
@@ -290,13 +297,33 @@ app.post('/save/:id', (req, res) => {
   })
 })
 app.post('/SendMess', async (req, res) => {
-  const { Message, ReceiverID, SenderID } = req.body
-  var sql = 'INSERT INTO chats(SenderID,ReceiverID,Message) VALUES(?,?,?)'
-  con.query(sql, [SenderID, ReceiverID, Message], (err, result) => {
-    if (err) return err;
-    return res.json(result)
-  })
-})
+  const { Message, ReceiverID, SenderID, pid } = req.body;
+  var sql = 'INSERT INTO chats(SenderID, ReceiverID, Message, pid) VALUES(?, ?, ?, ?)';
+  
+  con.query(sql, [SenderID, ReceiverID, Message, pid], (err, result) => {
+      if (err) return res.status(500).json({ error: err.message }); // Return error message
+      return res.json(result);
+  });
+});
+
+// app.post('/sharepost', async (req, res) => {
+//   const { postid, receiverId, senderId } = req.body; 
+//   var sql = 'INSERT INTO share(SenderID, ReceiverID, pid) VALUES(?, ?, ?)';
+//   con.query(sql, [senderId, receiverId, postid], (err, result) => {
+//     if (err) {
+//       console.error(err); 
+//       return res.status(500).json({ error: 'Database error' });
+//     }
+//     return res.json(result);
+//   });
+// });
+// app.get('/getpostallahare', (req, res) => {
+//   const sql = "SELECT * FROM share"
+//   con.query(sql,(err, result) => {
+//     if (err) return res.json(err)
+//     return res.json(result)
+//   })
+// })
 app.get('/Message', async (req, res) => {
   const { userId, id } = req.query
   const sql = ` SELECT * FROM chats
@@ -328,10 +355,12 @@ app.get('/getfollower', async (req, res) => {
     return res.json(result)
   })
 })
-app.delete('/unfollow/:id', async (req, res) => {
+app.delete('/unfollow/:id/:fid', async (req, res) => {
   const id = req.params.id;
-  const sql = "DELETE FROM follower WHERE following=?";
-  con.query(sql, [id], (err, result) => {
+  const fid = req.params.fid;
+
+  const sql = "DELETE FROM follower WHERE following=? AND follower=?";
+  con.query(sql, [id,fid], (err, result) => {
     if (err) return err;
     return res.json(result)
   })
@@ -375,4 +404,3 @@ app.get('/followerStory/:id', (req, res) => {
 app.listen(8000, () => {
   console.log("server running on 8000");
 })
-// AIzaSyCUquQJirgRWIJ9Bn7nmXt6BAvxMhK6L2Y

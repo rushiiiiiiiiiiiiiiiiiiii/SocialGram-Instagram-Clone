@@ -10,12 +10,14 @@ import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import CommentDialog from '../../Commentdialog/CommentDialog';
 import EmojiPicker from 'emoji-picker-react';
+import ShareDialog from '../../ShareDialog/ShareDialog';
 
 const Post = () => {
   const [postall, setPostall] = useState([]);
   const [showcom, setShowcom] = useState();
   const [likeallpost, setLikeallpost] = useState(0);
   const [open, setOpen] = useState(false);
+  const [openuser, setOpenuser] = useState(false);
   const [sdata, setSdata] = useState([]);
   const [comment, setComment] = useState([]);
   const [muted, setMuted] = useState(true); // New state to track if audio is muted
@@ -93,6 +95,10 @@ const Post = () => {
     setOpen(true);
     setShowcom(postid);
   };
+  const showususer = (postid) => {
+    setOpenuser(true);
+    setShowcom(postid);
+  };
 
   const handleVideoClick = (e) => {
     const video = e.target;
@@ -111,6 +117,7 @@ const Post = () => {
     <>
       <div className='w-[100%] text-black mr-[25px]'>
         {open ? <CommentDialog setOpen={setOpen} postid={showcom} /> : ""}
+        {openuser ? <ShareDialog setOpenuser={setOpenuser} postid={showcom} /> : ""}
         {postall.slice().reverse().map((data) => {
           const user = sdata.find((user) => parseInt(data.sid)===user.id);
           return (
@@ -151,13 +158,13 @@ const Post = () => {
               <div className="icon flex ml-[18px] text-black justify-between">
                 <div className='flex gap-5 text-[23px] mt-[13px]'>
                   <div className='-mt-[4px] '>
-                    <Lke className='' recid={data.sid} data={data.id} likcount={likeallpost} likecounttwo={setLikeallpost}
+                    <Lke className='hover:scale-110 transition-transform' recid={data.sid} data={data.id} likcount={likeallpost} likecounttwo={setLikeallpost}
                      getlikec={() => getlikec(data.id)} />
                   </div>
                   <h1 className='cursor-pointer ml-[3px] -mt-[1px]'>
-                    <FaRegComment onClick={() => showus(data.id)} />
+                    <FaRegComment className='hover:scale-110 transition-transform' onClick={() => showus(data.id)} />
                   </h1>
-                  <h1><BiShareAlt /></h1>
+                  <h1><BiShareAlt className='cursor-pointer hover:scale-110 transition-transform' onClick={() => showususer(data.id)}/></h1>
                   <div className='-ml-5'>
                     <Sav data={data.id} />
                   </div>

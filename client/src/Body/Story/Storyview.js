@@ -6,6 +6,7 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 const Storyview = ({ setShowcom, getstoryid }) => {
     const [storyd, setStoryd] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0); // Track current story index
+    const [isPlaying, setIsPlaying] = useState(true); // Track if stories are auto-advancing
 
     const getstoryall = () => {
         axios.get(`http://127.0.0.1:8000/getstorypic/${getstoryid}`)
@@ -20,7 +21,15 @@ const Storyview = ({ setShowcom, getstoryid }) => {
 
     useEffect(() => {
         getstoryall();
-    }, []);
+    }, [getstoryid]); // Added getstoryid to dependency array to fetch new stories when it changes
+
+    useEffect(() => {
+        let timer;
+        if (isPlaying && storyd.length > 0) {
+            timer = setInterval(nextStory, 3000); // Change story every 3 seconds
+        }
+        return () => clearInterval(timer); // Cleanup interval on component unmount or when isPlaying changes
+    }, [isPlaying, storyd]);
 
     const nextStory = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % storyd.length); // Loop back to start
@@ -40,7 +49,10 @@ const Storyview = ({ setShowcom, getstoryid }) => {
                 <div className="relative flex items-center">
                     <button
                         className="absolute left-5 text-white text-4xl bg-gray-800 rounded-full p-2 hover:bg-gray-700 transition"
-                        onClick={prevStory}
+                        onClick={() => {
+                            prevStory();
+                            setIsPlaying(false); // Stop auto-playing on manual navigation
+                        }}
                     >
                         <FaChevronLeft />
                     </button>
@@ -55,7 +67,10 @@ const Storyview = ({ setShowcom, getstoryid }) => {
 
                     <button
                         className="absolute right-5 text-white text-4xl bg-gray-800 rounded-full p-2 hover:bg-gray-700 transition"
-                        onClick={nextStory}
+                        onClick={() => {
+                            nextStory();
+                            setIsPlaying(false); // Stop auto-playing on manual navigation
+                        }}
                     >
                         <FaChevronRight />
                     </button>

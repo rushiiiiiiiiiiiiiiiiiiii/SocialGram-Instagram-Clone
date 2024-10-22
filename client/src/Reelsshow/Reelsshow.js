@@ -3,6 +3,7 @@ import Nav2 from '../Body/Nav2/Nav2';
 import axios from 'axios';
 import { FaHeart, FaComment, FaShare, FaBookmark } from 'react-icons/fa';
 import { BsFillVolumeMuteFill, BsFillVolumeUpFill } from 'react-icons/bs';
+import ShareDialog from '../ShareDialog/ShareDialog';
 
 const Reelsshow = () => {
   const [postall, setPostall] = useState([]);
@@ -10,7 +11,9 @@ const Reelsshow = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(null);
   const [hasInteracted, setHasInteracted] = useState(false); // Track if user has interacted with the page
   const videoRefs = useRef([]); // To store references of video elements
-
+  const [showcom, setShowcom] = useState();
+  const [open, setOpen] = useState(false);
+  const [openuser, setOpenuser] = useState(false);
   const getallpost = () => {
     axios.get("http://127.0.0.1:8000/getpostall")
       .then(res => {
@@ -37,7 +40,10 @@ const Reelsshow = () => {
     const extensions = ['mp4', 'webm', 'ogg'];
     return extensions.some(ext => filename.toLowerCase().endsWith(ext));
   };
-
+  const showususer = (postid) => {
+    setOpenuser(true);
+    setShowcom(postid);
+  };
   // Use Intersection Observer to track videos in view
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -86,6 +92,7 @@ const Reelsshow = () => {
     <div className="w-full h-screen text-white" onClick={handleUserInteraction}>
       <div className="flex">
         <Nav2 />
+        {openuser ? <ShareDialog setOpenuser={setOpenuser} postid={showcom} /> : ""}
 
         <div className="flex-1 ml-40 h-[100vh] snap-y snap-mandatory overflow-y-scroll scrollbar-hide relative">
           {
@@ -133,7 +140,7 @@ const Reelsshow = () => {
                     <div className="absolute right-4 bottom-20 text-white flex flex-col items-center space-y-6">
                       <FaHeart className="text-2xl cursor-pointer hover:scale-110 transition-transform" />
                       <FaComment className="text-2xl cursor-pointer hover:scale-110 transition-transform" />
-                      <FaShare className="text-2xl cursor-pointer hover:scale-110 transition-transform" />
+                      <FaShare onClick={showususer} className="text-2xl cursor-pointer hover:scale-110 transition-transform" />
                       <FaBookmark className="text-2xl cursor-pointer hover:scale-110 transition-transform" />
                     </div>
                   </div>

@@ -4,6 +4,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { MdCancel } from 'react-icons/md'
+import EmojiPicker from 'emoji-picker-react';
 
 const CommentDialog = ({ setOpen, postid }) => {
   const [comment, setComment] = useState([])
@@ -137,7 +138,7 @@ const CommentDialog = ({ setOpen, postid }) => {
             {/* Comment Input */}
             {commentpost.length > 0 && commentpost.map((data, i) => (
               <div className='flex p-3 mt-5 md:-mt-5' key={i}>
-                <Com data={data.id} postid={postid} com={com} setCom={setCom} />
+                <Com recid={data.sid} data={data.id} postid={postid} com={com} setCom={setCom} />
               </div>
             ))}
           </div>
@@ -149,13 +150,18 @@ const CommentDialog = ({ setOpen, postid }) => {
 
 export default CommentDialog
 
-const Com = ({ data, postid, com, setCom }) => {
+const Com = ({ recid, data, postid, com, setCom }) => {
   const [comment, setComment] = useState('')
-  const id = sessionStorage.getItem("userid")
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
+  const id = sessionStorage.getItem("userid")
+  const handleEmojiClick = (emojiObject) => {
+    setComment(comment + emojiObject.emoji);  // Directly access emoji property
+  };
+  
   const commentp = async () => {
     setCom(com + 1)
-    const datap = { id: id, pid: data, comment: comment }
+    const datap = { id: id, pid: data,recidcom:recid,comment: comment }
     await axios.post("http://127.0.0.1:8000/comment/" + id, datap)
       .then(res => {
         toast.success("Comment Added")
@@ -169,8 +175,24 @@ const Com = ({ data, postid, com, setCom }) => {
 
   return (
     <>
+    {showEmojiPicker && (
+          <div className='emoji-picker mb-60'>
+            <EmojiPicker onEmojiClick={handleEmojiClick} />
+
+          </div>
+        )}
+     <button className='emoji-toggle text-lg ml-0 mr-2' onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+          😀
+        </button>
+    
       <input type="text" value={comment} onChange={e => setComment(e.target.value)} placeholder='Add Comment' className='flex-1 px-4 py-2 border rounded-md' />
-      <button onClick={() => commentp(data)} className='bg-indigo-500 px-4 py-2 ml-2 text-white rounded-md'>Post</button>
+      <button onClick={() => commentp(data)} className='hover:bg-blue-400 bg-blue-500 px-4 py-2 ml-2 text-white rounded-md'>Post</button>
+    
+   
+
+      
+        
+
     </>
   )
 }

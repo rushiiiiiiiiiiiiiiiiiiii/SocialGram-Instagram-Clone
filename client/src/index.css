@@ -103,3 +103,66 @@
     margin: 0 4px; /* Add some spacing */
   }
 }
+.emoji-picker {
+  position: absolute;
+  z-index: 1000;
+  margin-top: 10px;
+}
+
+.emoji-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+@media (max-width: 768px) {
+  .body {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: white; /* Or your preferred background color */
+    z-index: 1000;
+    border-top: 1px solid #ccc;
+  }
+
+  .nav-comp {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+  }
+
+  .nav-items ul {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding: 0;
+  }
+
+  .nav-items ul li {
+    width: auto;
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .nav-items ul li h1, .nav-items ul li a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+.minimized-nav {
+  @apply w-20 flex flex-col items-center py-6;
+}
+
+.nav-icons {
+  @apply flex flex-col items-center space-y-6;
+}
+
+.nav-icon {
+  @apply cursor-pointer p-2 hover:bg-indigo-500 rounded-full;
+}
+
+.icon {
+  @apply text-gray-600;
+}

@@ -36,9 +36,9 @@ const Search = () => {
   }, [searchRef]);
 
   return (
-    isVisible && ( // Only render the search container when it is visible
+    isVisible && ( 
       <div ref={searchRef} className="h-full text-black w-96 bg-white border-r-2 border-black fixed z-50 ml-[252px] rounded-br-2xl rounded-tr-2xl">
-        <div className="ml-5 mt-5">
+        <div className="ml-5 mt-5 fixed">
           <div className="flex">
             <h1 className="text-3xl font-semibold">Search</h1>
             <p className="ml-56 text-[25px] font-bold mt-2"><FiSearch /></p>
@@ -46,13 +46,13 @@ const Search = () => {
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="mt-5 border-b-2 pl-5 font-medium text-lg rounded-xl w-[95%] py-4 bg-loww border-none outline-none"
+            className="mt-4 border-b-2 pl-5 font-normal text-lg rounded-xl w-[95%] py-3 bg-loww border-none outline-none"
             type="text"
             placeholder="Search"
           />
         </div>
-        <hr className="mt-5 border-black rounded-br-xl" />
-        <div className="h-full w-96">
+        <hr className="mt-36 border-black rounded-br-xl" />
+        <div className="h-full w-96 overflow-y-scroll scrollbar-hide" >
           {sdata
             .filter((data) => {
               return search.toLowerCase() === ''

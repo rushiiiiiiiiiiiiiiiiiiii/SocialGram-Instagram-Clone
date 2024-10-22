@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 /* .bg-white {
     background-color: white;
   }
@@ -19,19 +18,18 @@
   }
   
   .dark .bg-white {
-    background-color: black; /* Dark mode background 
+    background-color: black; 
   }
   
   .dark .text-black {
-    color: white; /* Dark mode text 
-  } */
-  /* Custom class */
+    color: white;  
+  } 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
-}
+} */
 
 .scrollbar-hide {
-  scrollbar-width: none; /* For Firefox */
+  scrollbar-width: none; 
 }
 .instagram-logo {
   background-position: 0 -130px;
@@ -56,4 +54,52 @@
   height: 42px;
   width: 130px;
   background-image: url(https://bit.ly/3v2LT17);
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.nav-item:hover {
+  background-color: #f0f0f0;
+}
+
+.nav-icon {
+  font-size: 24px;
+  margin-right: 15px;
+}
+
+.nav-text {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.nav-icon-mobile {
+  font-size: 28px;
+  color: #555;
+}
+
+@media (max-width: 768px) {
+  .nav-item {
+    display: none; /* Hide desktop nav items on mobile */
+  }
+
+  .nav-icon-mobile {
+    display: block; /* Show mobile icons */
+  }
+}
+/* Add this to your CSS file */
+.masonry-grid-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .masonry-grid-column {
+    margin: 0 4px; /* Add some spacing */
+  }
 }

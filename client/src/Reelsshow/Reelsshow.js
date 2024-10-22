@@ -1,85 +1,137 @@
-import React, { useEffect, useState } from 'react'
-import Nav2 from '../Body/Nav2/Nav2'
-import axios from 'axios'
-import { FaBars } from 'react-icons/fa'
+import React, { useEffect, useState } from 'react';
+import Nav2 from '../Body/Nav2/Nav2';
+import axios from 'axios';
+import { FaHeart, FaComment, FaShare, FaPlay, FaSave, FaRegSave, FaBookmark } from 'react-icons/fa'; // Add any necessary icons
+import { BsFillVolumeMuteFill, BsFillVolumeUpFill } from 'react-icons/bs'; // For mute/unmute
 
 const Reelsshow = () => {
+  const [postall, setPostall] = useState([]);
+  const [sdata, setSdata] = useState([]);
+  const [muted, setMuted] = useState(true);
 
-    const [postall, setPostall] = useState([])
-    const [sdata, setSdata] = useState([]);
-    const getallpost = () => {
-        axios.get("http://127.0.0.1:8000/getpostall")
-            .then(res => {
-                setPostall(res.data);
-            })
-            .catch(err => console.log(err));
-    };
-    const getdata = () => {
-        axios.get("http://127.0.0.1:8000/getuserall")
-            .then(res => {
-                setSdata(res.data);
-            })
-            .catch(err => console.log(err));
-    };
-    useEffect(() => {
-        getallpost()
-        getdata()
-    },[])
-    const isImage = (filename) => {
-        const extensions = ['jpg', 'jpeg', 'png', 'gif'];
-        return extensions.some(ext => filename.toLowerCase().endsWith(ext));
-    };
+  const getallpost = () => {
+    axios.get("http://127.0.0.1:8000/getpostall")
+      .then(res => {
+        setPostall(res.data);
+      })
+      .catch(err => console.log(err));
+  };
 
-    const isVideo = (filename) => {
-        const extensions = ['mp4', 'webm', 'ogg'];
-        return extensions.some(ext => filename.toLowerCase().endsWith(ext));
-    };
+  const getdata = () => {
+    axios.get("http://127.0.0.1:8000/getuserall")
+      .then(res => {
+        setSdata(res.data);
+      })
+      .catch(err => console.log(err));
+  };
 
-    const handleVideoClick = (e) => {
-        const video = e.target;
-        if (video.paused) {
-          video.play();
-        } else {
-          video.pause();
-        }
-      };
-    return (
-        <div className='w-full h-auto bg-white text-black'>
-            <div className='flex'>
-                <Nav2 />
-                <div className='snap-y snap-mandatory h-[100vh] overflow-y-scroll scrollbar-hide'>
+  useEffect(() => {
+    getallpost();
+    getdata();
+  }, []);
 
-                    {
-                        postall.slice().reverse().map((data) => {
-                            const user = sdata.find(user => user.id === data.sid);
-                            // });
-                            // console.log(user)
-                            return (
-                                <div className='snap-center w-[350px] h-[560px] ml-[600px] mt-6 mb-10 bg-black rounded-2xl relative'>
-                                    {/* <img src={`http://127.0.0.1:8000/uploads/${data.photos}`} alt=""  className='rounded-2xl h-full cursor-pointer ' /> */}
-                                    {isImage(data.photos) ? (
-                                        <img src={`http://127.0.0.1:8000/uploads/${data.photos}`} alt="" className='rounded-2xl h-full cursor-pointer ' />
-                                    ) : isVideo(data.photos) ? (
-                                        <video src={`http://127.0.0.1:8000/uploads/${data.photos}`} onClick={handleVideoClick} controls className='rounded-2xl h-full cursor-pointer ' />
-                                    ) : null}
+  const isImage = (filename) => {
+    const extensions = ['jpg', 'jpeg', 'png', 'gif'];
+    return extensions.some(ext => filename.toLowerCase().endsWith(ext));
+  };
 
-                                    <div className='flex bottom-40 -mt-24 ml-5 text-white '>
-                                        <img src={`http://127.0.0.1:8000/uploads/${user?.photos}`} alt="" className='rounded-3xl cursor-pointer w-10 h-10' />
-                                        <h1 className='font-semibold flex w-40 ml-3 mt-1'>{user?.name}</h1>
-                                        <h1 className='font-semibold cursor-pointer -ml-9 -mt-2  text-3xl text-white'>.</h1>
-                                        <button className='px-4 h-8 ml-2 text-center  text-white text-sm font-medium btn bg-transparent border border-white rounded-xl'>Follow</button>
-                                        
-                                       </div>
-                                    <p className='absolute bottom-6 left-6 text-white text-md font-normal'>{data.caption}</p>
-                                    {/* <p className='absolute bottom-10 left-10 text-white text-2xl font-normal'>{data.location}</p> */}
-                                </div>
-                            )
-                        })}
+  const isVideo = (filename) => {
+    const extensions = ['mp4', 'webm', 'ogg'];
+    return extensions.some(ext => filename.toLowerCase().endsWith(ext));
+  };
+
+  const handleVideoClick = (e) => {
+    const video = e.target;
+    if (video.paused) {
+      video.play();
+    } else {
+      video.pause();
+    }
+  };
+
+  const handleMuteToggle = () => {
+    setMuted(!muted);
+  };
+
+  return (
+    <div className="w-full h-screen text-white">
+      <div className="flex">
+        <Nav2 />
+
+   
+        <div className="flex-1 ml-40 h-[100vh] snap-y snap-mandatory overflow-y-scroll scrollbar-hide relative">
+          {
+            postall.slice().reverse().map((data, i) => {
+              const user = sdata.find(user => user.id === data.sid);
+              return (
+                <div className="snap-center gap-y-5 flex justify-center items-center h-screen w-full relative" key={i}>
+                  
+                  <div className="relative w-[400px] h-[580px] max-w-[400px] max-h-[600px] bg-black rounded-lg">
+                   
+                    {isImage(data.photos) ? (
+                      <img
+                        src={`http://127.0.0.1:8000/uploads/${data.photos}`}
+                        alt=""
+                        className="w-full h-[580px] object-cover rounded-lg"
+                      />
+                    ) : isVideo(data.photos) ? (
+                      <video
+                        src={`http://127.0.0.1:8000/uploads/${data.photos}`}
+                        muted={muted}
+                        onClick={handleVideoClick}
+                        autoPlay
+                        loop
+                        className="w-full h-[580px] object-cover rounded-lg"
+                      />
+                    ) : null}
+
+                    <div className="absolute top-4 right-4 z-10">
+                      {muted ? (
+                        <BsFillVolumeMuteFill
+                          className="text-white text-2xl cursor-pointer"
+                          onClick={handleMuteToggle}
+                        />
+                      ) : (
+                        <BsFillVolumeUpFill
+                          className="text-white text-2xl cursor-pointer"
+                          onClick={handleMuteToggle}
+                        />
+                      )}
+                    </div>
+
+                    <div className="absolute bottom-10 left-4 text-white">
+                      <div className="flex items-center mb-2">
+                        <img
+                          src={`http://127.0.0.1:8000/uploads/${user?.photos}`}
+                          alt=""
+                          className="w-10 h-10 rounded-full border-2 border-white mr-3"
+                        />
+                        <div className='flex'>
+                          <h1 className="font-semibold">{user?.name}</h1>
+                          <button className="text-sm font-medium border border-white rounded-full px-3 py-1 ml-2 ">
+                            Follow
+                          </button>
+                        </div>
+                      </div>
+                      <p className="text-md ml-1">{data.caption}</p>
+                    </div>
+
+                    <div className="absolute right-4 bottom-20 text-white flex flex-col items-center space-y-6">
+                      <FaHeart className="text-2xl cursor-pointer hover:scale-110 transition-transform" />
+                      <FaComment className="text-2xl cursor-pointer hover:scale-110 transition-transform" />
+                      <FaShare className="text-2xl cursor-pointer hover:scale-110 transition-transform" />
+                      <FaBookmark  className="text-2xl cursor-pointer hover:scale-110 transition-transform" />
+
+                    </div>
+                  </div>
                 </div>
-            </div>
+              );
+            })
+          }
         </div>
+      </div>
+    </div>
+  );
+};
 
-    )
-}
-
-export default Reelsshow
+export default Reelsshow;

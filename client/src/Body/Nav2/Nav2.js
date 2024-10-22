@@ -60,7 +60,7 @@ const Nav2 = ({themechange}) => {
 
   return (
     <div className='flex'>
-    <div className="body flex md:fixed border-r border-gray md:block hidden h-full">
+    <div className="body flex text-black md:fixed border-r border-gray md:block hidden h-full">
         <div className="nav-comp  md:block mt-6 ">
           <div className="logo font-semibold "><h1 className='text-blue-500 text-[22px] ml-10'>SOCIAL GRAM</h1></div>
 
@@ -71,13 +71,13 @@ const Nav2 = ({themechange}) => {
               <Link to='/explore'><h1  className='rounded-xl pt-[14px] h-14 flex pl-10 w-56 text-[16px] font-semibold hover:bg-indigo-500'><MdOutlineExplore className='mt- mr-5  text-2xl -ml-3' />Explore</h1></Link>
               <Link to='/reelshow'><li className='rounded-xl pt-[14px] h-14 flex pl-10 w-56 text-[16px] font-semibold hover:bg-indigo-500'><FiVideo className='mt- mr-5  text-2xl -ml-3'/>Reels</li></Link>
               <h1 onClick={showchat}className='rounded-xl pt-[14px] h-14 flex  pl-10 w-56 text-[16px] font-semibold hover:bg-indigo-500'><RiMessage2Line className='mt mr-5  text-2xl -ml-3'/>Message</h1>
-              <li className='rounded-xl h-14 flex  pl-10 pt-[14px] w-56 text-[16px] font-semibold hover:bg-indigo-500'><FaRegHeart className='mt- mr-5  text-2xl -ml-3'/>Notification</li>
+              <Link to='/notification'><li className='rounded-xl h-14 flex  pl-10 pt-[14px] w-56 text-[16px] font-semibold hover:bg-indigo-500'><FaRegHeart className='mt- mr-5  text-2xl -ml-3'/>Notification</li></Link>
               <Link to={`/create/${sessionStorage.getItem("userid")}`}><li className='rounded-xl pt-[14px] h-14 flex  pl-10 w-56 text-[16px] font-semibold hover:bg-indigo-500'><FaRegSquarePlus className='-ml-3 mr-5  text-2xl '/>Create</li></Link>
               <Link to={`/prof/${sessionStorage.getItem("userid")}`}><li className='rounded-xl pt-[14px]  h-14 flex  pl-9 w-56 text-[16px] font-semibold hover:bg-indigo-500 '><img src={`http://127.0.0.1:8000/uploads/${file}`} className='-ml-2 rounded-3xl cursor-pointer w-8 h-8 mr-5 '/>Profile</li></Link>
             </ul>
           </div>
           <div onClick={themechange} className="btn2 mt-7 flex ml-[43px] mb-5">
-            <h1 className='flex font-semibold cursor-pointer hover:text-red-500' onClick={logout}><FiLogOut className='mr-4 mt text-2xl cursor-pointer'/> Logout</h1>
+            <h1 className='flex font-semibold cursor-pointer hover:text-red-500' ><FiLogOut className='mr-4 mt text-2xl cursor-pointer'/> Logout</h1>
           </div>
 
         </div>

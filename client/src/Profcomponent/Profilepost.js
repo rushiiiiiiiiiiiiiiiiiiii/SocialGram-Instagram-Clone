@@ -196,7 +196,15 @@ const Profilepost = ({setOpen, postid}) => {
             useEffect(()=>{
               getcommentc()
             },[com])
-        
+            const isImage = (filename) => {
+                const extensions = ['jpg', 'jpeg', 'png', 'gif'];
+                return extensions.some(ext => filename.toLowerCase().endsWith(ext));
+              };
+            
+              const isVideo = (filename) => {
+                const extensions = ['mp4', 'webm', 'ogg'];
+                return extensions.some(ext => filename.toLowerCase().endsWith(ext));
+              };
     return (
         <div className='w-[110%] h-screen bg-opacity-50 bg-black -ml-[405px] -mt-[308px] z-50 fixed'>
             <button className=' float-right mr-72 mt-5 cursor-pointer'><MdCancel onClick={()=>setOpen(false)} className='text-4xl text-blue-500'/></button>
@@ -206,10 +214,28 @@ const Profilepost = ({setOpen, postid}) => {
                         
                             {
                             commentpost.map((data,i)=>(
-                    <div className='bg-black w-[450px] h-[570px]' key={i}>
-                    <img className='w-[450px] h-[570px] pt-' src={`http://127.0.0.1:8000/uploads/${data.photos}`} alt="/" />
-                        {/*<img className='w-[450px] h-[570px] ' src='/image/india.jpg' alt="/" />*/}
-                    
+                    <div className='bg-black w-[450px] absolute h-[570px]' key={i}>
+                      {isImage(data.photos) ? (
+                        
+                <img src={`http://127.0.0.1:8000/uploads/${data.photos}`} alt="" className='w-[500px] object-contain h-80 items-center ml-5 pb-4' />
+                
+              ) : isVideo(data.photos) ? (
+                <div>
+                  <video
+                    src={`http://127.0.0.1:8000/uploads/${data.photos}`}
+                    className='w-[500px] object-contain h-80 items-center ml-5 pb-4'
+                     // Bind the muted state
+                   // Toggle play/pause on click
+                    loop // Loop the video
+                    autoPlay
+                    controls
+                    muted={true}
+                  />
+                  {/* <button className="ml-5 mt-2 px-2 py-1 bg-blue-500 text-white rounded" onClick={toggleMute}>
+                    {muted ? "Unmute" : "Mute"}
+                  </button> */}
+                </div>
+              ) : null}
                     </div>
     ))}
                     <div className=' w-[450px] h-[570px] bg-loww'>

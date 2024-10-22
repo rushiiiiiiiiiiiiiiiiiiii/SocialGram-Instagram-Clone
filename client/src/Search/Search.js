@@ -37,7 +37,7 @@ const Search = () => {
 
   return (
     isVisible && ( // Only render the search container when it is visible
-      <div ref={searchRef} className="h-full w-96 bg-white border-r-2 border-black fixed z-50 ml-[252px] rounded-br-2xl rounded-tr-2xl">
+      <div ref={searchRef} className="h-full text-black w-96 bg-white border-r-2 border-black fixed z-50 ml-[252px] rounded-br-2xl rounded-tr-2xl">
         <div className="ml-5 mt-5">
           <div className="flex">
             <h1 className="text-3xl font-semibold">Search</h1>

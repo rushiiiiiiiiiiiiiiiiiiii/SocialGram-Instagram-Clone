@@ -54,15 +54,15 @@ const Body = () => {
   return (
     <>
       
-      <div className='w-full bg-white h-auto md:gap-[325px] flex'>
-        <div>
-          <Nav2  />
+      <div className='w-full bg-white  dark:bg-black h-auto flex justify-between'>
+        <div className='w-[20%]'>
+          <Nav2 themechange={handleThemeSwitch}/>
         </div>
-        <div>
-          <Story />
+        <div  className='md:w-[55%]   md:ml-14'>
+          <Story className='hidden' />
           <Post />
         </div>
-        <div>
+        <div className='w-[27%]'>
           <Chat />
         </div>
       </div>

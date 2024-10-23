@@ -63,6 +63,7 @@ const Story = () => {
 
   useEffect(() => {
     getstoryalluser();
+    console.log(storyalluser)
   }, []);
 
   const showaddstory = () => setShowaddst(true);

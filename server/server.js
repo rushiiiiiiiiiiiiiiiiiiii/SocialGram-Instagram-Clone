@@ -4,16 +4,25 @@ var cors = require('cors')
 var multer = require('multer')
 var con = require('./conn')
 app.use(cors())
-app.use(express.json())
+app.use(express.json())  
+
+
 app.post('/login', (req, res) => {
+  function getISTTimestamp() {
+    const date = new Date();
+    // Convert to UTC+5:30
+    const offset = 5.5 * 60 * 60 * 1000; // 5 hours and 30 minutes in milliseconds
+    const istDate = new Date(date.getTime() + offset);
+    return istDate.toISOString().slice(0, 16).replace('T', ' '); // Format to "YYYY-MM-DD HH:MM:SS"
+  }
+  const stamp=getISTTimestamp()
   var sql = 'SELECT * FROM login WHERE email = ? AND password = ?'
   var { email, password } = req.body;
   con.query(sql, [email, password], (err, result) => {
     if (err) return res.json(err)
-    // console.log(result[0].id)
     if (result.length > 0) {
-      const sql = 'UPDATE login SET IsLogin = 1 WHERE id = ?';
-      con.query(sql, [result[0].id], (err, response) => {
+      const sql = `UPDATE login SET IsLogin = 1 ,Active_at=? WHERE id = ? `;
+      con.query(sql, [stamp,result[0].id], (err, response) => {
         if (err) return res.json(err)
         return res.json(result);
       })

@@ -4,7 +4,7 @@ var con = mysql.createConnection({
     host:'localhost',
     user:'root',
     password:'',
-    database:'socialgrem'
+    database:'socialgram'
 
 })
 con.connect((err)=>{

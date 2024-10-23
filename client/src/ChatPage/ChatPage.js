@@ -10,6 +10,7 @@ const ChatPage = ({ id }) => {
     const bottomRef = useRef(null);
     const [postall, setPostall] = useState([]);
     const [postallshare, setPostallshare] = useState([]);
+    const [seen,setseen]=useState('')
 
     const getAllPosts = () => {
         axios.get("http://127.0.0.1:8000/getpostall")
@@ -45,7 +46,7 @@ const ChatPage = ({ id }) => {
                     body: JSON.stringify({
                         Message: mess,
                         SenderID: sessionStorage.getItem('userid'),
-                        ReceiverID: id
+                        ReceiverID: id,
                     })
                 });
                 setMess('');
@@ -82,12 +83,30 @@ const ChatPage = ({ id }) => {
 
     const showpost = () => {
         axios.get("http://127.0.0.1:8000/getuser/" + id)
-            .then(res => setName(res.data))
+            .then(res => {
+                function convertUTCToIST(utcString) {
+                    return new Date(new Date(utcString).getTime() + 5.5 * 60 * 60 * 1000)
+                        .toISOString()
+                        .slice(0, 16)
+                        .replace('T', ' ')
+                        .replace('-','/').replace('-','/')
+                }
+                const utcTimestamp = res.data[0].Active_at;
+                const istTimestamp = convertUTCToIST(utcTimestamp);
+                console.log(istTimestamp)
+                setseen(istTimestamp)
+
+                setName(res.data)
+            }
+
+            )
             .catch(err => console.log(err));
+
     };
 
     useEffect(() => {
         showpost();
+
     }, [id]);
 
     useEffect(() => {
@@ -131,7 +150,7 @@ const ChatPage = ({ id }) => {
                             <h1 className='font-semibold text-base text-black'>{data.name}</h1>
                             <p className='text-xs text-gray-500'>
                                 {data.IsLogin === 0 ? (
-                                    <span className='text-red-500'>Offline</span>
+                                    <span className='text-red-500'>Last Seen : {seen}</span>
                                 ) : (
                                     <span className='text-green-500'>Online</span>
                                 )}
@@ -139,9 +158,9 @@ const ChatPage = ({ id }) => {
                         </div>
                     </div>
                 ))}<div className='flex gap-10'>
-                <FaVideo className='text-xl  text-gray-600 cursor-pointer' onClick={initiateCall} />
-                <FaPhoneAlt className='text-xl  text-gray-600 cursor-pointer' onClick={initiateCall} />
-                <FaBars className='text-xl text-gray-600 cursor-pointer' />
+                    <FaVideo className='text-xl  text-gray-600 cursor-pointer' onClick={initiateCall} />
+                    <FaPhoneAlt className='text-xl  text-gray-600 cursor-pointer' onClick={initiateCall} />
+                    <FaBars className='text-xl text-gray-600 cursor-pointer' />
                 </div>
             </div>
 

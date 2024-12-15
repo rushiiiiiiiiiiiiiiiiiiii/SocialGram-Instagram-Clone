@@ -272,12 +272,11 @@ app.get('/commentlength/:id', async (req, res) => {
 app.post('/comment/:id', (req, res) => {
   var sid = req.body.id;
   var pid = req.body.pid;
-  var rid = req.body.recidcom;
+  var recidcom = req.body.recidcom;
   var comment = req.body.comment;
-  var sql = 'INSERT INTO commenttb(sid,pid,recid,comment) VALUES(?,?,?,?)'
+  var sql = 'INSERT INTO commenttb(sid,pid,recidcom,comment) VALUES(?,?,?,?)'
 
-
-  con.query(sql, [sid, pid, rid, comment], (err, result) => {
+  con.query(sql, [sid, pid, recidcom, comment], (err, result) => {
     if (err) return res.json(err)
     return res.json(result)
   })
@@ -308,7 +307,7 @@ app.post('/save/:id', (req, res) => {
 app.post('/SendMess', async (req, res) => {
   const { Message, ReceiverID, SenderID, pid } = req.body;
   var sql = 'INSERT INTO chats(SenderID, ReceiverID, Message, pid) VALUES(?, ?, ?, ?)';
-  
+
   con.query(sql, [SenderID, ReceiverID, Message, pid], (err, result) => {
       if (err) return res.status(500).json({ error: err.message }); // Return error message
       return res.json(result);

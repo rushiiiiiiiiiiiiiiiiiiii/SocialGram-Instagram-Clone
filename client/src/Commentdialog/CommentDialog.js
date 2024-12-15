@@ -138,7 +138,7 @@ const CommentDialog = ({ setOpen, postid }) => {
             {/* Comment Input */}
             {commentpost.length > 0 && commentpost.map((data, i) => (
               <div className='flex p-3 mt-5 md:-mt-5' key={i}>
-                <Com recid={data.sid} data={data.id} postid={postid} com={com} setCom={setCom} />
+                <Com recid={data.sid} data={data.id} postid={postid} com={com} setCom={setCom}  />
               </div>
             ))}
           </div>
@@ -150,7 +150,7 @@ const CommentDialog = ({ setOpen, postid }) => {
 
 export default CommentDialog
 
-const Com = ({ recid, data, postid, com, setCom }) => {
+const Com = ({ recid, data, postid, com, setCom,getlikecs }) => {
   const [comment, setComment] = useState('')
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 

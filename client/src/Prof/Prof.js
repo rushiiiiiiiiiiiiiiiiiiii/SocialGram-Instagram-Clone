@@ -207,21 +207,16 @@ const Prof = () => {
                         {
                             showpostall ? <Postdisplay id={userid} />
                                 : ""
-
-
                         }
                         {
                             showreelsall ?
                                 <Reelspageprof id={userid} /> : ""
-
                         }
                         {
                             showsaveall ?
                                 <Save id={userid} /> : ""
-
                         }
                     </div>
-
                 </div>
             </div>
 

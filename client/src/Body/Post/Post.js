@@ -117,7 +117,7 @@ const Post = () => {
     <>
       <div className='w-[100%] text-black mr-[25px]'>
         {open ? <CommentDialog setOpen={setOpen} postid={showcom} /> : ""}
-        {openuser ? <ShareDialog setOpenuser={setOpenuser} postid={showcom} /> : ""}
+        {openuser ? <ShareDialog setOpenuser={setOpenuser} postid={showcom}  /> : ""}
         {postall.slice().reverse().map((data) => {
           const user = sdata.find((user) => parseInt(data.sid)===user.id);
           return (
@@ -176,7 +176,7 @@ const Post = () => {
               </p>
               <p className='ml-[42px] text-[14.2px] text-gray-400 mt-[3px] cursor-pointer' onClick={() => showus(data.id)} id={`${data.id}p`}></p>
               <div className='flex items-center justify-between mt-1 ml-[18px]'>
-                <Com  recidcom={data.sid} data={data.id} getlikec={() => getlikec(data.id)} />
+                <Com  recidcom={data.sid} data={data.id}  getlikec={() => getlikec(data.id)} />
                   
               </div>
             </div>
@@ -229,7 +229,7 @@ const Com = ({ recidcom, data, getlikec }) => {
   };
   
 
-  const commentp = async () => {
+  const commentp = async ({getcommentc}) => {
     const datap = { id: id, pid: data, recidcom: recidcom, comment: comment };
     await axios.post("http://127.0.0.1:8000/comment/" + id, datap)
       .then(res => {

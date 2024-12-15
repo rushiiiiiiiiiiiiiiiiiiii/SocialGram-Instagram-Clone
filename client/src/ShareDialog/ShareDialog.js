@@ -25,7 +25,6 @@ const ShareDialog = ({ setOpenuser, postid }) => {
       .then((res) => setSdata(res.data))
       .catch((err) => console.log(err));
   };
-
   const sharepost = () => {
     if (!selectedUser) {
         alert("Please select a user to share the post.");
@@ -43,6 +42,7 @@ const ShareDialog = ({ setOpenuser, postid }) => {
         .then((res) => {
             console.log(res.data);
             setOpenuser(false); 
+
         })
         .catch((err) => console.log(err));
 };
@@ -50,6 +50,7 @@ const ShareDialog = ({ setOpenuser, postid }) => {
 
   useEffect(() => {
     getdata();
+
   }, []);
 
   const toggleSelectUser = (id) => {

@@ -167,22 +167,34 @@ const ChatPage = ({ id }) => {
             <div className='w-full h-[calc(100vh-160px)] overflow-auto overflow-y-scroll scrollbar-hide px-4 py-4 flex flex-col space-y-3'>
                 {Receiver.map((item, i) => {
                     const post = postall.find((post) => item.pid === post.id);
+                    const dateString=item.Sendtime
+                    const date = new Date(dateString);
+                    const hours = date.getHours();
+                    const minutes = date.getMinutes();
+                    const formattedDate = `${hours}:${minutes}`;
                     return (
                         <div
                             key={i}
                             className={`w-auto max-w-[75%] mb-3 rounded-3xl text-sm ${item.SenderID == sessionStorage.getItem('userid') ? 'ml-auto bg-blue-500 text-white' : 'mr-auto bg-gray-200 text-black'}`}
                         >
                             {item.Message ? (
-                                <p className="p-3">{item.Message}</p>
-                            ) : post && (
+                                <p className="p-3">{item.Message} <sub className='ml-3'>{hours>12 && minutes>59?"AM":hours-12+":"+minutes+ " PM"}</sub></p>
+                            ) 
+                            : post && (
+                                
                                 isImage(post.photos) ? (
+                                    <div className='relative  w-100'>
                                     <img
                                         src={`http://127.0.0.1:8000/uploads/${post.photos}`}
                                         alt=""
                                         className="w-60 object-cover h-96 items-center rounded-xl"
                                     />
+                                    <p className='absolute bottom-3 right-2 text-base'>
+                                        <sub className='ml-3 to-black'>{hours>12 && minutes>59?"AM":hours-12+":"+minutes+ " PM"}</sub>
+                                        </p>
+                                    </div>
                                 ) : isVideo(post.photos) ? (
-                                    <div>
+                                    <div className='relative  w-100'>
                                         <video
                                             src={`http://127.0.0.1:8000/uploads/${post.photos}`}
                                             className="w-60 object-cover h-96 items-center rounded-xl"
@@ -190,6 +202,9 @@ const ChatPage = ({ id }) => {
                                             loop
                                             autoPlay
                                         />
+                                        <p className='absolute bottom-3 right-2 text-base'>
+                                        <sub className='ml-3 to-black'>{hours>12 && minutes>59?"AM":hours-12+":"+minutes+ " PM"}</sub>
+                                        </p>
                                     </div>
                                 ) : null
                             )}

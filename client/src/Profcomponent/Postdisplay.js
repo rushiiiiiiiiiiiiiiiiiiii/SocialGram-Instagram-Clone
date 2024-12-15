@@ -31,6 +31,7 @@ const Postdisplay = ({ id }) => {
       })
       .catch((err) => console.log(err));
   };
+
   const showlike = (pid) => {
     axios
       .get('http://127.0.0.1:8000/getlikec/' + pid)
@@ -56,6 +57,7 @@ const Postdisplay = ({ id }) => {
     showpost();
     showlike();
     showcomment();
+    console.log(postall);
   }, [id]);
 
   const isImage = (filename) => {
@@ -82,9 +84,12 @@ const Postdisplay = ({ id }) => {
         postdata
           .slice()
           .reverse()
-          .map((data, i) => (
+        
+          .map((data, i) =>  
+            
+           (
             <div key={i} className='relative cursor-pointer group'>
-              
+             
               {isImage(data.photos) ? (
                 <img
                   src={`http://127.0.0.1:8000/uploads/${data.photos}`}

@@ -255,7 +255,7 @@ app.get('/getliknoot/:id', (req, res) => {
 })
 app.get('/getcomnoot/:id', (req, res) => {
   var id = req.params.id;
-  const sql = "SELECT * FROM commenttb where recid=?"
+  const sql = "SELECT * FROM commenttb where pid=?"
   con.query(sql,[id],(err, result) => {
     if (err) return res.json(err)
     return res.json(result)
@@ -408,6 +408,8 @@ app.get('/followerStory/:id', (req, res) => {
       });
   });
 });
+
+  
 
 app.listen(8000, () => {
   console.log("server running on 8000");

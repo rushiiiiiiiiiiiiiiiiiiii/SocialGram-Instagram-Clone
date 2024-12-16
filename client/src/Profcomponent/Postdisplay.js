@@ -34,30 +34,33 @@ const Postdisplay = ({ id }) => {
 
   const showlike = (pid) => {
     axios
-      .get('http://127.0.0.1:8000/getlikec/' + pid)
+      .get('http://127.0.0.1:8000/getlike/' + pid)
       .then((res) => {
-        setPostalllike(res.data.length);
-        console.log(res.data)
-      
+        if (res.data != null) {
+          document.getElementById(pid + "like").innerText = res.data[`${pid}`];
+        } else {
+          document.getElementById(pid + "like").innerText = 0;
+        }
       })
       .catch((err) => console.log(err));
   };
-  const showcomment = () => {
+  const showcomment = (pid) => {
     axios
-      .get('http://127.0.0.1:8000/getcomment/' + id)
+      .get('http://127.0.0.1:8000/commentlength/' + pid)
       .then((res) => {
-        setPostallcomment(res.data.length);
-        console.log(res.data
-
-        )
+        if (res.data != null) {
+          document.getElementById(pid).innerText = res.data[`${pid}`];
+        } else {
+          document.getElementById(pid).innerText = 0;
+        }
+        setPostallcomment(res.data.length)
       })
       .catch((err) => console.log(err));
   };
   useEffect(() => {
     showpost();
-    showlike();
-    showcomment();
-    console.log(postall);
+    // showlike();
+    // showcomment();
   }, [id]);
 
   const isImage = (filename) => {
@@ -84,12 +87,12 @@ const Postdisplay = ({ id }) => {
         postdata
           .slice()
           .reverse()
-        
-          .map((data, i) =>  
-            
-           (
-            <div key={i} className='relative cursor-pointer group'>
-             
+
+          .map((data, i) =>
+
+          (
+            <div key={i} className='relative cursor-pointer group' onLoad={() => { showcomment(data.id); showlike(data.id); }}>
+
               {isImage(data.photos) ? (
                 <img
                   src={`http://127.0.0.1:8000/uploads/${data.photos}`}
@@ -108,9 +111,9 @@ const Postdisplay = ({ id }) => {
               ) : null}
 
               <div className='absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
-              <div  className='flex gap-14  text-white ml-[18%] text-[22px] mt-[45%]' >
-                <div className='flex gap-2 '><FaRegHeart className='mt-[5px]'/>{postalllike}</div> 
-                <div className='flex gap-2 '><FaRegComment className='mt-[5px]'/>{postallcomment}</div>
+                <div className='flex gap-14  text-white ml-[18%] text-[22px] mt-[45%]' >
+                  <div className='flex gap-2 '><FaRegHeart className='mt-[5px]' /><span id={data.id + "like"}></span></div>
+                  <div className='flex gap-2 '><FaRegComment className='mt-[5px]' /><span id={data.id}></span></div>
                 </div>
               </div>
             </div>

@@ -65,10 +65,14 @@ const Prof = () => {
             )
             const follower = []
             const following = []
-            const arr = send.data.map((name, i) => {
+            send.data.map((name, i) => {
                 if (name.following == sessionStorage.getItem('userid')) {
                     setyoufollow(name)
                 }
+                else{
+                    setyoufollow(false)
+                }
+                
                 if (name.following == userid) {
                     following.push(name.following)
                 }
@@ -155,6 +159,7 @@ const Prof = () => {
                                                     <button onClick={(e) => unfollow(userid)} className='px-4 h-8 ml- mt-1 text-center hover:bg-indigo-400  text-white text-sm font-medium btn bg-indigo-500 rounded-xl'>Unfollow</button>
                                                     :
                                                     <button onClick={(e) => follow(userid)} className='px-4 h-8 ml- mt-1 text-center hover:bg-indigo-400  text-white text-sm font-medium btn bg-indigo-500 rounded-xl'>Follow</button>
+
                                                 // </>
                                             }
 

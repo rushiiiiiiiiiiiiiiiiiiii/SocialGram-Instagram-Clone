@@ -187,12 +187,6 @@ const Com = ({ recid, data, postid, com, setCom,getlikecs }) => {
     
       <input type="text" value={comment} onChange={e => setComment(e.target.value)} placeholder='Add Comment' className='flex-1 px-4 py-2 border rounded-md' />
       <button onClick={() => commentp(data)} className='hover:bg-blue-400 bg-blue-500 px-4 py-2 ml-2 text-white rounded-md'>Post</button>
-    
-   
-
-      
-        
-
     </>
   )
 }

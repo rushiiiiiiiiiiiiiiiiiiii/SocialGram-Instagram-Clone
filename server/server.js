@@ -1,41 +1,94 @@
 var express = require('express')
+const http = require("http")
+const { Server } = require("socket.io")
 var app = express()
 var cors = require('cors')
+app.use(cors())
+const server = http.createServer(app)
 var multer = require('multer')
 var con = require('./conn')
-app.use(cors())
-app.use(express.json())  
+app.use(express.json());
+const io = new Server(server, {
+  cors: {
+    origin: 'http://localhost:3000', // Replace with your client URL for production
+    methods: ["GET", "POST"],
+  }
+})
 
+const usp = io.of('/mySpace')
 
-app.post('/login', (req, res) => {
+usp.use((socket, next) => {
+  const token = socket.handshake.auth.token
+  if (token) {
+    return next()
+  }
+  else {
+    console.log('Authentication error: Token not provided.');
+    return next(new Error('Authentication error'));
+  }
+})
+
+usp.on("connection", (socket) => {
+  var data = socket.handshake.auth.token;
+
+  // Ensure token is valid and update login status
+  if (!data) {
+    console.log("No token provided on connection. Unable to set login status.");
+    return; // Exit if no token is provided
+  }
+
   function getISTTimestamp() {
     const date = new Date();
-    // Convert to UTC+5:30
     const offset = 5.5 * 60 * 60 * 1000; // 5 hours and 30 minutes in milliseconds
     const istDate = new Date(date.getTime() + offset);
     return istDate.toISOString().slice(0, 16).replace('T', ' '); // Format to "YYYY-MM-DD HH:MM:SS"
   }
-  const stamp=getISTTimestamp()
+
+  const stamp = getISTTimestamp();
+  const sql = `UPDATE login SET IsLogin = 1 , Active_at=? WHERE id = ?`;
+
+  con.query(sql, [stamp, data], (err, response) => {
+    if (err) {
+      console.error("Error updating login status:", err);
+      return; // Exit if there's an error
+    }
+    // Emit to other clients that this user is online
+    socket.broadcast.emit("OnlineUser", data);
+    // console.log(`User with ID ${data} has logged in.`);
+  });
+
+  socket.on('disconnect', async () => {
+    const data = socket.handshake.auth.token;
+
+    if (!data) {
+      // console.log("No token provided on disconnect. Unable to update user status.");
+      return; // Exit if no token is provided
+    }
+
+    const sql = 'UPDATE login SET IsLogin = 0 WHERE id = ?';
+
+    con.query(sql, [data], (err, result) => {
+      if (err) {
+        console.error("Error updating logout status:", err);
+        return; // Exit if there's an error
+      }
+      // Emit to other clients that this user is offline
+      socket.broadcast.emit("OfflineUser", data,result);
+      console.log(`User with ID ${data} has gone offline.`);
+      
+    });
+  });
+});
+
+app.post('/login', (req, res) => {
   var sql = 'SELECT * FROM login WHERE email = ? AND password = ?'
   var { email, password } = req.body;
   con.query(sql, [email, password], (err, result) => {
     if (err) return res.json(err)
-    if (result.length > 0) {
-      const sql = `UPDATE login SET IsLogin = 1 ,Active_at=? WHERE id = ? `;
-      con.query(sql, [stamp,result[0].id], (err, response) => {
-        if (err) return res.json(err)
-        return res.json(result);
-      })
-    }
-  })
-})
-
-app.post('/logout/:id', (req, res) => {
-  const id = req.params.id
-  const sql = 'UPDATE login SET IsLogin = 0 WHERE id = ?'
-  con.query(sql, [id], (err, result) => {
-    if (err) return res.json(err)
-    return res.json(result);
+      io.on('connection',(data)=>{
+    socket.emit("userid",result.id)
+    })
+    return res.json(result)
   })
 })
 
@@ -248,7 +301,7 @@ app.get('/getlikec/:id', (req, res) => {
 app.get('/getliknoot/:id', (req, res) => {
   var id = req.params.id;
   const sql = "SELECT * FROM liketb where recid=?"
-  con.query(sql,[id],(err, result) => {
+  con.query(sql, [id], (err, result) => {
     if (err) return res.json(err)
     return res.json(result)
   })
@@ -256,7 +309,7 @@ app.get('/getliknoot/:id', (req, res) => {
 app.get('/getcomnoot/:id', (req, res) => {
   var id = req.params.id;
   const sql = "SELECT * FROM commenttb where pid=?"
-  con.query(sql,[id],(err, result) => {
+  con.query(sql, [id], (err, result) => {
     if (err) return res.json(err)
     return res.json(result)
   })
@@ -309,8 +362,8 @@ app.post('/SendMess', async (req, res) => {
   var sql = 'INSERT INTO chats(SenderID, ReceiverID, Message, pid) VALUES(?, ?, ?, ?)';
 
   con.query(sql, [SenderID, ReceiverID, Message, pid], (err, result) => {
-      if (err) return res.status(500).json({ error: err.message }); // Return error message
-      return res.json(result);
+    if (err) return res.status(500).json({ error: err.message }); // Return error message
+    return res.json(result);
   });
 });
 
@@ -368,7 +421,7 @@ app.delete('/unfollow/:id/:fid', async (req, res) => {
   const fid = req.params.fid;
 
   const sql = "DELETE FROM follower WHERE following=? AND follower=?";
-  con.query(sql, [id,fid], (err, result) => {
+  con.query(sql, [id, fid], (err, result) => {
     if (err) return err;
     return res.json(result)
   })
@@ -409,8 +462,8 @@ app.get('/followerStory/:id', (req, res) => {
   });
 });
 
-  
 
-app.listen(8000, () => {
+
+server.listen(8000, () => {
   console.log("server running on 8000");
 })

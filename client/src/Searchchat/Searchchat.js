@@ -4,6 +4,8 @@ import { RiMessage2Line } from 'react-icons/ri';
 import ChatPage from '../ChatPage/ChatPage';
 import Nav2 from '../Body/Nav2/Nav2';
 import Nav3 from '../Body/Nav2/Nav3';
+import { io } from 'socket.io-client';
+import { useSocket } from '../GlobalSocket/Socket';
 
 const Searchchat = () => {
   const [sdata, setSdata] = useState([]);
@@ -13,6 +15,8 @@ const Searchchat = () => {
   const [hoveredUser, setHoveredUser] = useState(null); // Track hovered user
 
   // Fetch chat users
+
+  const socket=useSocket()
   const getdata = () => {
     axios
       .get(`http://127.0.0.1:8000/chatuser/${sessionStorage.getItem('userid')}`)
@@ -40,6 +44,25 @@ const Searchchat = () => {
       return [selectedUser, ...updatedList]; // Place user at the top
     });
   };
+  useEffect(() => {
+    if (!socket) {
+      console.log("Socket not connected yet.");
+      return;
+    }
+
+    // Set up the event listener only if the socket is available
+    socket.on('OnlineUser', (userId) => {
+      console.log(userId + " is online");
+      // Optionally, you can update some state like `SetOnline(true)`
+    });
+
+    // Clean up the event listener on component unmount
+    return () => {
+      if (socket) {
+        socket.off('OnlineUser'); // Remove the event listener when the component unmounts
+      }
+    };
+  }, []); // Only run the effect when `socket` changes
 
   return (
     <div className='w-full flex'>
@@ -73,27 +96,39 @@ const Searchchat = () => {
               search.toLowerCase() === '' ||
               data.name.toLowerCase().includes(search)
             )
-            .map((data, i) => (
-              <div
-                key={i}
-                onClick={() => show(data.id)}
-                onMouseEnter={() => setHoveredUser(data.id)} // Track hovered user
-                onMouseLeave={() => setHoveredUser(null)} // Reset on mouse leave
-                className={`flex items-center py-3 pl-3 rounded-lg cursor-pointer ${
-                  hoveredUser === data.id ? 'bg-gray-100' : ''
-                }`}
-              >
-                <img
-                  src={`http://127.0.0.1:8000/uploads/${data.photos}`}
-                  className='h-12 w-12 rounded-full object-cover'
-                  alt={data.name}
-                />
-                <div className='ml-4'>
-                  <h1 className='font-semibold text-base text-black'>{data.name}</h1>
-                  <p className='text-sm text-gray-500'>{data.username}</p>
+            .map((data, i) => {
+              // const post = data.find((post) => data.pid === post.id);
+              const dateString = data.Active_at
+              const date = new Date(dateString);
+              const hours = date.getHours();
+              const minutes = date.getMinutes()
+              const Year = date.getFullYear();
+              const dates = date.getDate()
+              const Month = date.getMonth()
+              const formattedDate = `${dates}/${Month}/${Year} ${hours}:${minutes}`;
+              return (
+                <div
+                  key={i}
+                  onClick={() => show(data.id)}
+                  onMouseEnter={() => setHoveredUser(data.id)} // Track hovered user
+                  onMouseLeave={() => setHoveredUser(null)} // Reset on mouse leave
+                  className={`flex items-center py-3 pl-3 rounded-lg cursor-pointer ${hoveredUser === data.id ? 'bg-gray-100' : ''
+                    }`}
+                >
+                  <img
+                    src={`http://127.0.0.1:8000/uploads/${data.photos}`}
+                    className='h-12 w-12 rounded-full object-cover'
+                    alt={data.name}
+                  />
+                  <div className='ml-4'>
+                    <h1 className='font-semibold text-base text-black'>{data.name}</h1>
+                    {/* <span className={`text-sm ${Online ? 'text-green-500' : 'text-red-500'}`} id={id + "-status"}>
+                      {Online ? 'Online' : `Last Seen: ${formattedDate}`}
+                    </span> */}
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
         </div>
       </div>
 

@@ -57,13 +57,14 @@ const Story = () => {
 
   const getstoryalluser = () => {
     axios.get(`http://127.0.0.1:8000/followerStory/${id}`)
-      .then(res => setStoryalluser(res.data))
+
+      .then(res => {
+        setStoryalluser(res.data)})
       .catch(err => console.log(err));
   };
 
   useEffect(() => {
     getstoryalluser();
-    console.log(storyalluser)
   }, []);
 
   const showaddstory = () => setShowaddst(true);
@@ -145,7 +146,7 @@ const Story = () => {
         </div>
 
         <div className="flex gap-2">
-          {storyalluser !== "no followers found" ? (
+          {storyalluser !== "no followers found" && storyalluser!=="no story found" ? (
             storyalluser.map((data, i) => {
               const user = sdata.find(user => user.id === parseInt(data.sid));
               return (

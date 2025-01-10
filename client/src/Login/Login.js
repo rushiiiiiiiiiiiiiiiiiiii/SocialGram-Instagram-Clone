@@ -51,6 +51,7 @@
 import '../index.css';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { io } from 'socket.io-client';
 import axios from 'axios';
 import { BeatLoader } from 'react-spinners';
 import toast, { Toaster } from 'react-hot-toast';
@@ -68,18 +69,19 @@ const Login = () => {
   };
 
   const login = (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
     setLoader(true);
     axios
       .post('http://127.0.0.1:8000/login', values)
       .then((res) => {
         if (res.data.length > 0) {
-          sessionStorage.setItem('userid', res.data[0].id);
           toast.success('Login Successfully');
           navigate('/home');
+          sessionStorage.setItem('userid', res.data[0].id);
         } else {
           toast.error("Email doesn't exist");
         }
+
       })
       .catch((err) => console.log(err))
       .finally(() => {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { FaBars, FaPhoneAlt, FaVideo, FaVoicemail } from 'react-icons/fa';
+import { useSocket } from '../GlobalSocket/Socket';
 
 const ChatPage = ({ id }) => {
     const [sdata, setSdata] = useState([]);
@@ -10,7 +11,10 @@ const ChatPage = ({ id }) => {
     const bottomRef = useRef(null);
     const [postall, setPostall] = useState([]);
     const [postallshare, setPostallshare] = useState([]);
-    const [seen,setseen]=useState('')
+    const [seen, setseen] = useState('')
+
+
+    const socket=useSocket()
 
     const getAllPosts = () => {
         axios.get("http://127.0.0.1:8000/getpostall")
@@ -21,8 +25,11 @@ const ChatPage = ({ id }) => {
     const getAllPostsshare = () => {
         axios.get("http://127.0.0.1:8000/getpostallahare")
             .then(res => setPostallshare(res.data))
-            .catch(err => console.log(err));
+            .catch(err => console.log(err))
     };
+
+    // let staus=document.getElementById(sessionStorage.getI    tem("userid")+"-status")
+
 
     useEffect(() => {
         getAllPosts();
@@ -78,7 +85,8 @@ const ChatPage = ({ id }) => {
     };
 
     useEffect(() => {
-        getdata();
+
+        getdata()
     }, []);
 
     const showpost = () => {
@@ -89,11 +97,10 @@ const ChatPage = ({ id }) => {
                         .toISOString()
                         .slice(0, 16)
                         .replace('T', ' ')
-                        .replace('-','/').replace('-','/')
+                        .replace('-', '/').replace('-', '/')
                 }
                 const utcTimestamp = res.data[0].Active_at;
                 const istTimestamp = convertUTCToIST(utcTimestamp);
-                console.log(istTimestamp)
                 setseen(istTimestamp)
 
                 setName(res.data)
@@ -140,6 +147,7 @@ const ChatPage = ({ id }) => {
         // Redirect to a call page or open a call modal
     };
 
+    
     return (
         <div className='h-full w-[903px] bg-white border-l border-gray-300 fixed right-0 top-0 z-50'>
             <div className='w-full h-16 flex items-center justify-between px-4 bg-white shadow-md border-b border-gray-200'>
@@ -150,9 +158,9 @@ const ChatPage = ({ id }) => {
                             <h1 className='font-semibold text-base text-black'>{data.name}</h1>
                             <p className='text-xs text-gray-500'>
                                 {data.IsLogin === 0 ? (
-                                    <span className='text-red-500'>Last Seen : {seen}</span>
+                                    <span className='text-red-500' id={sessionStorage.getItem("userid") + "-status"}>Last Seen : {seen}</span>
                                 ) : (
-                                    <span className='text-green-500'>Online</span>
+                                    <span className='text-green-500' id={sessionStorage.getItem("userid") + "-status"}>Online</span>
                                 )}
                             </p>
                         </div>
@@ -167,7 +175,7 @@ const ChatPage = ({ id }) => {
             <div className='w-full h-[calc(100vh-160px)] overflow-auto overflow-y-scroll scrollbar-hide px-4 py-4 flex flex-col space-y-3'>
                 {Receiver.map((item, i) => {
                     const post = postall.find((post) => item.pid === post.id);
-                    const dateString=item.Sendtime
+                    const dateString = item.Sendtime
                     const date = new Date(dateString);
                     const hours = date.getHours();
                     const minutes = date.getMinutes();
@@ -178,36 +186,36 @@ const ChatPage = ({ id }) => {
                             className={`w-auto max-w-[75%] mb-3 rounded-3xl text-sm ${item.SenderID == sessionStorage.getItem('userid') ? 'ml-auto bg-blue-500 text-white' : 'mr-auto bg-gray-200 text-black'}`}
                         >
                             {item.Message ? (
-                                <p className="p-3">{item.Message} <sub className='ml-3'>{hours>12 && minutes>59?"AM":hours-12+":"+minutes+ " PM"}</sub></p>
-                            ) 
-                            : post && (
-                                
-                                isImage(post.photos) ? (
-                                    <div className='relative  w-100'>
-                                    <img
-                                        src={`http://127.0.0.1:8000/uploads/${post.photos}`}
-                                        alt=""
-                                        className="w-60 object-cover h-96 items-center rounded-xl"
-                                    />
-                                    <p className='absolute bottom-3 right-2 text-base'>
-                                        <sub className='ml-3 to-black'>{hours>12 && minutes>59?"AM":hours-12+":"+minutes+ " PM"}</sub>
-                                        </p>
-                                    </div>
-                                ) : isVideo(post.photos) ? (
-                                    <div className='relative  w-100'>
-                                        <video
-                                            src={`http://127.0.0.1:8000/uploads/${post.photos}`}
-                                            className="w-60 object-cover h-96 items-center rounded-xl"
-                                            muted
-                                            loop
-                                            autoPlay
-                                        />
-                                        <p className='absolute bottom-3 right-2 text-base'>
-                                        <sub className='ml-3 to-black'>{hours>12 && minutes>59?"AM":hours-12+":"+minutes+ " PM"}</sub>
-                                        </p>
-                                    </div>
-                                ) : null
-                            )}
+                                <p className="p-3">{item.Message} <sub className='ml-3'>{hours > 12 && minutes > 59 ? "AM" : hours - 12 + ":" + minutes + " PM"}</sub></p>
+                            )
+                                : post && (
+
+                                    isImage(post.photos) ? (
+                                        <div className='relative  w-100'>
+                                            <img
+                                                src={`http://127.0.0.1:8000/uploads/${post.photos}`}
+                                                alt=""
+                                                className="w-60 object-cover h-96 items-center rounded-xl"
+                                            />
+                                            <p className='absolute bottom-3 right-2 text-base'>
+                                                <sub className='ml-3 to-black'>{hours > 12 && minutes > 59 ? "AM" : hours - 12 + ":" + minutes + " PM"}</sub>
+                                            </p>
+                                        </div>
+                                    ) : isVideo(post.photos) ? (
+                                        <div className='relative  w-100'>
+                                            <video
+                                                src={`http://127.0.0.1:8000/uploads/${post.photos}`}
+                                                className="w-60 object-cover h-96 items-center rounded-xl"
+                                                muted
+                                                loop
+                                                autoPlay
+                                            />
+                                            <p className='absolute bottom-3 right-2 text-base'>
+                                                <sub className='ml-3 to-black'>{hours > 12 && minutes > 59 ? "AM" : hours - 12 + ":" + minutes + " PM"}</sub>
+                                            </p>
+                                        </div>
+                                    ) : null
+                                )}
                         </div>
                     );
                 })}

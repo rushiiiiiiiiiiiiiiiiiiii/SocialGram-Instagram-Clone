@@ -33,12 +33,22 @@ import Nav2 from './Nav2/Nav2';
 import Story from './Story/Story';
 import Post from './Post/Post';
 import Chat from './Chat/Chat';
+import { useSocket } from '../GlobalSocket/Socket';
+
 
 const Body = () => {
-  const [theme, setTheme] = useState('light'); // Default theme is light
+  const socket = useSocket();
 
+  const [theme, setTheme] = useState('light'); // Default theme is light
+  
   // Toggle dark mode based on the theme state
   useEffect(() => {
+    if(socket){
+      console.log("connected")
+    }
+    else{
+      console.log("disconnected")
+    }
     const root = document.documentElement;
     if (theme === 'dark') {
       root.classList.add('dark');
@@ -53,12 +63,12 @@ const Body = () => {
 
   return (
     <>
-      
+
       <div className='w-full bg-white  dark:bg-black h-auto flex justify-between'>
         <div className='w-[20%]'>
-          <Nav2 themechange={handleThemeSwitch}/>
+          <Nav2 themechange={handleThemeSwitch} />
         </div>
-        <div  className='md:w-[55%]   md:ml-14'>
+        <div className='md:w-[55%]   md:ml-14'>
           <Story className='hidden' />
           <Post />
         </div>

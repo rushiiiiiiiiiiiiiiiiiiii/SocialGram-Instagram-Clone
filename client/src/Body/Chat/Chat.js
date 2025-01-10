@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { RiMessage2Line } from "react-icons/ri";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { io } from 'socket.io-client'
 const Chat = () => {
   const [name, setName] = useState()
   const [uname, setUame] = useState()
   const [file, setFile] = useState()
   const [user, setUser] = useState([])
-  const nav=useNavigate()
+  const nav = useNavigate()
 
   const userid = sessionStorage.getItem("userid")
   const showpost = () => {
@@ -24,10 +25,9 @@ const Chat = () => {
 
   }, [userid])
   const showallluser = () => {
-    axios.get("http://127.0.0.1:8000/chatuser/"+ userid)
+    axios.get("http://127.0.0.1:8000/chatuser/" + userid)
       .then(res => {
         setUser(res.data)
-        console.log(res.data)
       })
       .catch(err => console.log(err))
   }
@@ -35,11 +35,7 @@ const Chat = () => {
     showallluser()
 
   }, [])
-  const logout=async()=>{
-    const data=await fetch("http://127.0.0.1:8000/logout/"+sessionStorage.getItem('userid'),{
-      method:"post"
-    })
-    console.log(data)
+  const logout = async () => {
     sessionStorage.removeItem('userid')
     nav('/login')
   }
@@ -49,12 +45,12 @@ const Chat = () => {
       <div className="acc flex rounded-xl mt-5 h-14 w-[300px] items-center justify-between ">
         <div className='flex -ml-5'>
           <div className="prof  w-11 h-11 mx-5   ">
-          <Link to={`/prof/${sessionStorage.getItem("userid")}}`}><img src={`http://127.0.0.1:8000/uploads/${file}`} alt="" className='mt-1 h-10 w-10 rounded-3xl cursor-pointer' /></Link>
-        </div>
-        <div className="det w-40 -ml-2">
-          <h1 className='font-semibold text-[15px] '>{name}</h1>
-          <Link to={`/prof/${sessionStorage.getItem("userid")}`}><a className='text-gray-500  text-sm'>@{uname}</a></Link>
-        </div>
+            <Link to={`/prof/${sessionStorage.getItem("userid")}}`}><img src={`http://127.0.0.1:8000/uploads/${file}`} alt="" className='mt-1 h-10 w-10 rounded-3xl cursor-pointer' /></Link>
+          </div>
+          <div className="det w-40 -ml-2">
+            <h1 className='font-semibold text-[15px] '>{name}</h1>
+            <Link to={`/prof/${sessionStorage.getItem("userid")}`}><a className='text-gray-500  text-sm'>@{uname}</a></Link>
+          </div>
         </div>
         <div>
           <h1 className='text-[12px] font-medium mr-2 text-blue-500 cursor-pointer  hover:text-blue-300' onClick={logout}>LogOut</h1>
@@ -67,23 +63,23 @@ const Chat = () => {
         </div>
         <div className='mt-2'>
           {
-             user.slice().reverse().map((data,i)=>(
-        <div className=' ml-2' key={i}>
-          <div className='flex h-[58px] items-center justify-between'>
-            <div className='flex -ml'>
-            <Link  to={`/prof/${data.id}`}><img src={`http://127.0.0.1:8000/uploads/${data.photos}`} className='h-10 w-10 rounded-full mt-1'/></Link>
-            <div className='ml-4 mt-[2px]'>
-            <Link  to={`/prof/${data.id}`}> <h1 className='font-semibold text-[14px]'>{data.name}</h1></Link>
-              <p className='text-gray-500 text-[12px]'>Followed by rushi_07</p>
-            </div>
-            </div>
-            <div>
-            <button className=' text-[12px] font-medium mr-3 text-blue-500'>Follow</button>
-            </div>
-          </div>
-        </div>
-             ))
-        }
+            user.slice().reverse().map((data, i) => (
+              <div className=' ml-2' key={i}>
+                <div className='flex h-[58px] items-center justify-between'>
+                  <div className='flex -ml'>
+                    <Link to={`/prof/${data.id}`}><img src={`http://127.0.0.1:8000/uploads/${data.photos}`} className='h-10 w-10 rounded-full mt-1' /></Link>
+                    <div className='ml-4 mt-[2px]'>
+                      <Link to={`/prof/${data.id}`}> <h1 className='font-semibold text-[14px]'>{data.name}</h1></Link>
+                      <p className='text-gray-500 text-[12px]'>Followed by rushi_07</p>
+                    </div>
+                  </div>
+                  <div>
+                    <button className=' text-[12px] font-medium mr-3 text-blue-500'>Follow</button>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
         </div>
       </div>
 
@@ -92,4 +88,3 @@ const Chat = () => {
 }
 
 export default Chat
- 

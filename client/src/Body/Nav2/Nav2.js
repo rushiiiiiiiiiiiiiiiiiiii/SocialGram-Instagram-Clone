@@ -60,7 +60,7 @@ const Nav2 = ({themechange}) => {
 
   return (
     <div className='flex'>
-    <div className="body flex text-black md:fixed border-r border-gray md:block hidden h-full">
+    <div className="body  text-black md:fixed border-r border-gray md:block hidden h-full">
         <div className="nav-comp  md:block mt-6 ">
           <div className="logo font-semibold "><h1 className='text-blue-500 text-[22px] ml-10'>SOCIAL GRAM</h1></div>
 
